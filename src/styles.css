@@ -41,7 +41,7 @@ button {
 
 :root {
   --input-background: rgba(57, 63, 84, 0.8);
-  --input-text-inactive: #7881a1;
+  --input-text-inactive: #72788d;
   --input-text-active: #bfd2ff;
 }
 
@@ -96,7 +96,8 @@ button {
   line-height: 2.4rem;
   vertical-align: middle;
 }
-.webflow-style-input::-webkit-input-placeholder {
+
+::-webkit-input-placeholder {
   color: var(--input-text-inactive);
 }
 
@@ -151,4 +152,10 @@ button {
   margin-left: 1rem;
   margin-right: 1rem;
   border-radius: 5px;
+  min-width: 60vw;
+  padding: 2rem;
+}
+
+canvas {
+  height: 100%;
 }

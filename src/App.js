@@ -1,31 +1,32 @@
 import "./styles.css";
 import Container from "./container";
-import { Button, Form, Input } from "semantic-ui-react";
+import { Form } from "semantic-ui-react";
 import React from "react";
+import CurrencyInput from "react-currency-input-field";
 
 export default function App() {
   const [propsInput, setPropsInput] = React.useState({
     birthYear: "1997",
     retirementAge: "50",
     netMonthlyIncome: "3900",
-    yearlyRaise: "1.04",
-    netSavingsRate: ".3",
+    yearlyRaise: "4",
+    netSavingsRate: "30",
     currentInvestments: "45000",
-    estimatedROI: "1.1",
-    yearlyInflation: "1.03",
+    estimatedROI: "10",
+    yearlyInflation: "3",
     retirementSalary: "100000"
   });
 
   const [userInput, setUserInput] = React.useState({
-    birthYear: "",
-    retirementAge: "",
-    netMonthlyIncome: "",
-    yearlyRaise: "",
-    netSavingsRate: "",
-    currentInvestments: "",
-    estimatedROI: "",
-    yearlyInflation: "",
-    retirementSalary: ""
+    birthYear: "0",
+    retirementAge: "0",
+    netMonthlyIncome: "0",
+    yearlyRaise: "0",
+    netSavingsRate: "0",
+    currentInvestments: "0",
+    estimatedROI: "0",
+    yearlyInflation: "0",
+    retirementSalary: "0"
   });
 
   function handleSubmit(e) {
@@ -38,10 +39,12 @@ export default function App() {
     console.log(propsInput);
   }
 
-  function handleInputChange(e) {
+  function handleInputChange(value, name) {
+    const rawValue = value;
+    console.log(rawValue);
     setUserInput({
       ...userInput,
-      [e.target.name]: e.target.value
+      [name]: value
     });
   }
 
@@ -59,91 +62,102 @@ export default function App() {
       <div className="section">
         <Form autoComplete="off" className="form">
           <Form.Field className="webflow-style-input">
-            <input
+            <CurrencyInput
               name="birthYear"
-              className=""
+              disableGroupSeparators="true"
+              allowDecimals={false}
               placeholder="What's your year of birth?"
-              onChange={handleInputChange}
+              onValueChange={handleInputChange}
               onFocus={handleFocus}
               onBlur={handleBlur}
             />
           </Form.Field>
           <Form.Field className="webflow-style-input">
-            <input
+            <CurrencyInput
               name="retirementAge"
+              suffix=" years of age"
+              allowDecimals={false}
               className=""
               placeholder="At what age would you ideally retire?"
-              onChange={handleInputChange}
+              onValueChange={handleInputChange}
               onFocus={handleFocus}
               onBlur={handleBlur}
             />
           </Form.Field>
           <Form.Field className="webflow-style-input">
-            <input
+            <CurrencyInput
               name="netMonthlyIncome"
+              prefix="$"
               className=""
               placeholder="Current net monthly income?"
-              onChange={handleInputChange}
+              onValueChange={handleInputChange}
               onFocus={handleFocus}
               onBlur={handleBlur}
             />
           </Form.Field>
           <Form.Field className="webflow-style-input">
-            <input
+            <CurrencyInput
               name="netSavingsRate"
               className=""
+              suffix="%"
               placeholder="Percentage of income saved per month"
-              onChange={handleInputChange}
+              onValueChange={handleInputChange}
               onFocus={handleFocus}
               onBlur={handleBlur}
             />
           </Form.Field>
           <Form.Field className="webflow-style-input">
-            <input
+            <CurrencyInput
               name="yearlyRaise"
               className=""
+              suffix="%"
               placeholder="Estimate a yearly raise percentage"
-              onChange={handleInputChange}
+              onValueChange={handleInputChange}
               onFocus={handleFocus}
               onBlur={handleBlur}
             />
           </Form.Field>
           <Form.Field className="webflow-style-input">
-            <input
+            <CurrencyInput
               name="currentInvestments"
               className=""
+              prefix="$"
               placeholder="Current investment's value"
-              onChange={handleInputChange}
+              onValueChange={handleInputChange}
               onFocus={handleFocus}
               onBlur={handleBlur}
             />
           </Form.Field>
           <Form.Field className="webflow-style-input">
-            <input
+            <CurrencyInput
               name="estimatedROI"
               className=""
+              suffix="%"
               placeholder="Future R.O.I on investments"
-              onChange={handleInputChange}
+              onValueChange={handleInputChange}
               onFocus={handleFocus}
               onBlur={handleBlur}
             />
           </Form.Field>
           <Form.Field className="webflow-style-input">
-            <input
+            <CurrencyInput
               name="yearlyInflation"
               className=""
+              suffix="%"
               placeholder="Estimated Yearly Inflation"
-              onChange={handleInputChange}
+              onValueChange={handleInputChange}
               onFocus={handleFocus}
               onBlur={handleBlur}
             />
           </Form.Field>
           <Form.Field className="webflow-style-input">
-            <input
+            <CurrencyInput
               name="retirementSalary"
+              allowDecimals={false}
               className=""
+              prefix="$"
               placeholder="What is your ideal retirement salary?"
-              onChange={handleInputChange}
+              onValueChange={handleInputChange}
               onFocus={handleFocus}
               onBlur={handleBlur}
             />

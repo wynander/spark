@@ -9,10 +9,11 @@
   "main": "src/index.js",
   "dependencies": {
     "bootstrap-icons": "1.8.1",
-    "plotly.js": "2.11.1",
+    "chart.js": "3.7.1",
     "react": "17.0.2",
+    "react-chartjs-2": "4.0.1",
+    "react-currency-input-field": "3.6.4",
     "react-dom": "17.0.2",
-    "react-plotly.js": "2.5.1",
     "react-scripts": "4.0.0",
     "semantic-ui-react": "2.1.2"
   },
