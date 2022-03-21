@@ -2,23 +2,26 @@ import React from "react";
 import Plot from "react-plotly.js";
 
 export default function Container(props) {
-  const birthYear = props.userInput.birthYear;
-  const retirementAge = props.userInput.retirementAge;
+  console.log(props.propsInput.birthYear);
+  console.log(props.propsInput.retirementAge);
+  const birthYear = parseFloat(props.propsInput.birthYear);
+  const retirementAge = parseFloat(props.propsInput.retirementAge);
   const startYear = new Date().getFullYear(); //create Current Year
-  const currentMonthlyTakeHomeIncome = props.userInput.netMonthlyIncome; //tax api
-  const raiseEstimate = props.userInput.yearlyRaise;
-  const takeHomeSavingsRate = props.userInput.netSavingsRate;
-  const currentInvestments = props.userInput.currentInvestments;
-  const estimatedReturn = props.userInput.estimatedROI;
-  const estimatedYearlyInflation = props.userInput.yearlyInflation;
+  const currentMonthlyTakeHomeIncome = parseFloat(
+    props.propsInput.netMonthlyIncome
+  ); //tax api
+  const raiseEstimate = parseFloat(props.propsInput.yearlyRaise);
+  const takeHomeSavingsRate = parseFloat(props.propsInput.netSavingsRate);
+  const currentInvestments = parseFloat(props.propsInput.currentInvestments);
+  const estimatedReturn = parseFloat(props.propsInput.estimatedROI);
+  const estimatedYearlyInflation = parseFloat(props.propsInput.yearlyInflation);
   const getNormalizedReturn = estimatedReturn - estimatedYearlyInflation;
-  const retirementSalary = props.userInput.retirementSalary;
+  const retirementSalary = parseFloat(props.propsInput.retirementSalary);
   const endYear = birthYear + retirementAge;
   const xAxisLength = 101;
-  function getPeriodUntilRetirement(endYear, startYear) {
-    [...Array(endYear - startYear + 1)].map((_, i) => i + startYear);
-  }
-  const periodUntilRetirement = getPeriodUntilRetirement(endYear, startYear);
+  const periodUntilRetirement = [...Array(endYear - startYear + 1)].map(
+    (_, i) => i + startYear
+  );
   const investmentValue = [currentInvestments];
   const gainsData = [12 * currentMonthlyTakeHomeIncome * takeHomeSavingsRate];
 
@@ -57,6 +60,8 @@ export default function Container(props) {
       }
     }
   }
+
+  //console.log(investmentValue);
 
   let trace1 = createTraceData(
     xAxisLength,
@@ -142,6 +147,7 @@ export default function Container(props) {
     </>
   );
 }
+
 function createTraceData(xAxisLength, startYear, birthYear, yData, stackGroup) {
   return {
     x: [...Array(xAxisLength - startYear + birthYear)].map(
