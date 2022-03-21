@@ -1,23 +1,24 @@
 import React from "react";
 import Plot from "react-plotly.js";
 
-export default function Container() {
-  const birthYear = 1997;
-  const retirementAge = 50;
+export default function Container(props) {
+  const birthYear = props.userInput.birthYear;
+  const retirementAge = props.userInput.retirementAge;
   const startYear = new Date().getFullYear(); //create Current Year
-  const currentMonthlyTakeHomeIncome = 3900; //tax api
-  const raiseEstimate = 1.04;
-  const takeHomeSavingsRate = 0.3;
-  const currentInvestments = 45000;
-  const estimatedReturn = 1.1;
-  const estimatedYearlyInflation = 1.03;
+  const currentMonthlyTakeHomeIncome = props.userInput.netMonthlyIncome; //tax api
+  const raiseEstimate = props.userInput.yearlyRaise;
+  const takeHomeSavingsRate = props.userInput.netSavingsRate;
+  const currentInvestments = props.userInput.currentInvestments;
+  const estimatedReturn = props.userInput.estimatedROI;
+  const estimatedYearlyInflation = props.userInput.yearlyInflation;
   const getNormalizedReturn = estimatedReturn - estimatedYearlyInflation;
-  const retirementSalary = 100000;
+  const retirementSalary = props.userInput.retirementSalary;
   const endYear = birthYear + retirementAge;
-  const xAxisLength = 101; //user input +1
-  const periodUntilRetirement = [...Array(endYear - startYear + 1)].map(
-    (_, i) => i + startYear
-  );
+  const xAxisLength = 101;
+  function getPeriodUntilRetirement(endYear, startYear) {
+    [...Array(endYear - startYear + 1)].map((_, i) => i + startYear);
+  }
+  const periodUntilRetirement = getPeriodUntilRetirement(endYear, startYear);
   const investmentValue = [currentInvestments];
   const gainsData = [12 * currentMonthlyTakeHomeIncome * takeHomeSavingsRate];
 
@@ -82,7 +83,7 @@ export default function Container() {
     xaxis: {
       tickmode: "linear",
       tick0: 0,
-      dtick: 1,
+      dtick: 2,
       range: [startYear, birthYear + xAxisLength]
     },
     yaxis: {
@@ -98,8 +99,8 @@ export default function Container() {
   };
 
   let style = {
-    width: "100%",
-    height: "75%"
+    width: "70vw",
+    height: "100vh"
   };
 
   let config = {
@@ -128,12 +129,9 @@ export default function Container() {
   //------------------------------------------------------------
   //If window gets too small, reduce # of x-ticks.
 
-  if (screenSize.dynamicWidth < 1100) {
-    layout.xaxis.dtick = "2";
-  }
   //plotly_click event on click
   return (
-    <div>
+    <>
       <Plot
         style={style}
         data={data}
@@ -141,7 +139,7 @@ export default function Container() {
         layout={layout}
         config={config}
       />
-    </div>
+    </>
   );
 }
 function createTraceData(xAxisLength, startYear, birthYear, yData, stackGroup) {

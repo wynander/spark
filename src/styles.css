@@ -6,6 +6,29 @@
 }
 
 .App {
-  font-family: sans-serif;
-  text-align: center;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  max-height: 100vh;
+}
+
+.label {
+  color: white;
+  display: block;
+}
+.input {
+  flex: 1;
+  border: 1px solid blue;
+}
+
+.section {
+  display: flex;
+  flex: 1;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  min-width: 30vw;
 }
