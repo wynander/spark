@@ -2,8 +2,6 @@ import React from "react";
 import Plot from "react-plotly.js";
 
 export default function Container(props) {
-  console.log(props.propsInput.birthYear);
-  console.log(props.propsInput.retirementAge);
   const birthYear = parseFloat(props.propsInput.birthYear);
   const retirementAge = parseFloat(props.propsInput.retirementAge);
   const startYear = new Date().getFullYear(); //create Current Year
@@ -61,14 +59,13 @@ export default function Container(props) {
     }
   }
 
-  //console.log(investmentValue);
-
   let trace1 = createTraceData(
     xAxisLength,
     startYear,
     birthYear,
     investmentValue,
-    "one"
+    "one",
+    "Investment Worth"
   );
 
   let trace2 = createTraceData(
@@ -76,11 +73,12 @@ export default function Container(props) {
     startYear,
     birthYear,
     gainsData,
-    ""
+    "",
+    "Portfolio Gain"
   );
 
-  let fontColor = "fff";
-  let bgColor = "black";
+  let fontColor = "#bfd2ff";
+  let bgColor = "rgba(0,0,0,0)";
 
   let data = [trace1, trace2];
 
@@ -89,10 +87,16 @@ export default function Container(props) {
       tickmode: "linear",
       tick0: 0,
       dtick: 2,
-      range: [startYear, birthYear + xAxisLength]
+      range: [startYear, birthYear + xAxisLength],
+      tickcolor: "rgba(0,0,0,0)",
+      gridcolor: fontColor,
+      gridwidth: "2px"
     },
     yaxis: {
-      range: [0, Math.max([...investmentValue])]
+      range: [0, Math.max([...investmentValue])],
+      tickcolor: "rgba(0,0,0,0)",
+      gridcolor: fontColor,
+      gridwidth: "2px"
     },
     autosize: true,
     title: "Net Worth Over Time",
@@ -100,12 +104,15 @@ export default function Container(props) {
     plot_bgcolor: bgColor,
     font: {
       color: fontColor
+    },
+    legend: {
+      orientation: "h"
     }
   };
 
   let style = {
-    width: "70vw",
-    height: "100vh"
+    width: "60vw",
+    height: "100%"
   };
 
   let config = {
@@ -136,7 +143,7 @@ export default function Container(props) {
 
   //plotly_click event on click
   return (
-    <>
+    <div className="plot-div">
       <Plot
         style={style}
         data={data}
@@ -144,16 +151,24 @@ export default function Container(props) {
         layout={layout}
         config={config}
       />
-    </>
+    </div>
   );
 }
 
-function createTraceData(xAxisLength, startYear, birthYear, yData, stackGroup) {
+function createTraceData(
+  xAxisLength,
+  startYear,
+  birthYear,
+  yData,
+  stackGroup,
+  name
+) {
   return {
     x: [...Array(xAxisLength - startYear + birthYear)].map(
       (_, i) => i + startYear
     ),
     y: yData,
-    stackgroup: stackGroup
+    stackgroup: stackGroup,
+    name: name
   };
 }

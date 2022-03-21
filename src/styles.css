@@ -4,31 +4,151 @@
   box-sizing: border-box;
   margin: 0;
 }
+/* Css from Phil Rose ----------------------------------*/
+body,
+ul,
+li {
+  margin: 0;
+  padding: 0;
+}
+li {
+  list-style: none;
+}
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+}
+
+a {
+  text-decoration: none;
+}
+input {
+  border-style: none;
+  background: transparent;
+  outline: none;
+}
+button {
+  padding: 0;
+  background: none;
+  border: none;
+  outline: none;
+}
+
+:root {
+  --input-background: rgba(57, 63, 84, 0.8);
+  --input-text-inactive: #7881a1;
+  --input-text-active: #bfd2ff;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
+}
+
+.webflow-style-input {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin: 0.25rem auto;
+  border-radius: 4px;
+  padding: 0.5rem 2rem 0.5rem;
+  background: var(--input-background);
+}
+
+.focus-input:after {
+  content: "";
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  z-index: 999;
+  height: 2px;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+  background-position: 0% 0%;
+  background: linear-gradient(
+    to right,
+    #b294ff,
+    #57e6e6,
+    #feffb8,
+    #57e6e6,
+    #b294ff,
+    #57e6e6
+  );
+  background-size: 500% auto;
+  animation: gradient 3s linear infinite;
+}
+
+.webflow-style-input input {
+  flex-grow: 1;
+  color: var(--input-text-active);
+  font-size: 1.4rem;
+  line-height: 2.4rem;
+  vertical-align: middle;
+}
+.webflow-style-input::-webkit-input-placeholder {
+  color: var(--input-text-inactive);
+}
+
+.webflow-style-input button {
+  color: white;
+  font-size: 2.4rem;
+  line-height: 2.4rem;
+  vertical-align: middle;
+  transition: color 0.25s;
+  padding: 0px;
+  margin-right: -1.2rem;
+  display: flex;
+  align-items: center;
+}
+.webflow-style-input button:hover {
+  color: var(--input-text-active);
+}
+
+/*--------------------------------------------*/
 
 .App {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  background-color: black;
-  max-height: 100vh;
-}
-
-.label {
-  color: white;
-  display: block;
-}
-.input {
-  flex: 1;
-  border: 1px solid blue;
+  justify-content: center;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-image: radial-gradient(
+    circle at 10% 10%,
+    #373b52,
+    #252736 40%,
+    #1d1e26
+  );
 }
 
 .section {
   display: flex;
-  flex: 1;
+  justify-content: center;
 }
 
 .form {
   display: flex;
   flex-direction: column;
   min-width: 30vw;
+  justify-content: center;
+}
+
+.plot-div {
+  background-color: var(--input-background);
+  margin-left: 1rem;
+  margin-right: 1rem;
+  border-radius: 5px;
 }

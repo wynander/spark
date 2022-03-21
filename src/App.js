@@ -45,93 +45,125 @@ export default function App() {
     });
   }
 
+  //focus styling for input divs
+  const handleFocus = (e) => {
+    e.target.parentElement.classList.add("focus-input");
+  };
+
+  const handleBlur = (e) => {
+    e.target.parentElement.classList.remove("focus-input");
+  };
+
   return (
     <div className="App">
       <div className="section">
-        <Form className="form">
-          <Form.Field>
-            <label className="label">Birth Year</label>
+        <Form autoComplete="off" className="form">
+          <Form.Field className="webflow-style-input">
             <input
               name="birthYear"
-              className="input"
-              placeholder="1997"
+              className=""
+              placeholder="What's your year of birth?"
               onChange={handleInputChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
             />
           </Form.Field>
-          <Form.Field>
-            <label className="label">Retirement Age</label>
+          <Form.Field className="webflow-style-input">
             <input
               name="retirementAge"
-              className="input"
-              placeholder="50"
+              className=""
+              placeholder="At what age would you ideally retire?"
               onChange={handleInputChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
             />
           </Form.Field>
-          <Form.Field>
-            <label className="label">Net Monthly Income</label>
+          <Form.Field className="webflow-style-input">
             <input
               name="netMonthlyIncome"
-              className="input"
-              placeholder="3900"
+              className=""
+              placeholder="Current net monthly income?"
               onChange={handleInputChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
             />
           </Form.Field>
-          <Form.Field>
-            <label className="label">Yearly Raise %</label>
-            <input
-              name="yearlyRaise"
-              className="input"
-              placeholder="1.04"
-              onChange={handleInputChange}
-            />
-          </Form.Field>
-          <Form.Field>
-            <label className="label">Net Savings Rate %</label>
+          <Form.Field className="webflow-style-input">
             <input
               name="netSavingsRate"
-              className="input"
-              placeholder=".30"
+              className=""
+              placeholder="Percentage of income saved per month"
               onChange={handleInputChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
             />
           </Form.Field>
-          <Form.Field>
-            <label className="label">Current Investments</label>
+          <Form.Field className="webflow-style-input">
+            <input
+              name="yearlyRaise"
+              className=""
+              placeholder="Estimate a yearly raise percentage"
+              onChange={handleInputChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+            />
+          </Form.Field>
+          <Form.Field className="webflow-style-input">
             <input
               name="currentInvestments"
-              className="input"
-              placeholder="45000"
+              className=""
+              placeholder="Current investment's value"
               onChange={handleInputChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
             />
           </Form.Field>
-          <Form.Field>
-            <label className="label">Estimated R.O.I</label>
+          <Form.Field className="webflow-style-input">
             <input
               name="estimatedROI"
-              className="input"
-              placeholder="1.1"
+              className=""
+              placeholder="Future R.O.I on investments"
               onChange={handleInputChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
             />
           </Form.Field>
-          <Form.Field>
-            <label className="label">Estimated Yearly Inflation</label>
+          <Form.Field className="webflow-style-input">
             <input
               name="yearlyInflation"
-              className="input"
-              placeholder="1.03"
+              className=""
+              placeholder="Estimated Yearly Inflation"
               onChange={handleInputChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
             />
           </Form.Field>
-          <Form.Field>
-            <label className="label">Desired Retirement Salary</label>
+          <Form.Field className="webflow-style-input">
             <input
               name="retirementSalary"
-              className="input"
-              placeholder="100000"
+              className=""
+              placeholder="What is your ideal retirement salary?"
               onChange={handleInputChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
             />
+            <button onClick={handleSubmit}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="1em"
+                height="1em"
+                fill="currentColor"
+                className="bi bi-arrow-right"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"
+                />
+              </svg>
+            </button>
           </Form.Field>
         </Form>
-        <button onClick={handleSubmit}> Submit </button>
 
         <Container propsInput={propsInput} />
       </div>
