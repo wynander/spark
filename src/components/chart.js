@@ -35,7 +35,7 @@ export const options = {
     },
     y: {
       beginAtZero: "true",
-      stacked: "true",
+      //stacked: "true",
       ticks: {
         color: "#7881a1"
       },

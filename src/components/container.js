@@ -62,6 +62,7 @@ export default function Container(props) {
   };
 
   //chart.js event on click
+
   return (
     <div className="plot-div">
       <Chart data={data} />
@@ -142,6 +143,7 @@ function usePortfolioReturnCalculator(
       );
       gainsData.push(investmentValue[i] - investmentValue[i - 1]);
     }
+
     //Calculate retirement period portfolio gains minus retirement salary
     if (i >= periodUntilRetirement.length) {
       //if investments are zeroed, make all further values 0
