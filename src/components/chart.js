@@ -54,7 +54,11 @@ export const options = {
     },
     title: {
       display: true,
-      text: "Investment Value Over Time"
+      text: "Portfolio Value Over Time",
+      color: "#bfd2ff",
+      font: {
+        size: "20px"
+      }
     }
   }
 };

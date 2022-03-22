@@ -145,6 +145,7 @@ button {
   flex-direction: column;
   min-width: 30vw;
   justify-content: center;
+  margin: 1rem;
 }
 
 .plot-div {
@@ -158,4 +159,25 @@ button {
 
 canvas {
   height: 100%;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+}
+
+.button-container button {
+  padding: 0px 10px;
+  border-radius: 5px;
+  flex: 1;
+}
+.button-container button:hover {
+  background-color: blueviolet;
+}
+
+.bi {
+  height: 1.6rem;
+  width: 1.8rem;
 }
