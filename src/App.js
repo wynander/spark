@@ -16,16 +16,14 @@ export default function App() {
     retirementSalary: ""
   });
 
-  function handleInputChange(value, name) {
-    const rawValue = value;
-    console.log(rawValue);
+  const handleInputChange = (value, name) => {
     setUserInput({
       ...userInput,
       [name]: value
     });
-  }
+  };
 
-  function handleClickUpSalary(e) {
+  const handleClickUpSalary = (e) => {
     e.preventDefault();
     let increment = 1000;
     if (userInput.retirementSalary >= 10000) {
@@ -37,13 +35,14 @@ export default function App() {
     if (userInput.retirementSalary >= 100000) {
       increment = 5000;
     }
+
     setUserInput({
       ...userInput,
       retirementSalary: Number(userInput.retirementSalary) + increment
     });
-  }
+  };
 
-  function handleClickDownSalary(e) {
+  const handleClickDownSalary = (e) => {
     e.preventDefault();
     let increment = 1000;
     if (userInput.retirementSalary >= 10000) {
@@ -59,22 +58,22 @@ export default function App() {
       ...userInput,
       retirementSalary: Number(userInput.retirementSalary) - increment
     });
-  }
+  };
 
-  function handleClickDownAge(e) {
+  const handleClickDownAge = (e) => {
     e.preventDefault();
     setUserInput({
       ...userInput,
       retirementAge: Number(userInput.retirementAge) - 1
     });
-  }
-  function handleClickUpAge(e) {
+  };
+  const handleClickUpAge = (e) => {
     e.preventDefault();
     setUserInput({
       ...userInput,
       retirementAge: Number(userInput.retirementAge) + 1
     });
-  }
+  };
 
   return (
     <div className="App">

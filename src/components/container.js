@@ -12,40 +12,27 @@ export default function Container(props) {
     netSavingsRate,
     yearlyRaise,
     retirementSalary
-  } = parseFloatProps(); //parse Prop strings to floats so that these variables have number values
+  } = usePropsParseFloat(); //parse Prop strings to floats so that these variables have number values
 
   const {
     xAxisLength,
     startYear,
     periodUntilRetirement,
     getNormalizedReturn
-  } = calcPlottingVariables();
+  } = usePlotVariablesCalculator();
 
-  const investmentValue = [currentInvestments];
-  const gainsData = [12 * netMonthlyIncome * netSavingsRate];
-
-  for (let i = 1; i < xAxisLength - startYear + birthYear; i++) {
-    //Calculate saving period portfolio gains
-    if (i < periodUntilRetirement.length) {
-      investmentValue.push(
-        calculateInvestmentGain(i) + calculateYearlySavings(i)
-      );
-      gainsData.push(investmentValue[i] - investmentValue[i - 1]);
-    }
-    //Calculate retirement period portfolio gains minus retirement salary
-    if (i >= periodUntilRetirement.length) {
-      //if investments are zeroed, make all further values 0
-      if (calculateInvestmentGain(i) - retirementSalary < 0) {
-        investmentValue.push(0);
-        gainsData.push(0);
-      }
-      //if investments are >0, push new investment value based on investment gain minus retirement salary
-      if (calculateInvestmentGain(i) - retirementSalary > 0) {
-        investmentValue.push(calculateInvestmentGain(i) - retirementSalary);
-        gainsData.push(investmentValue[i] - investmentValue[i - 1]);
-      }
-    }
-  }
+  const { investmentValue, gainsData } = usePortfolioReturnCalculator(
+    xAxisLength,
+    startYear,
+    birthYear,
+    periodUntilRetirement,
+    currentInvestments,
+    getNormalizedReturn,
+    netMonthlyIncome,
+    netSavingsRate,
+    yearlyRaise,
+    retirementSalary
+  );
 
   let labels = [...Array(75)].map((_, i) => i + startYear);
   if (xAxisLength - startYear + birthYear > 0) {
@@ -60,8 +47,8 @@ export default function Container(props) {
       {
         label: "Investment Value",
         data: investmentValue,
-        borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        borderColor: "#b6412d",
+        backgroundColor: "rgba(182, 65, 45,.2)",
         radius: "0"
       },
       {
@@ -82,7 +69,7 @@ export default function Container(props) {
   );
 
   //-----------------Functions--------------------------------
-  function calcPlottingVariables() {
+  function usePlotVariablesCalculator() {
     const startYear = new Date().getFullYear(); //create Current Year
     const getNormalizedReturn = estimatedROI - yearlyInflation;
     const endYear = birthYear + retirementAge;
@@ -105,17 +92,7 @@ export default function Container(props) {
     };
   }
 
-  function calculateYearlySavings(i) {
-    return (
-      12 * netMonthlyIncome * netSavingsRate * Math.pow(yearlyRaise, i - 1)
-    );
-  }
-
-  function calculateInvestmentGain(i) {
-    return investmentValue[i - 1] * (1 + getNormalizedReturn);
-  }
-
-  function parseFloatProps() {
+  function usePropsParseFloat() {
     let birthYear = parseFloat(props.propsInput.birthYear);
     let retirementAge = parseFloat(props.propsInput.retirementAge);
     let netMonthlyIncome = parseFloat(props.propsInput.netMonthlyIncome);
@@ -139,4 +116,53 @@ export default function Container(props) {
       retirementSalary
     };
   }
+}
+
+function usePortfolioReturnCalculator(
+  xAxisLength,
+  startYear,
+  birthYear,
+  periodUntilRetirement,
+  currentInvestments,
+  getNormalizedReturn,
+  netMonthlyIncome,
+  netSavingsRate,
+  yearlyRaise,
+  retirementSalary
+) {
+  const investmentValue = [currentInvestments];
+  const gainsData = [12 * netMonthlyIncome * netSavingsRate];
+
+  for (let i = 1; i < xAxisLength - startYear + birthYear; i++) {
+    //Calculate saving period portfolio gains
+    if (i < periodUntilRetirement.length) {
+      investmentValue.push(
+        investmentValue[i - 1] * (1 + getNormalizedReturn) +
+          12 * netMonthlyIncome * netSavingsRate * Math.pow(yearlyRaise, i - 1)
+      );
+      gainsData.push(investmentValue[i] - investmentValue[i - 1]);
+    }
+    //Calculate retirement period portfolio gains minus retirement salary
+    if (i >= periodUntilRetirement.length) {
+      //if investments are zeroed, make all further values 0
+      if (
+        investmentValue[i - 1] * (1 + getNormalizedReturn) - retirementSalary <
+        0
+      ) {
+        investmentValue.push(0);
+        gainsData.push(0);
+      }
+      //if investments are >0, push new investment value based on investment gain minus retirement salary
+      if (
+        investmentValue[i - 1] * (1 + getNormalizedReturn) - retirementSalary >
+        0
+      ) {
+        investmentValue.push(
+          investmentValue[i - 1] * (1 + getNormalizedReturn) - retirementSalary
+        );
+        gainsData.push(investmentValue[i] - investmentValue[i - 1]);
+      }
+    }
+  }
+  return { investmentValue, gainsData };
 }

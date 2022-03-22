@@ -78,15 +78,15 @@ button {
   background-position: 0% 0%;
   background: linear-gradient(
     to right,
-    #b294ff,
-    #57e6e6,
-    #feffb8,
-    #57e6e6,
-    #b294ff,
-    #57e6e6
+    #a73c2e,
+    #b6412d,
+    #c25b16,
+    #e66857,
+    #ad480d,
+    #ff7e7e
   );
   background-size: 500% auto;
-  animation: gradient 3s linear infinite;
+  animation: gradient 3s linear infinite alternate;
 }
 
 .webflow-style-input input {
@@ -128,7 +128,7 @@ button {
   -moz-osx-font-smoothing: grayscale;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   background-image: radial-gradient(
-    circle at 10% 10%,
+    circle at 0% 0%,
     #373b52,
     #252736 40%,
     #1d1e26

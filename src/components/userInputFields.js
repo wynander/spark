@@ -19,6 +19,23 @@ export default function UserInputFields({
     e.target.parentElement.classList.remove("focus-input");
   };
 
+  window.addEventListener(
+    "keydown",
+    (e) => {
+      if (
+        e.keyIdentifier === "U+000A" ||
+        e.keyIdentifier === "Enter" ||
+        e.keyCode === 13
+      ) {
+        if (e.target.nodeName === "INPUT" && e.target.type === "text") {
+          e.preventDefault();
+          return false;
+        }
+      }
+    },
+    true
+  );
+
   return (
     <>
       <Form autoComplete="off" className="form">
@@ -121,7 +138,7 @@ export default function UserInputFields({
             onBlur={handleBlur}
           />
           <div className="button-container">
-            <button onClick={handleClickUpAge} tabindex="-1">
+            <button onClick={handleClickUpAge} tabIndex="-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
@@ -134,7 +151,7 @@ export default function UserInputFields({
                 />
               </svg>
             </button>
-            <button onClick={handleClickDownAge} tabindex="-1">
+            <button onClick={handleClickDownAge} tabIndex="-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
@@ -163,7 +180,7 @@ export default function UserInputFields({
             onBlur={handleBlur}
           />
           <div className="button-container">
-            <button onClick={handleClickUpSalary} tabindex="-1">
+            <button onClick={handleClickUpSalary} tabIndex="-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
@@ -176,7 +193,7 @@ export default function UserInputFields({
                 />
               </svg>
             </button>
-            <button onClick={handleClickDownSalary} tabindex="-1">
+            <button onClick={handleClickDownSalary} tabIndex="-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
