@@ -23,6 +23,7 @@ ChartJS.register(
 
 export const options = {
   responsive: true,
+  maintainAspectRatio: false,
   scales: {
     x: {
       ticks: {
@@ -34,6 +35,7 @@ export const options = {
     },
     y: {
       beginAtZero: "true",
+      stacked: "true",
       ticks: {
         color: "#7881a1"
       },

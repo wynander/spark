@@ -1,26 +1,35 @@
 import "./styles.css";
-import UserInputFields from "./components/userInputFields";
+import UserInputFieldsAdvanced from "./components/userInputFieldsAdvanced";
+import UserInputFieldsDefault from "./components/userInputFieldsDefault";
 import React from "react";
 import Container from "./components/container.js";
 
 export default function App() {
+  const [isAdvanced, setAdvanced] = React.useState(false);
   const [userInput, setUserInput] = React.useState({
-    birthYear: "0",
+    birthYear: "",
     retirementAge: "",
-    netMonthlyIncome: "0",
-    yearlyRaise: "0",
-    netSavingsRate: "0",
-    currentInvestments: "0",
-    estimatedROI: "0",
-    yearlyInflation: "0",
+    netMonthlyIncome: "",
+    yearlyRaise: "4",
+    netSavingsRate: "",
+    currentInvestments: "",
+    estimatedROI: "10",
+    yearlyInflation: "3",
     retirementSalary: ""
   });
 
   const handleInputChange = (value, name) => {
-    setUserInput({
-      ...userInput,
-      [name]: value
-    });
+    if (name === "birthYear" && value >= 10000) {
+      setUserInput({
+        ...userInput,
+        [name]: value.substring(0, 4)
+      });
+    } else {
+      setUserInput({
+        ...userInput,
+        [name]: value
+      });
+    }
   };
 
   const handleClickUpSalary = (e) => {
@@ -54,19 +63,29 @@ export default function App() {
     if (userInput.retirementSalary >= 100000) {
       increment = 5000;
     }
-    setUserInput({
-      ...userInput,
-      retirementSalary: Number(userInput.retirementSalary) - increment
-    });
+    if (userInput.retirementSalary < 1000) {
+      setUserInput({
+        ...userInput,
+        retirementSalary: 0
+      });
+    } else {
+      setUserInput({
+        ...userInput,
+        retirementSalary: Number(userInput.retirementSalary) - increment
+      });
+    }
   };
 
   const handleClickDownAge = (e) => {
     e.preventDefault();
-    setUserInput({
-      ...userInput,
-      retirementAge: Number(userInput.retirementAge) - 1
-    });
+    if (userInput.retirementAge > 0) {
+      setUserInput({
+        ...userInput,
+        retirementAge: Number(userInput.retirementAge) - 1
+      });
+    }
   };
+
   const handleClickUpAge = (e) => {
     e.preventDefault();
     setUserInput({
@@ -75,17 +94,35 @@ export default function App() {
     });
   };
 
+  const handleAdvanced = () => {
+    setAdvanced((prevState) => !isAdvanced);
+  };
+
   return (
     <div className="App">
+      <button className="advanced-button" onClick={handleAdvanced}>
+        +
+      </button>
       <div className="section">
-        <UserInputFields
-          handleInputChange={handleInputChange}
-          handleClickUpSalary={handleClickUpSalary}
-          handleClickDownSalary={handleClickDownSalary}
-          handleClickUpAge={handleClickUpAge}
-          handleClickDownAge={handleClickDownAge}
-          userInput={userInput}
-        />
+        {isAdvanced ? (
+          <UserInputFieldsAdvanced
+            handleInputChange={handleInputChange} //It would be great to make these props an object to be passed
+            handleClickUpSalary={handleClickUpSalary} //
+            handleClickDownSalary={handleClickDownSalary} //
+            handleClickUpAge={handleClickUpAge} //
+            handleClickDownAge={handleClickDownAge} //
+            userInput={userInput} //
+          />
+        ) : (
+          <UserInputFieldsDefault
+            handleInputChange={handleInputChange}
+            handleClickUpSalary={handleClickUpSalary}
+            handleClickDownSalary={handleClickDownSalary}
+            handleClickUpAge={handleClickUpAge}
+            handleClickDownAge={handleClickDownAge}
+            userInput={userInput}
+          />
+        )}
         <Container propsInput={userInput} />
       </div>
     </div>

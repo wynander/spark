@@ -2,7 +2,7 @@ import { Form } from "semantic-ui-react";
 import React from "react";
 import CurrencyInput from "react-currency-input-field";
 
-export default function UserInputFields({
+export default function UserInputFieldsAdvanced({
   userInput,
   handleInputChange,
   handleClickUpSalary,
@@ -45,6 +45,7 @@ export default function UserInputFields({
             disableGroupSeparators="true"
             allowDecimals={false}
             allowNegativeValue={false}
+            value={userInput.birthYear}
             placeholder="What's your year of birth?"
             onValueChange={handleInputChange}
             onFocus={handleFocus}
@@ -58,6 +59,7 @@ export default function UserInputFields({
             prefix="$"
             className=""
             allowNegativeValue={false}
+            value={userInput.netMonthlyIncome}
             placeholder="Current net monthly income?"
             onValueChange={handleInputChange}
             onFocus={handleFocus}
@@ -70,19 +72,8 @@ export default function UserInputFields({
             className=""
             suffix="%"
             allowNegativeValue={false}
+            value={userInput.netSavingsRate}
             placeholder="Percentage of income saved per month"
-            onValueChange={handleInputChange}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-          />
-        </Form.Field>
-        <Form.Field className="webflow-style-input">
-          <CurrencyInput
-            name="yearlyRaise"
-            className=""
-            suffix="%"
-            allowNegativeValue={false}
-            placeholder="Estimate a yearly raise percentage"
             onValueChange={handleInputChange}
             onFocus={handleFocus}
             onBlur={handleBlur}
@@ -94,6 +85,7 @@ export default function UserInputFields({
             className=""
             prefix="$"
             allowNegativeValue={false}
+            value={userInput.currentInvestments}
             placeholder="Current investment's value"
             onValueChange={handleInputChange}
             onFocus={handleFocus}
@@ -102,11 +94,24 @@ export default function UserInputFields({
         </Form.Field>
         <Form.Field className="webflow-style-input">
           <CurrencyInput
+            name="yearlyRaise"
+            className=""
+            suffix="%"
+            allowNegativeValue={false}
+            placeholder={`Change yearly raise percentage: ${userInput.yearlyRaise}%`}
+            onValueChange={handleInputChange}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+          />
+        </Form.Field>
+
+        <Form.Field className="webflow-style-input">
+          <CurrencyInput
             name="estimatedROI"
             className=""
             suffix="%"
             allowNegativeValue={false}
-            placeholder="Future R.O.I on investments"
+            placeholder={`Change future R.O.I on investments: ${userInput.estimatedROI}%`}
             onValueChange={handleInputChange}
             onFocus={handleFocus}
             onBlur={handleBlur}
@@ -118,7 +123,7 @@ export default function UserInputFields({
             className=""
             suffix="%"
             allowNegativeValue={false}
-            placeholder="Estimated Yearly Inflation"
+            placeholder={`Change estimated yearly inflation: ${userInput.yearlyInflation}%`}
             onValueChange={handleInputChange}
             onFocus={handleFocus}
             onBlur={handleBlur}
