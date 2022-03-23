@@ -1,170 +1,98 @@
-import React from "react";
-import Chart from "./chart.js";
+import Chart from './chart.js';
+import usePortfolioReturnCalculator from './portfolioReturnCalculator';
+import useAssetArrayCalculator from './assetArrayCalculator';
 
-export default function Container(props) {
-  const {
-    estimatedROI,
-    yearlyInflation,
-    birthYear,
-    retirementAge,
-    currentInvestments,
-    netMonthlyIncome,
-    netSavingsRate,
-    yearlyRaise,
-    retirementSalary
-  } = usePropsParseFloat(); //parse Prop strings to floats so that these variables have number values
+export default function Container({ propsInput }) {
+	const { userSetVal } = usePropsParseFloat(propsInput); //parse Prop strings to floats so that these variables have number values
 
-  const {
-    xAxisLength,
-    startYear,
-    periodUntilRetirement,
-    getNormalizedReturn
-  } = usePlotVariablesCalculator();
+	const {
+		investmentValue,
+		//InvestmentGainsData,
+		retirementDraw,
+		labels,
+		retirementIndex,
+	} = usePortfolioReturnCalculator(userSetVal);
 
-  const { investmentValue, gainsData } = usePortfolioReturnCalculator(
-    xAxisLength,
-    startYear,
-    birthYear,
-    periodUntilRetirement,
-    currentInvestments,
-    getNormalizedReturn,
-    netMonthlyIncome,
-    netSavingsRate,
-    yearlyRaise,
-    retirementSalary
-  );
+	//--------------------------------------------------------------Test for Asset Purchase-----
 
-  let labels = [...Array(75)].map((_, i) => i + startYear);
-  if (xAxisLength - startYear + birthYear > 0) {
-    labels = [...Array(xAxisLength - startYear + birthYear)].map(
-      (_, i) => i + startYear
-    );
-  }
+	const {
+		assetSalePortfolioEffect,
+		assetPricePortfolioEffect,
+		assetCashFlowEffect,
+		assetEquityAppreciationEffect,
+		assetEquityPaydownEffect,
+	} = useAssetArrayCalculator(userSetVal, labels);
+	//----------------------------------------------------------------------------------------
 
-  const data = {
-    labels: labels,
-    datasets: [
-      {
-        label: "Investment Value",
-        data: investmentValue,
-        borderColor: "#b6412d",
-        backgroundColor: "rgba(182, 65, 45,.2)",
-        radius: "0"
-      },
-      {
-        label: "Gains",
-        data: gainsData,
-        borderColor: "rgb(53, 162, 235)",
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
-        radius: "0"
-      }
-    ]
-  };
+	// conditional to return 0 when asset not added
+	let portfolioValue = investmentValue.map((item, index) => {
+		return item + retirementDraw[index];
+	});
 
-  //chart.js event on click
+	let tempPortfolioValue = portfolioValue.map((item, index) => {
+		let temp =
+			item -
+			assetPricePortfolioEffect[index] +
+			assetCashFlowEffect[index] +
+			assetEquityAppreciationEffect[index] +
+			assetEquityPaydownEffect[index] +
+			assetSalePortfolioEffect[index];
+		return temp > 0 ? temp : 0;
+	});
 
-  return (
-    <div className="plot-div">
-      <Chart data={data} />
-    </div>
-  );
+	const data = {
+		labels: labels,
+		datasets: [
+			{
+				label: 'Portfolio Value',
+				data: tempPortfolioValue,
+				borderColor: '#b6412d',
+				backgroundColor: 'rgba(182, 65, 45,.2)',
+				radius: '0',
+			},
+			{
+				label: 'Investment Value',
+				data: portfolioValue,
+				borderColor: 'green',
+				backgroundColor: 'rgba(182, 65, 45,.2)',
+				radius: '0',
+			},
+		],
+	};
 
-  //-----------------Functions--------------------------------
-  function usePlotVariablesCalculator() {
-    const startYear = new Date().getFullYear(); //create Current Year
-    const getNormalizedReturn = estimatedROI - yearlyInflation;
-    const endYear = birthYear + retirementAge;
-    const xAxisLength = 101;
-    let periodUntilRetirement = [];
-    if (endYear - startYear + 1 > 0) {
-      periodUntilRetirement = [...Array(endYear - startYear + 1)].map(
-        (_, i) => i + startYear
-      );
-    }
-    if (endYear - startYear + 1 <= 0) {
-      periodUntilRetirement = [...Array(75)].map((_, i) => i + startYear);
-    }
+	//chart.js event on click
+	let retirementY = tempPortfolioValue[retirementIndex]
+		? tempPortfolioValue[retirementIndex]
+		: 0;
+	let retirementPoint = [
+		retirementIndex > 0 ? retirementIndex : -5,
+		retirementY,
+	];
 
-    return {
-      periodUntilRetirement,
-      xAxisLength,
-      startYear,
-      getNormalizedReturn
-    };
-  }
+	return (
+		<div className="plot-div">
+			<Chart data={data} retirementPoint={retirementPoint} />
+		</div>
+	);
 
-  function usePropsParseFloat() {
-    let birthYear = parseFloat(props.propsInput.birthYear);
-    let retirementAge = parseFloat(props.propsInput.retirementAge);
-    let netMonthlyIncome = parseFloat(props.propsInput.netMonthlyIncome);
-    let yearlyRaise = 1 + parseFloat(props.propsInput.yearlyRaise) / 100;
-    let netSavingsRate = parseFloat(props.propsInput.netSavingsRate) / 100;
-    let currentInvestments = parseFloat(props.propsInput.currentInvestments);
-    let estimatedROI = 1 + parseFloat(props.propsInput.estimatedROI) / 100;
-    let yearlyInflation =
-      1 + parseFloat(props.propsInput.yearlyInflation) / 100;
-    let retirementSalary = parseFloat(props.propsInput.retirementSalary);
-
-    return {
-      estimatedROI,
-      yearlyInflation,
-      birthYear,
-      retirementAge,
-      currentInvestments,
-      netMonthlyIncome,
-      netSavingsRate,
-      yearlyRaise,
-      retirementSalary
-    };
-  }
+	//-----------------Functions--------------------------------
 }
 
-function usePortfolioReturnCalculator(
-  xAxisLength,
-  startYear,
-  birthYear,
-  periodUntilRetirement,
-  currentInvestments,
-  getNormalizedReturn,
-  netMonthlyIncome,
-  netSavingsRate,
-  yearlyRaise,
-  retirementSalary
-) {
-  const investmentValue = [currentInvestments];
-  const gainsData = [12 * netMonthlyIncome * netSavingsRate];
-
-  for (let i = 1; i < xAxisLength - startYear + birthYear; i++) {
-    //Calculate saving period portfolio gains
-    if (i < periodUntilRetirement.length) {
-      investmentValue.push(
-        investmentValue[i - 1] * (1 + getNormalizedReturn) +
-          12 * netMonthlyIncome * netSavingsRate * Math.pow(yearlyRaise, i - 1)
-      );
-      gainsData.push(investmentValue[i] - investmentValue[i - 1]);
-    }
-
-    //Calculate retirement period portfolio gains minus retirement salary
-    if (i >= periodUntilRetirement.length) {
-      //if investments are zeroed, make all further values 0
-      if (
-        investmentValue[i - 1] * (1 + getNormalizedReturn) - retirementSalary <
-        0
-      ) {
-        investmentValue.push(0);
-        gainsData.push(0);
-      }
-      //if investments are >0, push new investment value based on investment gain minus retirement salary
-      if (
-        investmentValue[i - 1] * (1 + getNormalizedReturn) - retirementSalary >
-        0
-      ) {
-        investmentValue.push(
-          investmentValue[i - 1] * (1 + getNormalizedReturn) - retirementSalary
-        );
-        gainsData.push(investmentValue[i] - investmentValue[i - 1]);
-      }
-    }
-  }
-  return { investmentValue, gainsData };
+function usePropsParseFloat(propsInput) {
+	let userSetVal = {};
+	userSetVal.birthYear = parseInt(propsInput.birthYear, 10);
+	userSetVal.retirementAge = parseInt(propsInput.retirementAge, 10);
+	userSetVal.netMonthlyIncome = parseInt(propsInput.netMonthlyIncome, 10);
+	userSetVal.yearlyRaise = 1 + parseInt(propsInput.yearlyRaise, 10) / 100;
+	userSetVal.netSavingsRate = parseInt(propsInput.netSavingsRate, 10) / 100;
+	userSetVal.currentInvestments = parseInt(propsInput.currentInvestments, 10);
+	userSetVal.estimatedROI = 1 + parseInt(propsInput.estimatedROI, 10) / 100;
+	userSetVal.yearlyInflation =
+		1 + parseInt(propsInput.yearlyInflation, 10) / 100;
+	userSetVal.retirementSalary = parseInt(propsInput.retirementSalary, 10);
+	userSetVal.getNormalizedReturn =
+		userSetVal.estimatedROI - userSetVal.yearlyInflation;
+	return {
+		userSetVal,
+	};
 }

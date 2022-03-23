@@ -1,18 +1,18 @@
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
-  margin: 0;
+	box-sizing: border-box;
+	margin: 0;
 }
 /* Css from Phil Rose ----------------------------------*/
 body,
 ul,
 li {
-  margin: 0;
-  padding: 0;
+	margin: 0;
+	padding: 0;
 }
 li {
-  list-style: none;
+	list-style: none;
 }
 p,
 h1,
@@ -21,170 +21,179 @@ h3,
 h4,
 h5,
 h6 {
-  margin-top: 0;
+	margin-top: 0;
 }
 
 a {
-  text-decoration: none;
+	text-decoration: none;
 }
 input {
-  border-style: none;
-  background: transparent;
-  outline: none;
+	border-style: none;
+	background: transparent;
+	outline: none;
 }
 button {
-  padding: 0;
-  background: none;
-  border: none;
-  outline: none;
+	padding: 0;
+	background: none;
+	border: none;
+	outline: none;
 }
 
 :root {
-  --input-background: rgba(57, 63, 84, 0.8);
-  --input-text-inactive: #72788d;
-  --input-text-active: #bfd2ff;
+	--input-background: rgba(57, 63, 84, 0.8);
+	--input-text-inactive: #72788d;
+	--input-text-active: #bfd2ff;
 }
 
 @keyframes gradient {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 100% 0;
-  }
+	0% {
+		background-position: 0 0;
+	}
+	100% {
+		background-position: 100% 0;
+	}
 }
 
 .webflow-style-input {
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  margin: 0.25rem auto;
-  border-radius: 4px;
-  padding: 0.5rem 2rem 0.5rem;
-  background: var(--input-background);
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	margin: 0.25rem auto;
+	border-radius: 4px;
+	padding: 0.5rem 2rem 0.5rem;
+	background: var(--input-background);
 }
 
 .focus-input:after {
-  content: "";
-  position: absolute;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  z-index: 999;
-  height: 2px;
-  border-bottom-left-radius: 2px;
-  border-bottom-right-radius: 2px;
-  background-position: 0% 0%;
-  background: linear-gradient(
-    to right,
-    #a73c2e,
-    #b6412d,
-    #c25b16,
-    #e66857,
-    #ad480d,
-    #ff7e7e
-  );
-  background-size: 500% auto;
-  animation: gradient 3s linear infinite alternate;
+	content: '';
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	z-index: 999;
+	height: 2px;
+	border-bottom-left-radius: 2px;
+	border-bottom-right-radius: 2px;
+	background-position: 0% 0%;
+	background: linear-gradient(
+		to right,
+		#a73c2e,
+		#b6412d,
+		#c25b16,
+		#e66857,
+		#ad480d,
+		#ff7e7e
+	);
+	background-size: 500% auto;
+	animation: gradient 3s linear infinite alternate;
 }
 
 .webflow-style-input input {
-  flex-grow: 1;
-  color: var(--input-text-active);
-  font-size: 1.4rem;
-  line-height: 2.4rem;
-  vertical-align: middle;
+	flex-grow: 1;
+	color: var(--input-text-active);
+	font-size: 1.4rem;
+	line-height: 2.4rem;
+	vertical-align: middle;
 }
 
 ::-webkit-input-placeholder {
-  color: var(--input-text-inactive);
+	color: var(--input-text-inactive);
 }
 
 .webflow-style-input button {
-  color: white;
-  font-size: 2.4rem;
-  line-height: 2.4rem;
-  vertical-align: middle;
-  transition: color 0.25s;
-  padding: 0px;
-  margin-right: -1.2rem;
-  display: flex;
-  align-items: center;
+	color: white;
+	font-size: 2.4rem;
+	line-height: 2.4rem;
+	vertical-align: middle;
+	transition: color 0.25s;
+	padding: 0px;
+	margin-right: -1.2rem;
+	display: flex;
+	align-items: center;
 }
 .webflow-style-input button:hover {
-  color: var(--input-text-active);
+	color: var(--input-text-active);
 }
 
 /*--------------------------------------------*/
 
 .App {
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  background-image: radial-gradient(
-    circle at 0% 0%,
-    #373b52,
-    #252736 40%,
-    #1d1e26
-  );
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	min-height: 100vh;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	background-image: radial-gradient(
+		circle at 0% 0%,
+		#373b52,
+		#252736 40%,
+		#1d1e26
+	);
 }
 
 .section {
-  display: flex;
-  justify-content: center;
+	display: flex;
+	flex: 1;
+	justify-content: center;
 }
 
 .form {
-  display: flex;
-  flex-direction: column;
-  min-width: 30vw;
-  justify-content: start;
-  margin: 1rem;
+	display: flex;
+	flex-direction: column;
+	min-width: 30vw;
+	justify-content: start;
+	margin: 1rem;
 }
 
 .plot-div {
-  background-color: var(--input-background);
-  margin-left: 1rem;
-  margin-right: 1rem;
-  border-radius: 5px;
-  min-width: 60vw;
-  padding: 2rem;
+	background-color: var(--input-background);
+	margin-left: 1rem;
+	margin-right: 1rem;
+	border-radius: 5px;
+	min-width: 60vw;
+	padding: 2rem;
 }
 
 canvas {
-  height: 100%;
+	height: 100%;
 }
 
 .button-container {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  justify-content: center;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	justify-content: center;
 }
 
 .button-container button {
-  padding: 0px 10px;
-  border-radius: 5px;
-  flex: 1;
+	padding: 0px 10px;
+	border-radius: 5px;
+	flex: 1;
 }
 .button-container button:hover {
-  background-color: blueviolet;
+	background-color: blueviolet;
 }
 
 .bi {
-  height: 1.6rem;
-  width: 1.8rem;
+	height: 1.6rem;
+	width: 1.8rem;
 }
 
 .advanced-button {
-  background-color: var(--input-text-inactive);
-  width: 4rem;
-  height: 2rem;
-  margin: 0 1rem;
+	background-color: var(--input-text-inactive);
+	width: 4rem;
+	height: 2rem;
+	margin: 0 1rem;
+}
+
+.asset-button {
+	background-color: var(--input-text-inactive);
+	width: 4rem;
+	height: 2rem;
+	margin: 0 1rem;
+	border: 1px solid red;
 }
