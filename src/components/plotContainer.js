@@ -2,7 +2,7 @@ import Chart from './chart.js';
 import usePortfolioReturnCalculator from './portfolioReturnCalculator';
 import useAssetArrayCalculator from './assetArrayCalculator';
 
-export default function Container({ propsInput }) {
+export default function PlotContainer({ propsInput }) {
 	const { userSetVal } = usePropsParseFloat(propsInput); //parse Prop strings to floats so that these variables have number values
 
 	const {
@@ -15,13 +15,13 @@ export default function Container({ propsInput }) {
 
 	//--------------------------------------------------------------Test for Asset Purchase-----
 
-	const {
-		assetSalePortfolioEffect,
-		assetPricePortfolioEffect,
-		assetCashFlowEffect,
-		assetEquityAppreciationEffect,
-		assetEquityPaydownEffect,
-	} = useAssetArrayCalculator(userSetVal, labels);
+	// const {
+	// 	assetSalePortfolioEffect,
+	// 	assetPricePortfolioEffect,
+	// 	assetCashFlowEffect,
+	// 	assetEquityAppreciationEffect,
+	// 	assetEquityPaydownEffect,
+	// } = useAssetArrayCalculator(userSetVal, labels);
 	//----------------------------------------------------------------------------------------
 
 	// conditional to return 0 when asset not added
@@ -30,13 +30,13 @@ export default function Container({ propsInput }) {
 	});
 
 	let tempPortfolioValue = portfolioValue.map((item, index) => {
-		let temp =
-			item -
-			assetPricePortfolioEffect[index] +
-			assetCashFlowEffect[index] +
-			assetEquityAppreciationEffect[index] +
-			assetEquityPaydownEffect[index] +
-			assetSalePortfolioEffect[index];
+		let temp = item;
+		// item -
+		// assetPricePortfolioEffect[index] +
+		// assetCashFlowEffect[index] +
+		// assetEquityAppreciationEffect[index] +
+		// assetEquityPaydownEffect[index] +
+		// assetSalePortfolioEffect[index];
 		return temp > 0 ? temp : 0;
 	});
 
@@ -47,16 +47,16 @@ export default function Container({ propsInput }) {
 				label: 'Portfolio Value',
 				data: tempPortfolioValue,
 				borderColor: '#b6412d',
-				backgroundColor: 'rgba(182, 65, 45,.2)',
+				backgroundColor: 'rgba(182, 65, 45,1)',
 				radius: '0',
 			},
-			{
-				label: 'Investment Value',
-				data: portfolioValue,
-				borderColor: 'green',
-				backgroundColor: 'rgba(182, 65, 45,.2)',
-				radius: '0',
-			},
+			// {
+			// 	label: 'Investment Value',
+			// 	data: portfolioValue,
+			// 	borderColor: 'rgba(44, 44, 44, 1)',
+			// 	backgroundColor: 'rgba(44, 44, 44, 1)',
+			// 	radius: '0',
+			// },
 		],
 	};
 
@@ -70,9 +70,9 @@ export default function Container({ propsInput }) {
 	];
 
 	return (
-		<div className="plot-div">
+		<>
 			<Chart data={data} retirementPoint={retirementPoint} />
-		</div>
+		</>
 	);
 
 	//-----------------Functions--------------------------------

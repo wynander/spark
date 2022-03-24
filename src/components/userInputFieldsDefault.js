@@ -1,6 +1,18 @@
 import { Form } from 'semantic-ui-react';
 import React from 'react';
 import CurrencyInput from 'react-currency-input-field';
+import {
+	Accordion,
+	Container,
+	Divider,
+	Dropdown,
+	Grid,
+	Header,
+	Image,
+	List,
+	Menu,
+	Segment,
+} from 'semantic-ui-react';
 
 export default function UserInputFieldsDefault({
 	userInput,
@@ -11,6 +23,7 @@ export default function UserInputFieldsDefault({
 	handleClickDownAge,
 }) {
 	//focus styling for input divs
+
 	const handleFocus = (e) => {
 		e.target.parentElement.classList.add('focus-input');
 	};
@@ -179,4 +192,37 @@ export default function UserInputFieldsDefault({
 			</Form>
 		</>
 	);
+}
+{
+	/* <Button
+								onClick={() =>
+									dispatch({ type: 'OPEN_MODAL', dimmer: 'blurring' })
+								}>
+								Add Asset
+							</Button>
+
+							
+							<Modal
+								dimmer={dimmer}
+								open={open}
+								onClose={() => dispatch({ type: 'CLOSE_MODAL' })}>
+								<Modal.Header>Use Google's location service?</Modal.Header>
+								<Modal.Content>
+									Let Google help apps determine location. This means sending
+									anonymous location data to Google, even when no apps are
+									running.
+								</Modal.Content>
+								<Modal.Actions>
+									<Button
+										negative
+										onClick={() => dispatch({ type: 'CLOSE_MODAL' })}>
+										Cancel
+									</Button>
+									<Button
+										positive
+										onClick={() => dispatch({ type: 'CLOSE_MODAL' })}>
+										Add
+									</Button>
+								</Modal.Actions>
+							</Modal> */
 }

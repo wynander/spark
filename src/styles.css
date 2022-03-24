@@ -61,8 +61,6 @@ button {
 	width: 100%;
 	margin: 0.25rem auto;
 	border-radius: 4px;
-	padding: 0.5rem 2rem 0.5rem;
-	background: var(--input-background);
 }
 
 .focus-input:after {
@@ -122,17 +120,11 @@ button {
 	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: start;
 	min-height: 100vh;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-	background-image: radial-gradient(
-		circle at 0% 0%,
-		#373b52,
-		#252736 40%,
-		#1d1e26
-	);
 }
 
 .section {
@@ -147,19 +139,20 @@ button {
 	min-width: 30vw;
 	justify-content: start;
 	margin: 1rem;
+	margin-top: 1rem;
 }
 
 .plot-div {
-	background-color: var(--input-background);
 	margin-left: 1rem;
 	margin-right: 1rem;
 	border-radius: 5px;
-	min-width: 60vw;
+	min-width: 60%;
 	padding: 2rem;
 }
 
 canvas {
-	height: 100%;
+	height: 100% !important;
+	width: 100% !important;
 }
 
 .button-container {
@@ -173,14 +166,18 @@ canvas {
 	padding: 0px 10px;
 	border-radius: 5px;
 	flex: 1;
+	margin-right: 0rem;
+	margin-left: 0.1rem;
+	border: 1px solid rgba(44, 44, 44, 0.1);
 }
 .button-container button:hover {
-	background-color: blueviolet;
+	background-color: rgb(216, 216, 216);
 }
 
 .bi {
 	height: 1.6rem;
 	width: 1.8rem;
+	fill: #a73c2e;
 }
 
 .advanced-button {
@@ -196,4 +193,33 @@ canvas {
 	height: 2rem;
 	margin: 0 1rem;
 	border: 1px solid red;
+}
+
+.ui.menu.fixed {
+	position: relative !important;
+}
+.plot-section {
+	height: 80vh;
+	width: 80vw;
+	display: flex;
+}
+
+.main-segment {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+}
+
+.button {
+	margin-top: 2rem !important;
+	width: 15rem;
+	text-align: center;
+}
+
+@media only screen and (min-width: 1200px) {
+	.ui.container {
+		width: 80vw !important;
+		margin-left: auto !important;
+		margin-right: auto !important;
+	}
 }

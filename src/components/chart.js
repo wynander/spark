@@ -55,7 +55,7 @@ export default function Chart({ data, retirementPoint }) {
 					color: '#7881a1',
 				},
 				grid: {
-					color: 'rgba(87,87,87,.5)',
+					color: 'rgba(87,87,87,.08)',
 				},
 			},
 			y: {
@@ -65,7 +65,7 @@ export default function Chart({ data, retirementPoint }) {
 					color: '#7881a1',
 				},
 				grid: {
-					color: 'rgba(87,87,87,.5)',
+					color: 'rgba(87,87,87,.08)',
 				},
 			},
 		},
@@ -98,7 +98,7 @@ export default function Chart({ data, retirementPoint }) {
 			title: {
 				display: true,
 				text: 'Portfolio Value Over Time',
-				color: '#bfd2ff',
+				color: '#1b1c1d',
 				font: {
 					size: '20px',
 				},
