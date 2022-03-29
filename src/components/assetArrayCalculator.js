@@ -1,81 +1,115 @@
-export default function useAssetArrayCalculator(userSetVal, labels) {
-	let eventIdx = 20;
-	let savingsUsed = 60000; //$
-	let otherCashUsed = 40000; //$
-	let totalPrice = 500000; //$
-	let amountFinanced = totalPrice - otherCashUsed - savingsUsed;
-	let financeTerm = 30; //years
-	let financeRate = 0.04; //%
-	let assetAppreciation = 1.02; //%
-	let cashOnCashReturn = 0.1; //%
-	let cashOnCashAppreciation = 1.02;
-	let ownershipLength = 10; //years
-	let assetSalePrice = 800000;
-	let assetPricePortfolioEffect = new Array(labels.length);
-	let assetCashFlowEffect = new Array(labels.length);
-	let assetEquityAppreciationEffect = new Array(labels.length);
-	let assetEquityPaydownEffect = new Array(labels.length);
-	let assetSalePortfolioEffect = new Array(labels.length);
+export default function assetArrayCalculator(
+	userSetVal,
+	labels,
+	assetValuesParsed,
+	assetCount
+) {
+	labels = labels ? labels : []; //handle error boundary if assets are added without base user info
 
-	for (let i = 0; i < labels.length; ++i) {
-		assetPricePortfolioEffect[i] = 0;
-		assetCashFlowEffect[i] = 0;
-		assetEquityPaydownEffect[i] = 0;
-		assetEquityAppreciationEffect[i] = 0;
-		assetSalePortfolioEffect[i] = 0;
-	}
-	let balance = [amountFinanced];
-	let getTotalPayedDown = [0];
-	let yearlyPayment =
-		12 *
-		amountFinanced *
-		(financeRate /
-			12 /
-			(1 - Math.pow(1 + financeRate / 12, -financeTerm * 12)));
+	if (assetCount > 0) {
+		let assetArrays = new Array(assetValuesParsed.length);
 
-	for (let i = 1; i < ownershipLength; i++) {
-		let thisYearInterestPayment = balance[i - 1] * financeRate;
-		balance.push(balance[i - 1] - yearlyPayment + thisYearInterestPayment);
-		getTotalPayedDown.push(amountFinanced - balance[i]);
-	}
+		for (let assetNum = 0; assetNum < assetValuesParsed.length; assetNum++) {
+			let eventIdx = labels.findIndex(
+				(item) => item === assetValuesParsed[assetNum].purchaseYear
+			);
+			let otherCashUsed =
+				assetValuesParsed[assetNum].totalCost -
+				assetValuesParsed[assetNum].amountFinanced -
+				assetValuesParsed[assetNum].savingsUsed; //$
+			let cashOnCashAppreciation = 1.02;
+			let assetPricePortfolioEffect = new Array(labels.length),
+				assetCashFlowEffect = new Array(labels.length),
+				assetEquityAppreciationEffect = new Array(labels.length),
+				assetEquityPaydownEffect = new Array(labels.length),
+				assetSalePortfolioEffect = new Array(labels.length);
 
-	for (let i = eventIdx; i < eventIdx + ownershipLength; i++) {
-		//assess cash flow accumulation / return assuming it is invested w/ returns matching inflation
-		assetCashFlowEffect[i] =
-			i - eventIdx === 0
-				? 0 //if it is the year that it is bought, no cash flow shown until next year
-				: (savingsUsed + otherCashUsed) *
-						cashOnCashReturn *
-						Math.pow(cashOnCashAppreciation, i - eventIdx - 1) +
-				  assetCashFlowEffect[i - 1] * userSetVal.yearlyInflation;
-		//assess how the asset appreciates over time
-		assetEquityAppreciationEffect[i] =
-			totalPrice * Math.pow(assetAppreciation, i - eventIdx) -
-			amountFinanced -
-			(otherCashUsed + savingsUsed);
-		//calculate asset loan paydown per year
-		assetEquityPaydownEffect[i] = getTotalPayedDown[i - eventIdx];
-	}
+			for (let i = 0; i < labels.length; ++i) {
+				assetPricePortfolioEffect[i] = 0;
+				assetCashFlowEffect[i] = 0;
+				assetEquityPaydownEffect[i] = 0;
+				assetEquityAppreciationEffect[i] = 0;
+				assetSalePortfolioEffect[i] = 0;
+			}
+			let balance = [assetValuesParsed[assetNum].amountFinanced];
+			let getTotalPayedDown = [0];
+			let yearlyPayment =
+				assetValuesParsed[assetNum].amountFinanced *
+				(assetValuesParsed[assetNum].financeRate /
+					100 /
+					(1 -
+						Math.pow(
+							1 + assetValuesParsed[assetNum].financeRate / 100 / 12,
+							-assetValuesParsed[assetNum].financeTerm * 12
+						)));
 
-	for (let i = eventIdx; i < assetPricePortfolioEffect.length; i++) {
-		//assess how spending of savings affects portfolio value over time
-		assetPricePortfolioEffect[i] =
-			savingsUsed * Math.pow(1 + userSetVal.getNormalizedReturn, i - eventIdx);
-		if (i >= eventIdx + ownershipLength && assetSalePrice) {
-			//assess how the cash from sale of asset affects portfolio over time
-			assetSalePortfolioEffect[i] =
-				assetSalePrice *
-				Math.pow(
-					1 + userSetVal.getNormalizedReturn,
-					i - eventIdx - ownershipLength
+			for (let i = 1; i < assetValuesParsed[assetNum].ownershipLength; i++) {
+				let thisYearInterestPayment =
+					(balance[i - 1] * assetValuesParsed[assetNum].financeRate) / 100;
+
+				balance.push(balance[i - 1] - yearlyPayment + thisYearInterestPayment);
+				getTotalPayedDown.push(
+					assetValuesParsed[assetNum].amountFinanced - balance[i]
 				);
+			}
+
+			for (
+				let i = eventIdx;
+				i < eventIdx + assetValuesParsed[assetNum].ownershipLength;
+				i++
+			) {
+				//assess cash flow accumulation / return assuming it is invested w/ returns matching inflation
+				assetCashFlowEffect[i] =
+					i - eventIdx === 0
+						? 0 //if it is the year that it is bought, no cash flow shown until next year
+						: (assetValuesParsed[assetNum].savingsUsed + otherCashUsed) *
+								(assetValuesParsed[assetNum].cocReturn / 100) *
+								Math.pow(cashOnCashAppreciation, i - eventIdx - 1) +
+						  assetCashFlowEffect[i - 1];
+				//calculate appreciation per year
+				assetEquityAppreciationEffect[i] =
+					assetValuesParsed[assetNum].totalCost *
+						Math.pow(
+							1 + assetValuesParsed[assetNum].appreciationRate / 100,
+							i - eventIdx
+						) -
+					assetValuesParsed[assetNum].amountFinanced -
+					(otherCashUsed + assetValuesParsed[assetNum].savingsUsed);
+				//calculate asset loan paydown per year
+				assetEquityPaydownEffect[i] = getTotalPayedDown[i - eventIdx];
+			}
+
+			for (let i = eventIdx; i < assetPricePortfolioEffect.length; i++) {
+				//calculate opportunity loss for savings used on purchasing asset
+				assetPricePortfolioEffect[i] =
+					assetValuesParsed[assetNum].savingsUsed *
+					Math.pow(1 + userSetVal.getNormalizedReturn, i - eventIdx);
+				if (
+					i >= eventIdx + assetValuesParsed[assetNum].ownershipLength &&
+					assetValuesParsed[assetNum].salesPrice
+				) {
+					//assess how the cash from sale of asset affects portfolio over time
+					assetSalePortfolioEffect[i] =
+						assetValuesParsed[assetNum].salesPrice *
+						Math.pow(
+							1 + userSetVal.getNormalizedReturn,
+							i - eventIdx - assetValuesParsed[assetNum].ownershipLength
+						);
+				}
+			}
+
+			assetArrays[assetNum] = {
+				id: assetNum + 1,
+				assetSalePortfolioEffect,
+				assetPricePortfolioEffect,
+				assetCashFlowEffect,
+				assetEquityAppreciationEffect,
+				assetEquityPaydownEffect,
+			};
 		}
+		return assetArrays;
+	} else {
+		let assetArrays = [];
+		return assetArrays;
 	}
-	return {
-		assetSalePortfolioEffect,
-		assetPricePortfolioEffect,
-		assetCashFlowEffect,
-		assetEquityAppreciationEffect,
-		assetEquityPaydownEffect,
-	};
 }

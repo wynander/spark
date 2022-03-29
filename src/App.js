@@ -1,38 +1,53 @@
-import './styles.css';
-import UserInputFieldsAdvanced from './components/userInputFieldsAdvanced';
-import UserInputFieldsDefault from './components/userInputFieldsDefault';
 import React from 'react';
-import PlotContainer from './components/plotContainer.js';
 import {
+	Button,
 	Container,
-	Accordion,
-	Divider,
 	Dropdown,
-	Grid,
-	Header,
 	Image,
-	List,
 	Menu,
 	Segment,
-	Button,
-	Modal,
+	Icon,
 } from 'semantic-ui-react';
+import AddAssetModal from './components/addAssetModal.js';
+import PlotContainer from './components/plotContainer.js';
+import UserInputFieldsAdvanced from './components/userInputFieldsAdvanced';
+import UserInputFieldsDefault from './components/userInputFieldsDefault';
 import myImg from './logo.png';
-import CurrencyInput from 'react-currency-input-field';
+import './styles.css';
 
 function exampleReducer(state, action) {
 	switch (action.type) {
 		case 'OPEN_MODAL':
-			return { open: true, dimmer: action.dimmer };
+			return { ...state, open: true };
 		case 'CLOSE_MODAL':
-			return { open: false };
+			return { ...state, open: false };
+		case 'ADD_ASSET':
+			return { ...state, open: false, assetCount: state.assetCount + 1 };
+		case 'REMOVE_ASSET':
+			return { ...state, open: false, assetCount: state.assetCount - 1 };
 		default:
 			throw new Error();
 	}
 }
 
+const initialModalInputState = {
+	id: '',
+	purchaseYear: '',
+	totalCost: '',
+	amountFinanced: '',
+	savingsUsed: '',
+	financeTerm: '',
+	financeRate: '',
+	appreciationRate: '',
+	cocReturn: '',
+	ownershipLength: '',
+	salesPrice: '',
+};
+
 export default function App() {
 	const [isAdvanced, setAdvanced] = React.useState(false);
+	const [modalInput, setModalInput] = React.useState(initialModalInputState);
+	const [assetValues, setAssetValues] = React.useState([]);
 	const [userInput, setUserInput] = React.useState({
 		birthYear: '',
 		retirementAge: '',
@@ -48,11 +63,19 @@ export default function App() {
 
 	const [state, dispatch] = React.useReducer(exampleReducer, {
 		open: false,
-		dimmer: undefined,
+		assetCount: 0,
 	});
-	const { open, dimmer } = state;
+	const { open, assetCount } = state;
+	//console.log(state.assetCount);
+	//console.log(modalInput);
 
 	//-----------------------------------------------------------
+
+	const handleClose = () => {
+		dispatch({ type: 'CLOSE_MODAL' });
+		setModalInput(initialModalInputState);
+	};
+
 	const handleInputChange = (value, name) => {
 		if (name === 'birthYear' && value >= 10000) {
 			setUserInput({
@@ -133,6 +156,37 @@ export default function App() {
 		setAdvanced((prevState) => !isAdvanced);
 	};
 
+	const handleSubmit = (event) => {
+		event.preventDefault(event);
+		if (assetValues === undefined) {
+			setAssetValues([modalInput]);
+		} else {
+			setAssetValues([...assetValues, modalInput]);
+		}
+		setModalInput(initialModalInputState);
+		dispatch({ type: 'ADD_ASSET' });
+	};
+
+	const handleChange = (value, name) => {
+		//this only works for the currency inputs because of how they hanble onValueChange events
+		setModalInput({ ...modalInput, [name]: value });
+	};
+
+	const handleNameChange = (e) => {
+		//this is required for standard input HTML elements as 'value' and 'name' cannot be destructured
+		setModalInput({ ...modalInput, [e.target.name]: e.target.value });
+	};
+
+	const removeAsset = (data) => {
+		let temp = [...assetValues];
+		temp.splice(
+			temp.findIndex((assetNum) => assetNum.id === data),
+			1
+		);
+		setAssetValues(temp);
+		dispatch({ type: 'REMOVE_ASSET' });
+	};
+
 	return (
 		<div className="App">
 			<Menu fixed="top" inverted>
@@ -166,9 +220,6 @@ export default function App() {
 				<Segment className="plot-section" style={{ paddingTop: '5em' }}>
 					{isAdvanced ? (
 						<div className="user-form advanced-options">
-							<Button className="advanced-btn button" onClick={handleAdvanced}>
-								- Advanced Options
-							</Button>
 							<UserInputFieldsAdvanced
 								handleInputChange={handleInputChange} //It would be great to make these props an object to be passed
 								handleClickUpSalary={handleClickUpSalary} //
@@ -177,42 +228,34 @@ export default function App() {
 								handleClickDownAge={handleClickDownAge} //
 								userInput={userInput} //
 							/>
-							<Button
-								onClick={() =>
-									dispatch({ type: 'OPEN_MODAL', dimmer: 'blurring' })
-								}>
-								Add Asset
+							<Button className="advanced-btn button" onClick={handleAdvanced}>
+								- Advanced Options
 							</Button>
-							<Modal
-								dimmer={dimmer}
+							<AddAssetModal
+								assetCount={assetCount}
+								handleSubmit={handleSubmit}
+								handleChange={handleChange}
+								handleNameChange={handleNameChange}
+								modalInput={modalInput}
+								dispatch={dispatch}
 								open={open}
-								onClose={() => dispatch({ type: 'CLOSE_MODAL' })}>
-								<Modal.Header>
-									Add an asset purchase to your portfolio
-								</Modal.Header>
-								<Modal.Content>
-									Adding an asset purchase such as real estate can have a
-									positive affect on your portfolio
-								</Modal.Content>
-								<Modal.Actions>
+								handleClose={handleClose}
+							/>
+							{assetValues.length > 0 &&
+								assetValues.map((assetNum, index) => (
 									<Button
-										negative
-										onClick={() => dispatch({ type: 'CLOSE_MODAL' })}>
-										Cancel
+										key={assetNum.id}
+										onClick={() => removeAsset(assetNum.id)}
+										animated="vertical">
+										<Button.Content visible>{assetNum.id}</Button.Content>
+										<Button.Content hidden>
+											<Icon name="delete" />
+										</Button.Content>
 									</Button>
-									<Button
-										positive
-										onClick={() => dispatch({ type: 'CLOSE_MODAL' })}>
-										Add
-									</Button>
-								</Modal.Actions>
-							</Modal>
+								))}
 						</div>
 					) : (
 						<div className="user-form default-options">
-							<Button className="default-btn button" onClick={handleAdvanced}>
-								+ Advanced Options
-							</Button>
 							<UserInputFieldsDefault
 								handleInputChange={handleInputChange}
 								handleClickUpSalary={handleClickUpSalary}
@@ -221,10 +264,17 @@ export default function App() {
 								handleClickDownAge={handleClickDownAge}
 								userInput={userInput}
 							/>
+							<Button className="default-btn button" onClick={handleAdvanced}>
+								+ Advanced Options
+							</Button>
 						</div>
 					)}
 					<Container className="plot-container">
-						<PlotContainer propsInput={userInput} />
+						<PlotContainer
+							assetValues={assetValues}
+							assetCount={assetCount}
+							propsInput={userInput}
+						/>
 					</Container>
 				</Segment>
 			</div>

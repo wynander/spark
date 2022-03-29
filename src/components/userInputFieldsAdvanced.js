@@ -111,7 +111,7 @@ export default function UserInputFieldsAdvanced({
 						className=""
 						suffix="%"
 						allowNegativeValue={false}
-						placeholder={`Change future R.O.I on investments: ${userInput.estimatedROI}%`}
+						placeholder={`Change future R.O.I: ${userInput.estimatedROI}%`}
 						onValueChange={handleInputChange}
 						onFocus={handleFocus}
 						onBlur={handleBlur}

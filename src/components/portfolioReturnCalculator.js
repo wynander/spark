@@ -1,12 +1,12 @@
-import usePlotVariablesCalculator from './plotVariablesCalculator';
+import plotVariablesCalculator from './plotVariablesCalculator';
 let defaultXAxisLength = 50;
 
-export default function usePortfolioReturnCalculator(userSetVal) {
+export default function portfolioReturnCalculator(userSetVal) {
 	const {
 		xAxisLength,
 		startYear,
 		periodUntilRetirement,
-	} = usePlotVariablesCalculator(userSetVal, defaultXAxisLength);
+	} = plotVariablesCalculator(userSetVal, defaultXAxisLength);
 	//--
 	let retirementIndex = periodUntilRetirement.length - 1;
 	const investmentValue = [userSetVal.currentInvestments];

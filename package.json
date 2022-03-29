@@ -1,16 +1,14 @@
 {
-  "name": "react",
+  "name": "spark-asset-fork",
   "version": "1.0.0",
-  "description": "React example starter project",
-  "keywords": [
-    "react",
-    "starter"
-  ],
+  "description": "",
+  "keywords": [],
   "main": "src/index.js",
   "dependencies": {
     "bootstrap-icons": "1.8.1",
     "chart.js": "3.7.1",
     "chartjs-plugin-annotation": "1.4.0",
+    "chartjs-plugin-zoom": "1.2.1",
     "react": "17.0.2",
     "react-chartjs-2": "4.0.1",
     "react-currency-input-field": "3.6.4",

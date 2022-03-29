@@ -1,18 +1,21 @@
-import React from 'react';
 import {
-	Chart as ChartJS,
 	CategoryScale,
+	Chart as ChartJS,
+	Filler,
+	Legend,
 	LinearScale,
-	PointElement,
 	LineElement,
+	PointElement,
 	Title,
 	Tooltip,
-	Legend,
 } from 'chart.js';
-import { Line } from 'react-chartjs-2';
 import annotationPlugin from 'chartjs-plugin-annotation';
+import zoomPlugin from 'chartjs-plugin-zoom';
+import React from 'react';
+import { Line } from 'react-chartjs-2';
 
 ChartJS.register(
+	Filler,
 	CategoryScale,
 	LinearScale,
 	PointElement,
@@ -20,7 +23,8 @@ ChartJS.register(
 	Title,
 	Tooltip,
 	Legend,
-	annotationPlugin
+	annotationPlugin,
+	zoomPlugin
 );
 
 // export const annotation = {
@@ -45,7 +49,7 @@ ChartJS.register(
 // 	yValue: (ctx) => maxValue(ctx),
 // };
 
-export default function Chart({ data, retirementPoint }) {
+export default function Chart({ data }) {
 	const options = {
 		responsive: true,
 		maintainAspectRatio: false,
@@ -79,25 +83,40 @@ export default function Chart({ data, retirementPoint }) {
 					},
 				},
 			},
+			zoom: {
+				zoom: {
+					drag: {
+						enabled: true,
+					},
+					mode: 'x',
+
+					wheel: {
+						enabled: true,
+					},
+					pinch: {
+						enabled: true,
+					},
+				},
+			},
 			annotation: {
 				annotations: {
 					// 		annotation,
-					point1: {
-						type: 'point',
-						xValue: (context, opts) => {
-							return retirementPoint[0];
-						},
-						yValue: retirementPoint[1],
-						backgroundColor: '#b6412d',
-						drawTime: 'afterDraw',
-						radius: '4',
-						borderColor: '#b6412d',
-					},
+					// point1: {
+					// 	type: 'point',
+					// 	xValue: (context, opts) => {
+					// 		return retirementPoint[0];
+					// 	},
+					// 	yValue: retirementPoint[1],
+					// 	backgroundColor: '#b6412d',
+					// 	drawTime: 'afterDraw',
+					// 	radius: '4',
+					// 	borderColor: '#b6412d',
+					// },
 				},
 			},
 			title: {
 				display: true,
-				text: 'Portfolio Value Over Time',
+				text: 'Projected Portfolio Value Over Time',
 				color: '#1b1c1d',
 				font: {
 					size: '20px',
@@ -105,5 +124,9 @@ export default function Chart({ data, retirementPoint }) {
 			},
 		},
 	};
-	return <Line data={data} options={options} />;
+	//console.log(data);
+
+	return (
+		<Line datasetIdKey="id" data={data} options={options} redraw={false} />
+	);
 }

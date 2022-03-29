@@ -142,19 +142,17 @@ button {
 	margin-top: 1rem;
 }
 
-.plot-div {
-	margin-left: 1rem;
-	margin-right: 1rem;
-	border-radius: 5px;
-	min-width: 60%;
-	padding: 2rem;
-}
-
 canvas {
 	height: 100% !important;
 	width: 100% !important;
 }
-
+.plot-container {
+	max-height: 80vh;
+	padding-bottom: 1rem;
+}
+.user-form {
+	padding-top: 4.5rem;
+}
 .button-container {
 	display: flex;
 	flex-direction: column;
@@ -199,9 +197,9 @@ canvas {
 	position: relative !important;
 }
 .plot-section {
-	height: 80vh;
 	width: 80vw;
 	display: flex;
+	padding-top: 3em !important;
 }
 
 .main-segment {
@@ -211,7 +209,7 @@ canvas {
 }
 
 .button {
-	margin-top: 2rem !important;
+	margin-top: 1rem !important;
 	width: 15rem;
 	text-align: center;
 }

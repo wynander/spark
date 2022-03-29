@@ -1,4 +1,4 @@
-export default function usePlotVariablesCalculator(
+export default function plotVariablesCalculator(
 	userSetVal,
 	defaultXAxisLength
 ) {

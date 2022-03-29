@@ -1,84 +1,207 @@
 import Chart from './chart.js';
-import usePortfolioReturnCalculator from './portfolioReturnCalculator';
-import useAssetArrayCalculator from './assetArrayCalculator';
+import portfolioReturnCalculator from './portfolioReturnCalculator';
+import assetArrayCalculator from './assetArrayCalculator';
+import React from 'react';
 
-export default function PlotContainer({ propsInput }) {
-	const { userSetVal } = usePropsParseFloat(propsInput); //parse Prop strings to floats so that these variables have number values
+export default function PlotContainer({ assetValues, assetCount, propsInput }) {
+	//turn assetValues into datasets w/ factory function
+	//append them to the default datasets variable,
+	//change default portfolio data to adjusted to show change w/ assets
 
-	const {
-		investmentValue,
-		//InvestmentGainsData,
-		retirementDraw,
-		labels,
-		retirementIndex,
-	} = usePortfolioReturnCalculator(userSetVal);
+	let data = React.useMemo(() => {
+		const { userSetVal } = propsParseInt(propsInput); //parse Prop strings to floats so that these variables have number values
+		const assetValuesParsed = assetParseFloat(assetValues);
+		const {
+			investmentValue,
+			retirementDraw,
+			labels,
+			retirementIndex,
+		} = portfolioReturnCalculator(userSetVal);
 
-	//--------------------------------------------------------------Test for Asset Purchase-----
+		let portfolioValue = investmentValue.map((item, index) => {
+			return item + retirementDraw[index];
+		});
 
-	// const {
-	// 	assetSalePortfolioEffect,
-	// 	assetPricePortfolioEffect,
-	// 	assetCashFlowEffect,
-	// 	assetEquityAppreciationEffect,
-	// 	assetEquityPaydownEffect,
-	// } = useAssetArrayCalculator(userSetVal, labels);
-	//----------------------------------------------------------------------------------------
-
-	// conditional to return 0 when asset not added
-	let portfolioValue = investmentValue.map((item, index) => {
-		return item + retirementDraw[index];
-	});
-
-	let tempPortfolioValue = portfolioValue.map((item, index) => {
-		let temp = item;
-		// item -
-		// assetPricePortfolioEffect[index] +
-		// assetCashFlowEffect[index] +
-		// assetEquityAppreciationEffect[index] +
-		// assetEquityPaydownEffect[index] +
-		// assetSalePortfolioEffect[index];
-		return temp > 0 ? temp : 0;
-	});
-
-	const data = {
-		labels: labels,
-		datasets: [
+		let datasets = [
 			{
+				id: '0',
 				label: 'Portfolio Value',
-				data: tempPortfolioValue,
+				data: portfolioValue,
 				borderColor: '#b6412d',
-				backgroundColor: 'rgba(182, 65, 45,1)',
+				fill: true,
+				backgroundColor: 'rgba(80, 80, 80,.3)',
 				radius: '0',
+				key: new Date(),
 			},
-			// {
-			// 	label: 'Investment Value',
-			// 	data: portfolioValue,
-			// 	borderColor: 'rgba(44, 44, 44, 1)',
-			// 	backgroundColor: 'rgba(44, 44, 44, 1)',
-			// 	radius: '0',
-			// },
-		],
-	};
+		];
 
-	//chart.js event on click
-	let retirementY = tempPortfolioValue[retirementIndex]
-		? tempPortfolioValue[retirementIndex]
-		: 0;
-	let retirementPoint = [
-		retirementIndex > 0 ? retirementIndex : -5,
-		retirementY,
-	];
+		const data = {
+			labels: labels,
+			datasets: datasets,
+		};
+
+		const assetArrays = assetArrayCalculator(
+			userSetVal,
+			labels,
+			assetValuesParsed,
+			assetCount
+		);
+
+		let assetTotals = {
+			pricePortfolioEffect: [],
+			salePortfolioEffect: [],
+			cashFlowEffect: [],
+			equityAppreciationEffect: [],
+			equityPaydownEffect: [],
+		};
+
+		if (assetValues.length) {
+			//sum the asset arrays to get cumulative effects
+			for (let i = 0; i < labels.length; i++) {
+				assetTotals.pricePortfolioEffect[i] = assetArrays
+					.map((item) => item.assetPricePortfolioEffect[i])
+					.reduce((prev, next) => prev + next);
+				assetTotals.salePortfolioEffect[i] = assetArrays
+					.map((item) => item.assetSalePortfolioEffect[i])
+					.reduce((prev, next) => prev + next);
+				assetTotals.cashFlowEffect[i] = assetArrays
+					.map((item) => item.assetCashFlowEffect[i])
+					.reduce((prev, next) => prev + next);
+				assetTotals.equityAppreciationEffect[i] = assetArrays
+					.map((item) => item.assetEquityAppreciationEffect[i])
+					.reduce((prev, next) => prev + next);
+				assetTotals.equityPaydownEffect[i] = assetArrays
+					.map((item) => item.assetEquityPaydownEffect[i])
+					.reduce((prev, next) => prev + next);
+			}
+		}
+
+		let tempPortfolioValue = portfolioValue.map((item, index) => {
+			let temp =
+				item -
+				assetTotals.pricePortfolioEffect[index] +
+				assetTotals.cashFlowEffect[index] +
+				assetTotals.equityAppreciationEffect[index] +
+				assetTotals.equityPaydownEffect[index] +
+				assetTotals.salePortfolioEffect[index];
+			return temp;
+		});
+
+		let assetsPortfolioValue = portfolioValue.map((item, index) => {
+			let temp =
+				assetTotals.cashFlowEffect[index] +
+				assetTotals.equityAppreciationEffect[index] +
+				assetTotals.equityPaydownEffect[index] +
+				assetTotals.salePortfolioEffect[index] -
+				assetTotals.pricePortfolioEffect[index];
+			return temp;
+		});
+
+		let temp = datasets;
+
+		let dataColor = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+
+		let safeDraw = new Array(labels.length),
+			unsafeDraw = new Array(labels.length);
+		if (assetCount !== 0) {
+			temp[0].label = 'Adjusted Portfolio Value';
+			temp[0].data = tempPortfolioValue;
+
+			if (retirementIndex) {
+				for (let i = 0; i < labels.length; i++) {
+					if (i >= retirementIndex) {
+						safeDraw[i] =
+							tempPortfolioValue[retirementIndex] *
+							1.04 ** (i - retirementIndex);
+						unsafeDraw[i] =
+							tempPortfolioValue[retirementIndex] *
+							1.02 ** (i - retirementIndex);
+					} else {
+						safeDraw[i] = tempPortfolioValue[i];
+						unsafeDraw[i] = tempPortfolioValue[i];
+					}
+				}
+			}
+			temp.push({
+				id: 'safeDraw',
+				label: 'Very Safe Retirement Draw',
+				data: safeDraw,
+				borderColor: '#36964d',
+				fill: true,
+				backgroundColor: 'rgba(182, 65, 45,0)',
+				borderDash: [10, 10],
+				radius: '0',
+				key: new Date(),
+			});
+			temp.push({
+				id: 'unsafeDraw',
+				label: 'Unsafe Retirement Draw',
+				data: unsafeDraw,
+				borderDash: [10, 10],
+				borderColor: '#964336',
+				fill: true,
+				backgroundColor: 'rgba(182, 65, 45,0)',
+				radius: '0',
+				key: new Date(),
+			});
+			datasets = temp;
+			return data;
+		} else {
+			if (retirementIndex) {
+				for (let i = 0; i < labels.length; i++) {
+					if (i >= retirementIndex) {
+						safeDraw[i] =
+							portfolioValue[retirementIndex] *
+							(1 + (userSetVal.getNormalizedReturn - 0.03)) **
+								(i - retirementIndex);
+						unsafeDraw[i] =
+							portfolioValue[retirementIndex] *
+							(1 + (userSetVal.getNormalizedReturn - 0.05)) **
+								(i - retirementIndex);
+					} else {
+						safeDraw[i] = portfolioValue[i];
+						unsafeDraw[i] = portfolioValue[i];
+					}
+				}
+				temp.push({
+					id: 'safeDraw',
+					label: 'Safe Retirement Draw',
+					data: safeDraw,
+					borderColor: '#36964d',
+					fill: true,
+					backgroundColor: 'rgba(182, 65, 45,0)',
+					borderDash: [10, 10],
+					radius: '0',
+					key: new Date(),
+				});
+				temp.push({
+					id: 'unsafeDraw',
+					label: 'Unsafe Retirement Draw',
+					data: unsafeDraw,
+					borderDash: [10, 10],
+					borderColor: '#964336',
+					fill: true,
+					backgroundColor: 'rgba(182, 65, 45,0)',
+					radius: '0',
+					key: new Date(),
+				});
+			}
+
+			datasets = temp;
+			return data;
+		}
+	}, [propsInput, assetCount, assetValues]);
 
 	return (
 		<>
-			<Chart data={data} retirementPoint={retirementPoint} />
+			<Chart data={data} />
 		</>
 	);
 
 	//-----------------Functions--------------------------------
 }
 
-function usePropsParseFloat(propsInput) {
+function propsParseInt(propsInput) {
 	let userSetVal = {};
 	userSetVal.birthYear = parseInt(propsInput.birthYear, 10);
 	userSetVal.retirementAge = parseInt(propsInput.retirementAge, 10);
@@ -95,4 +218,14 @@ function usePropsParseFloat(propsInput) {
 	return {
 		userSetVal,
 	};
+}
+
+function assetParseFloat(assetValues) {
+	let assetValuesParsed = assetValues.map((entry) =>
+		Object.entries(entry).reduce(
+			(obj, [key, value]) => ((obj[key] = parseFloat(value)), obj),
+			{}
+		)
+	);
+	return assetValuesParsed;
 }
