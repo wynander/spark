@@ -7,4 +7,4 @@ spark has the functionality to add and remove assets from your portfolio using s
 
 This project is developed using **React**, **Chart.js**, **Formik**, and **Semantic UI**. 
 
-Future additions: User stored portfolio projections, asset database, landing page explaining the method of projection
+Future additions: Reorganize business logic, add user stored portfolio projections, asset database, landing page explaining the method of projection
