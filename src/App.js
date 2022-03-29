@@ -37,7 +37,7 @@ export default function App() {
 		birthYear: '',
 		retirementAge: '',
 		netMonthlyIncome: '',
-		yearlyRaise: '4',
+		yearlyRaise: '3',
 		netSavingsRate: '',
 		currentInvestments: '',
 		estimatedROI: '10',
