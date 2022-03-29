@@ -30,23 +30,8 @@ function exampleReducer(state, action) {
 	}
 }
 
-const initialModalInputState = {
-	id: '',
-	purchaseYear: '',
-	totalCost: '',
-	amountFinanced: '',
-	savingsUsed: '',
-	financeTerm: '',
-	financeRate: '',
-	appreciationRate: '',
-	cocReturn: '',
-	ownershipLength: '',
-	salesPrice: '',
-};
-
 export default function App() {
 	const [isAdvanced, setAdvanced] = React.useState(false);
-	const [modalInput, setModalInput] = React.useState(initialModalInputState);
 	const [assetValues, setAssetValues] = React.useState([]);
 	const [userInput, setUserInput] = React.useState({
 		birthYear: '',
@@ -70,11 +55,6 @@ export default function App() {
 	//console.log(modalInput);
 
 	//-----------------------------------------------------------
-
-	const handleClose = () => {
-		dispatch({ type: 'CLOSE_MODAL' });
-		setModalInput(initialModalInputState);
-	};
 
 	const handleInputChange = (value, name) => {
 		if (name === 'birthYear' && value >= 10000) {
@@ -156,25 +136,10 @@ export default function App() {
 		setAdvanced((prevState) => !isAdvanced);
 	};
 
-	const handleSubmit = (event) => {
-		event.preventDefault(event);
-		if (assetValues === undefined) {
-			setAssetValues([modalInput]);
-		} else {
-			setAssetValues([...assetValues, modalInput]);
-		}
-		setModalInput(initialModalInputState);
+	const handleSubmit = (values) => {
+		console.log(values);
 		dispatch({ type: 'ADD_ASSET' });
-	};
-
-	const handleChange = (value, name) => {
-		//this only works for the currency inputs because of how they hanble onValueChange events
-		setModalInput({ ...modalInput, [name]: value });
-	};
-
-	const handleNameChange = (e) => {
-		//this is required for standard input HTML elements as 'value' and 'name' cannot be destructured
-		setModalInput({ ...modalInput, [e.target.name]: e.target.value });
+		setAssetValues([...assetValues, values]);
 	};
 
 	const removeAsset = (data) => {
@@ -196,24 +161,8 @@ export default function App() {
 						spark
 					</Menu.Item>
 					<Menu.Item as="a">Home</Menu.Item>
-
-					<Dropdown item simple text="Dropdown">
-						<Dropdown.Menu>
-							<Dropdown.Item>List Item</Dropdown.Item>
-							<Dropdown.Item>List Item</Dropdown.Item>
-							<Dropdown.Divider />
-							<Dropdown.Header>Header Item</Dropdown.Header>
-							<Dropdown.Item>
-								<i className="dropdown icon" />
-								<span className="text">Submenu</span>
-								<Dropdown.Menu>
-									<Dropdown.Item>List Item</Dropdown.Item>
-									<Dropdown.Item>List Item</Dropdown.Item>
-								</Dropdown.Menu>
-							</Dropdown.Item>
-							<Dropdown.Item>List Item</Dropdown.Item>
-						</Dropdown.Menu>
-					</Dropdown>
+					<Menu.Item as="a">Retirement Planner</Menu.Item>
+					<Menu.Item as="a">Contact</Menu.Item>
 				</Container>
 			</Menu>
 			<div className="main-segment">
@@ -234,12 +183,8 @@ export default function App() {
 							<AddAssetModal
 								assetCount={assetCount}
 								handleSubmit={handleSubmit}
-								handleChange={handleChange}
-								handleNameChange={handleNameChange}
-								modalInput={modalInput}
 								dispatch={dispatch}
 								open={open}
-								handleClose={handleClose}
 							/>
 							{assetValues.length > 0 &&
 								assetValues.map((assetNum, index) => (

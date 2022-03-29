@@ -11,6 +11,7 @@ export default function PlotContainer({ assetValues, assetCount, propsInput }) {
 	let data = React.useMemo(() => {
 		const { userSetVal } = propsParseInt(propsInput); //parse Prop strings to floats so that these variables have number values
 		const assetValuesParsed = assetParseFloat(assetValues);
+		console.log('', assetValuesParsed);
 		const {
 			investmentValue,
 			retirementDraw,
@@ -28,8 +29,8 @@ export default function PlotContainer({ assetValues, assetCount, propsInput }) {
 				label: 'Portfolio Value',
 				data: portfolioValue,
 				borderColor: '#b6412d',
-				fill: true,
-				backgroundColor: 'rgba(80, 80, 80,.3)',
+				fill: false,
+				backgroundColor: 'rgba(80, 80, 80,0)',
 				radius: '0',
 				key: new Date(),
 			},
@@ -55,7 +56,8 @@ export default function PlotContainer({ assetValues, assetCount, propsInput }) {
 			equityPaydownEffect: [],
 		};
 
-		if (assetValues.length) {
+		console.log(assetTotals);
+		if (assetValues.length > 0) {
 			//sum the asset arrays to get cumulative effects
 			for (let i = 0; i < labels.length; i++) {
 				assetTotals.pricePortfolioEffect[i] = assetArrays
@@ -127,8 +129,8 @@ export default function PlotContainer({ assetValues, assetCount, propsInput }) {
 				label: 'Very Safe Retirement Draw',
 				data: safeDraw,
 				borderColor: '#36964d',
-				fill: true,
-				backgroundColor: 'rgba(182, 65, 45,0)',
+				fill: '+1',
+				backgroundColor: 'rgba(45, 100, 45,.25)',
 				borderDash: [10, 10],
 				radius: '0',
 				key: new Date(),
@@ -140,7 +142,7 @@ export default function PlotContainer({ assetValues, assetCount, propsInput }) {
 				borderDash: [10, 10],
 				borderColor: '#964336',
 				fill: true,
-				backgroundColor: 'rgba(182, 65, 45,0)',
+				backgroundColor: 'rgba(182, 65, 45,.15)',
 				radius: '0',
 				key: new Date(),
 			});
@@ -168,8 +170,8 @@ export default function PlotContainer({ assetValues, assetCount, propsInput }) {
 					label: 'Safe Retirement Draw',
 					data: safeDraw,
 					borderColor: '#36964d',
-					fill: true,
-					backgroundColor: 'rgba(182, 65, 45,0)',
+					fill: '+1',
+					backgroundColor: 'rgba(45, 100, 45,.25)',
 					borderDash: [10, 10],
 					radius: '0',
 					key: new Date(),
@@ -181,7 +183,7 @@ export default function PlotContainer({ assetValues, assetCount, propsInput }) {
 					borderDash: [10, 10],
 					borderColor: '#964336',
 					fill: true,
-					backgroundColor: 'rgba(182, 65, 45,0)',
+					backgroundColor: 'rgba(182, 65, 45,.15)',
 					radius: '0',
 					key: new Date(),
 				});

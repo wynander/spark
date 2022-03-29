@@ -59,7 +59,7 @@ export default function Chart({ data }) {
 					color: '#7881a1',
 				},
 				grid: {
-					color: 'rgba(87,87,87,.08)',
+					color: 'rgba(87,87,87,.15)',
 				},
 			},
 			y: {
@@ -69,7 +69,7 @@ export default function Chart({ data }) {
 					color: '#7881a1',
 				},
 				grid: {
-					color: 'rgba(87,87,87,.08)',
+					color: 'rgba(87,87,87,.15)',
 				},
 			},
 		},
@@ -113,6 +113,9 @@ export default function Chart({ data }) {
 					// 	borderColor: '#b6412d',
 					// },
 				},
+			},
+			filler: {
+				propagate: false,
 			},
 			title: {
 				display: true,

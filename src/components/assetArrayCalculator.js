@@ -5,7 +5,7 @@ export default function assetArrayCalculator(
 	assetCount
 ) {
 	labels = labels ? labels : []; //handle error boundary if assets are added without base user info
-
+	console.log(assetCount);
 	if (assetCount > 0) {
 		let assetArrays = new Array(assetValuesParsed.length);
 
@@ -13,6 +13,11 @@ export default function assetArrayCalculator(
 			let eventIdx = labels.findIndex(
 				(item) => item === assetValuesParsed[assetNum].purchaseYear
 			);
+			let ownerShipLength =
+				assetValuesParsed[assetNum].ownerShipLength > 0
+					? assetValuesParsed[assetNum].ownerShipLength
+					: labels.length - eventIdx;
+
 			let otherCashUsed =
 				assetValuesParsed[assetNum].totalCost -
 				assetValuesParsed[assetNum].amountFinanced -
@@ -43,21 +48,24 @@ export default function assetArrayCalculator(
 							-assetValuesParsed[assetNum].financeTerm * 12
 						)));
 
-			for (let i = 1; i < assetValuesParsed[assetNum].ownershipLength; i++) {
+			for (let i = 1; i < ownerShipLength; i++) {
 				let thisYearInterestPayment =
 					(balance[i - 1] * assetValuesParsed[assetNum].financeRate) / 100;
-
-				balance.push(balance[i - 1] - yearlyPayment + thisYearInterestPayment);
-				getTotalPayedDown.push(
-					assetValuesParsed[assetNum].amountFinanced - balance[i]
-				);
+				if (i <= assetValuesParsed[assetNum].financeTerm) {
+					balance.push(
+						balance[i - 1] - yearlyPayment + thisYearInterestPayment
+					);
+					getTotalPayedDown.push(
+						assetValuesParsed[assetNum].amountFinanced - balance[i]
+					);
+					console.log('total payed', getTotalPayedDown);
+				} else if (i > assetValuesParsed[assetNum].financeTerm) {
+					balance.push(0);
+					getTotalPayedDown.push(getTotalPayedDown[i - 1]);
+				}
 			}
 
-			for (
-				let i = eventIdx;
-				i < eventIdx + assetValuesParsed[assetNum].ownershipLength;
-				i++
-			) {
+			for (let i = eventIdx; i < eventIdx + ownerShipLength; i++) {
 				//assess cash flow accumulation / return assuming it is invested w/ returns matching inflation
 				assetCashFlowEffect[i] =
 					i - eventIdx === 0
@@ -85,7 +93,7 @@ export default function assetArrayCalculator(
 					assetValuesParsed[assetNum].savingsUsed *
 					Math.pow(1 + userSetVal.getNormalizedReturn, i - eventIdx);
 				if (
-					i >= eventIdx + assetValuesParsed[assetNum].ownershipLength &&
+					i >= eventIdx + ownerShipLength &&
 					assetValuesParsed[assetNum].salesPrice
 				) {
 					//assess how the cash from sale of asset affects portfolio over time
@@ -93,7 +101,7 @@ export default function assetArrayCalculator(
 						assetValuesParsed[assetNum].salesPrice *
 						Math.pow(
 							1 + userSetVal.getNormalizedReturn,
-							i - eventIdx - assetValuesParsed[assetNum].ownershipLength
+							i - eventIdx - ownerShipLength
 						);
 				}
 			}
@@ -109,6 +117,7 @@ export default function assetArrayCalculator(
 		}
 		return assetArrays;
 	} else {
+		console.log('assetCount is 0');
 		let assetArrays = [];
 		return assetArrays;
 	}
