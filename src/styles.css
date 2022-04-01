@@ -219,3 +219,45 @@ canvas {
 .form-main {
 	transition: 1s ease;
 }
+.manage-assets {
+	width: 70vw !important;
+	height: 60vh !important;
+}
+
+.modal-div {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+}
+.asset-properties {
+	flex: 1;
+}
+
+.asset-item {
+	padding: 5px;
+	width: 100% !important;
+}
+.asset-item > .button {
+	width: 100% !important;
+	margin-top: 0px !important;
+}
+.asset-item > .content {
+	width: 100%;
+	padding: 1rem;
+}
+
+.asset-item > .content > .header {
+	width: 100%;
+}
+
+.meta > span {
+	padding: 5px;
+	display: block;
+}
+
+.asset-list-sidebar {
+	height: 100%;
+	overflow-y: scroll;
+	max-width: 20%;
+}

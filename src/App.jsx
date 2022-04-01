@@ -1,14 +1,106 @@
 import React from 'react';
-import { Button, Container, Image, Menu, Segment } from 'semantic-ui-react';
+import { Container, Image, Menu, Segment } from 'semantic-ui-react';
 import AddAssetModal from './components/addAssetModal';
+import AssetList from './components/AssetList';
 import PlotContainer from './components/plotContainer';
 import UserInputFieldsAdvanced from './components/userInputFieldsAdvanced';
-import AssetList from './components/AssetList'
 import myImg from './logo.png';
 import './styles.css';
 
 export default function App() {
-	const [assetValues, setAssetValues] = React.useState([]);
+	const [assetValues, setAssetValues] = React.useState([
+		{
+			id: 'zeroth',
+			purchaseYear: '2030',
+			totalCost: '100000',
+			amountFinanced: '80000',
+			savingsUsed: '20000',
+			financeTerm: '30',
+			financeRate: '4.5',
+			appreciationRate: '2',
+			cocReturn: '10',
+			ownershipLength: '',
+			salesPrice: '',
+		},
+		{
+			id: 'first',
+			purchaseYear: '2030',
+			totalCost: '10000000',
+			amountFinanced: '80000',
+			savingsUsed: '20000',
+			financeTerm: '30',
+			financeRate: '4.5',
+			appreciationRate: '2',
+			cocReturn: '10',
+			ownershipLength: '',
+			salesPrice: '',
+		},
+		{
+			id: 'second',
+			purchaseYear: '2030',
+			totalCost: '100000',
+			amountFinanced: '80000',
+			savingsUsed: '20000',
+			financeTerm: '30',
+			financeRate: '4.5',
+			appreciationRate: '2',
+			cocReturn: '10',
+			ownershipLength: '',
+			salesPrice: '',
+		},
+		{
+			id: 'third',
+			purchaseYear: '2030',
+			totalCost: '100000',
+			amountFinanced: '80000',
+			savingsUsed: '20000',
+			financeTerm: '30',
+			financeRate: '4.5',
+			appreciationRate: '2',
+			cocReturn: '10',
+			ownershipLength: '',
+			salesPrice: '',
+		},
+		{
+			id: 'third',
+			purchaseYear: '2030',
+			totalCost: '100000',
+			amountFinanced: '80000',
+			savingsUsed: '20000',
+			financeTerm: '30',
+			financeRate: '4.5',
+			appreciationRate: '2',
+			cocReturn: '10',
+			ownershipLength: '',
+			salesPrice: '',
+		},
+		{
+			id: 'third',
+			purchaseYear: '2030',
+			totalCost: '100000',
+			amountFinanced: '80000',
+			savingsUsed: '20000',
+			financeTerm: '30',
+			financeRate: '4.5',
+			appreciationRate: '2',
+			cocReturn: '10',
+			ownershipLength: '',
+			salesPrice: '',
+		},
+		{
+			id: 'third',
+			purchaseYear: '2030',
+			totalCost: '100000',
+			amountFinanced: '80000',
+			savingsUsed: '20000',
+			financeTerm: '30',
+			financeRate: '4.5',
+			appreciationRate: '2',
+			cocReturn: '10',
+			ownershipLength: '',
+			salesPrice: '',
+		},
+	]);
 	const [userInput, setUserInput] = React.useState({
 		birthYear: '',
 		retirementAge: '',
@@ -110,12 +202,18 @@ export default function App() {
 		setAssetValues([...assetValues, values]);
 	};
 
-	const removeAsset = (data) => {
+	const removeAsset = (id) => {
 		let temp = [...assetValues];
 		temp.splice(
-			temp.findIndex((assetNum) => assetNum.id === data),
+			temp.findIndex((assetNumber) => assetNumber.id === id),
 			1
 		);
+		setAssetValues(temp);
+	};
+
+	const updateAsset = (values, index) => {
+		let temp = [...assetValues];
+		temp[index] = { ...temp[index], ...values };
 		setAssetValues(temp);
 	};
 
@@ -136,24 +234,18 @@ export default function App() {
 				<Segment className="plot-section" style={{ paddingTop: '5em' }}>
 					<div className="user-form advanced-options">
 						<UserInputFieldsAdvanced
-							handleInputChange={handleInputChange} //It would be great to make these props an object to be passed
+							handleInputChange={handleInputChange}
 							handleClickSalary={handleClickSalary}
 							handleClickAge={handleClickAge}
 							userInput={userInput}
 						/>
 						<AddAssetModal handleSubmit={handleSubmit} />
-						<AssetList/>
-						{
-							assetValues.length > 0 && <Button>Show Assets</Button>
-							// assetValues.map((assetNum, index) => (
-							// 	<Button key={assetNum.id} onClick={() => removeAsset(assetNum.id)} animated="vertical">
-							// 		<Button.Content visible>{assetNum.id}</Button.Content>
-							// 		<Button.Content hidden>
-							// 			<Icon name="delete" />
-							// 		</Button.Content>
-							// 	</Button>
-							// ))
-						}
+						<AssetList
+							handleSubmit={handleSubmit}
+							assetValues={assetValues}
+							removeAsset={removeAsset}
+							updateAsset={updateAsset}
+						/>
 					</div>
 					<Container className="plot-container">
 						<PlotContainer assetValues={assetValues} userInput={userInput} />
