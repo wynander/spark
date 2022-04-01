@@ -61,6 +61,7 @@ button {
 	width: 100%;
 	margin: 0.25rem auto;
 	border-radius: 4px;
+	max-height: 40px;
 }
 
 .focus-input:after {
@@ -74,15 +75,7 @@ button {
 	border-bottom-left-radius: 2px;
 	border-bottom-right-radius: 2px;
 	background-position: 0% 0%;
-	background: linear-gradient(
-		to right,
-		#a73c2e,
-		#b6412d,
-		#c25b16,
-		#e66857,
-		#ad480d,
-		#ff7e7e
-	);
+	background: linear-gradient(to right, #a73c2e, #b6412d, #c25b16, #e66857, #ad480d, #ff7e7e);
 	background-size: 500% auto;
 	animation: gradient 3s linear infinite alternate;
 }
@@ -156,7 +149,7 @@ canvas {
 .button-container {
 	display: flex;
 	flex-direction: column;
-	height: 100%;
+	height: auto;
 	justify-content: center;
 }
 
@@ -167,6 +160,7 @@ canvas {
 	margin-right: 0rem;
 	margin-left: 0.1rem;
 	border: 1px solid rgba(44, 44, 44, 0.1);
+	height: 50%;
 }
 .button-container button:hover {
 	background-color: rgb(216, 216, 216);
@@ -210,7 +204,7 @@ canvas {
 
 .button {
 	margin-top: 1rem !important;
-	width: 15rem;
+	width: 13rem !important;
 	text-align: center;
 }
 
@@ -220,4 +214,8 @@ canvas {
 		margin-left: auto !important;
 		margin-right: auto !important;
 	}
+}
+
+.form-main {
+	transition: 1s ease;
 }

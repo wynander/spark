@@ -1,92 +1,41 @@
 import CurrencyInput from 'react-currency-input-field';
 import { Button, Form, Modal, Icon, Label } from 'semantic-ui-react';
 import { ErrorMessage, Formik } from 'formik';
-import * as Yup from 'yup';
+import React from 'react';
+import { assetInputValidationSchema } from './assetInputValidationSchema';
 
-const thisYear = new Date().getFullYear();
-console.log(thisYear);
+const initialValues = {
+	id: '',
+	purchaseYear: '',
+	totalCost: '',
+	amountFinanced: '',
+	savingsUsed: '',
+	financeTerm: '',
+	financeRate: '',
+	appreciationRate: '',
+	cocReturn: '',
+	ownershipLength: '',
+	salesPrice: '',
+}
 
-const modalInputValidationSchema = Yup.object().shape({
-	id: Yup.string().min(1, 'Too Short').max(12, 'Too Long').required('Required'),
-	purchaseYear: Yup.number()
-		.min(thisYear, 'Must be higher than current year')
-		.max(2100, 'Purchase date too far away')
-		.required('Required'),
-	totalCost: Yup.number().positive('Must be positive').required('Required'),
-	amountFinanced: Yup.number()
-		.positive('Must be positive')
-		.required('Required'),
-	savingsUsed: Yup.number().min(0, 'Must be $0 or higher').required('Required'),
-	financeTerm: Yup.number()
-		.positive('Must be positive')
-		.min(1, 'Minimum 1 year term')
-		.max(50, 'Maximum 50 year term')
-		.required('Required'),
-	financeRate: Yup.number()
-		.min(0, 'Minimum 0%')
-		.max(99, 'Maximum 99%')
-		.positive('Must be positive')
-		.required('Required'),
-	appreciationRate: Yup.number()
-		.min(0, 'Minimum 0%')
-		.max(99, 'Maximum 99%')
-		.required('Required'),
-	cocReturn: Yup.number()
-		.min(-99, 'Minimum -99%')
-		.max(99, 'Maximum 99%')
-		.required('Required'),
-	ownershipLength: Yup.number()
-		.min(1, 'Minimum 1 year ')
-		.max(99, 'Maximum 99 Years')
-		.positive('Must be positive'),
-	salesPrice: Yup.number().when('ownershipLength', {
-		is: (ownershipLength) => ownershipLength > 0,
-		then: Yup.number()
-			.min(0, 'Minimum $0')
-			.positive('Must be positive')
-			.required('Required if ownership length is set'),
-	}),
-});
+export default function AddAssetModal({ handleSubmit, handleClose }) {
 
-export default function AddAssetModal({
-	handleSubmit,
-	dispatch,
-	open,
-	handleClose,
-}) {
+	const [open, setOpen] = React.useState(false)
+
 	return (
 		<>
-			<Button onClick={() => dispatch({ type: 'OPEN_MODAL' })}>
-				Add Asset
-			</Button>
-			<Modal dimmer={'blurring'} open={open} onClose={handleClose}>
+			<Button onClick={() => setOpen(prevState => !prevState)}>Add Asset</Button>
+			<Modal dimmer={'blurring'} open={open} onClose={()=> setOpen(prevState => !prevState)}>
 				<Modal.Header>Add an asset purchase to your portfolio</Modal.Header>
 				<Modal.Content>
 					<Formik
-						initialValues={{
-							id: '',
-							purchaseYear: '',
-							totalCost: '',
-							amountFinanced: '',
-							savingsUsed: '',
-							financeTerm: '',
-							financeRate: '',
-							appreciationRate: '',
-							cocReturn: '',
-							ownershipLength: '',
-							salesPrice: '',
+						initialValues={initialValues}
+						onSubmit={(values) => {
+							handleSubmit(values);
+							setOpen(prevState => !prevState);
 						}}
-						onSubmit={handleSubmit}
-						validationSchema={modalInputValidationSchema}>
-						{({
-							values,
-							errors,
-							touched,
-							handleChange,
-							handleBlur,
-							handleSubmit,
-							setFieldValue,
-						}) => (
+						validationSchema={assetInputValidationSchema}>
+						{({ values, errors, handleChange, handleBlur, handleSubmit, setFieldValue }) => (
 							<Form autoComplete="off" onSubmit={handleSubmit}>
 								<Form.Group>
 									<Form.Field width={3}>
@@ -113,12 +62,7 @@ export default function AddAssetModal({
 
 									<Form.Field width={3}>
 										<label>Asset Name</label>
-										<input
-											type="text"
-											name="id"
-											onChange={handleChange}
-											onBlur={handleBlur}
-										/>
+										<input type="text" name="id" onChange={handleChange} onBlur={handleBlur} />
 										<ErrorMessage name="id">
 											{(msg) => (
 												<Label basic color="red" pointing>
@@ -321,10 +265,7 @@ export default function AddAssetModal({
 									</Form.Field>
 								</Form.Group>
 								<div>
-									<Button
-										type="button"
-										negative
-										onClick={() => dispatch({ type: 'CLOSE_MODAL' })}>
+									<Button type="button" negative onClick={() => setOpen(prevState => !prevState)}>
 										<Icon name="x" />
 										Cancel
 									</Button>
@@ -341,17 +282,6 @@ export default function AddAssetModal({
 										</Button>
 									)}
 								</div>
-								{/* {<div>{errors.purchaseYear}</div>}
-								{<div>{errors.id}</div>}
-								{<div>{errors.totalCost}</div>}
-								{<div>{errors.amountFinanced}</div>}
-								{<div>{errors.savingsUsed}</div>}
-								{<div>{errors.financeTerm}</div>}
-								{<div>{errors.financeRate}</div>}
-								{<div>{errors.appreciationRate}</div>}
-								{<div>{errors.cocReturn}</div>}
-								{<div>{errors.ownershipLength}</div>}
-								{<div>{errors.salesPrice}</div>} */}
 							</Form>
 						)}
 					</Formik>

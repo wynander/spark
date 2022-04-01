@@ -1,29 +1,15 @@
-import { Form } from 'semantic-ui-react';
+import { Form, Button } from 'semantic-ui-react';
 import React from 'react';
 import CurrencyInput from 'react-currency-input-field';
-import {
-	Accordion,
-	Container,
-	Divider,
-	Dropdown,
-	Grid,
-	Header,
-	Image,
-	List,
-	Menu,
-	Segment,
-} from 'semantic-ui-react';
 
-export default function UserInputFieldsDefault({
-	userInput,
-	handleInputChange,
-	handleClickUpSalary,
-	handleClickDownSalary,
-	handleClickUpAge,
-	handleClickDownAge,
-}) {
-	//focus styling for input divs
+export default function UserInputFieldsAdvanced({ userInput, handleInputChange, handleClickSalary, handleClickAge }) {
+	const [isAdvanced, setAdvanced] = React.useState(false);
 
+	const handleAdvanced = () => {
+		setAdvanced((prevState) => !isAdvanced);
+	};
+
+	//focus styling for main UI inputs
 	const handleFocus = (e) => {
 		e.target.parentElement.classList.add('focus-input');
 	};
@@ -32,26 +18,9 @@ export default function UserInputFieldsDefault({
 		e.target.parentElement.classList.remove('focus-input');
 	};
 
-	window.addEventListener(
-		'keydown',
-		(e) => {
-			if (
-				e.keyIdentifier === 'U+000A' ||
-				e.keyIdentifier === 'Enter' ||
-				e.keyCode === 13
-			) {
-				if (e.target.nodeName === 'INPUT' && e.target.type === 'text') {
-					e.preventDefault();
-					return false;
-				}
-			}
-		},
-		true
-	);
-
 	return (
 		<>
-			<Form autoComplete="off" className="form">
+			<Form autoComplete="off" className="form-main">
 				<Form.Field className="webflow-style-input">
 					<CurrencyInput
 						name="birthYear"
@@ -79,7 +48,6 @@ export default function UserInputFieldsDefault({
 						onBlur={handleBlur}
 					/>
 				</Form.Field>
-
 				<Form.Field className="webflow-style-input">
 					<CurrencyInput
 						name="netSavingsRate"
@@ -93,7 +61,6 @@ export default function UserInputFieldsDefault({
 						onBlur={handleBlur}
 					/>
 				</Form.Field>
-
 				<Form.Field className="webflow-style-input">
 					<CurrencyInput
 						name="currentInvestments"
@@ -107,7 +74,46 @@ export default function UserInputFieldsDefault({
 						onBlur={handleBlur}
 					/>
 				</Form.Field>
-
+				{isAdvanced && (
+					<>
+						<Form.Field className="webflow-style-input">
+							<CurrencyInput
+								name="yearlyRaise"
+								className=""
+								suffix="%"
+								allowNegativeValue={false}
+								placeholder={`Change yearly raise percentage: ${userInput.yearlyRaise}%`}
+								onValueChange={handleInputChange}
+								onFocus={handleFocus}
+								onBlur={handleBlur}
+							/>
+						</Form.Field>
+						<Form.Field className="webflow-style-input">
+							<CurrencyInput
+								name="estimatedROI"
+								className=""
+								suffix="%"
+								allowNegativeValue={false}
+								placeholder={`Change future R.O.I: ${userInput.estimatedROI}%`}
+								onValueChange={handleInputChange}
+								onFocus={handleFocus}
+								onBlur={handleBlur}
+							/>
+						</Form.Field>
+						<Form.Field className="webflow-style-input">
+							<CurrencyInput
+								name="yearlyInflation"
+								className=""
+								suffix="%"
+								allowNegativeValue={false}
+								placeholder={`Change estimated yearly inflation: ${userInput.yearlyInflation}%`}
+								onValueChange={handleInputChange}
+								onFocus={handleFocus}
+								onBlur={handleBlur}
+							/>
+						</Form.Field>
+					</>
+				)}
 				<Form.Field className="webflow-style-input">
 					<CurrencyInput
 						name="retirementAge"
@@ -122,7 +128,7 @@ export default function UserInputFieldsDefault({
 						onBlur={handleBlur}
 					/>
 					<div className="button-container">
-						<button onClick={handleClickUpAge} tabIndex="-1">
+						<button type="button" onClick={() => handleClickAge('AgeUp')} tabIndex="-1">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								fill="currentColor"
@@ -134,7 +140,7 @@ export default function UserInputFieldsDefault({
 								/>
 							</svg>
 						</button>
-						<button onClick={handleClickDownAge} tabIndex="-1">
+						<button type="button" onClick={() => handleClickAge('AgeDown')} tabIndex="-1">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								fill="currentColor"
@@ -148,7 +154,6 @@ export default function UserInputFieldsDefault({
 						</button>
 					</div>
 				</Form.Field>
-
 				<Form.Field className="webflow-style-input">
 					<CurrencyInput
 						name="retirementSalary"
@@ -163,7 +168,7 @@ export default function UserInputFieldsDefault({
 						onBlur={handleBlur}
 					/>
 					<div className="button-container">
-						<button onClick={handleClickUpSalary} tabIndex="-1">
+						<button type="button" onClick={() => handleClickSalary('SalaryUp')} tabIndex="-1">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								fill="currentColor"
@@ -175,7 +180,7 @@ export default function UserInputFieldsDefault({
 								/>
 							</svg>
 						</button>
-						<button onClick={handleClickDownSalary} tabIndex="-1">
+						<button type="button" onClick={() => handleClickSalary('SalaryDown')} tabIndex="-1">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								fill="currentColor"
@@ -190,39 +195,15 @@ export default function UserInputFieldsDefault({
 					</div>
 				</Form.Field>
 			</Form>
+			{isAdvanced ? (
+				<Button className="advanced-btn button" onClick={handleAdvanced}>
+					- Advanced Options
+				</Button>
+			) : (
+				<Button className="advanced-btn button" onClick={handleAdvanced}>
+					+ Advanced Options
+				</Button>
+			)}
 		</>
 	);
-}
-{
-	/* <Button
-								onClick={() =>
-									dispatch({ type: 'OPEN_MODAL', dimmer: 'blurring' })
-								}>
-								Add Asset
-							</Button>
-
-							
-							<Modal
-								dimmer={dimmer}
-								open={open}
-								onClose={() => dispatch({ type: 'CLOSE_MODAL' })}>
-								<Modal.Header>Use Google's location service?</Modal.Header>
-								<Modal.Content>
-									Let Google help apps determine location. This means sending
-									anonymous location data to Google, even when no apps are
-									running.
-								</Modal.Content>
-								<Modal.Actions>
-									<Button
-										negative
-										onClick={() => dispatch({ type: 'CLOSE_MODAL' })}>
-										Cancel
-									</Button>
-									<Button
-										positive
-										onClick={() => dispatch({ type: 'CLOSE_MODAL' })}>
-										Add
-									</Button>
-								</Modal.Actions>
-							</Modal> */
 }
