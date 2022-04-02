@@ -96,12 +96,14 @@ export default function PlotContainer({ assetValues, userInput }) {
 				for (let i = 0; i < labels.length; i++) {
 					if (i >= retirementIndex) {
 						safeDraw[i] =
-							portfolioValue[retirementIndex] * (1 + (userSetVal.getNormalizedReturn - 0.03)) ** (i - retirementIndex);
+							tempPortfolioValue[retirementIndex] *
+							(1 + (userSetVal.getNormalizedReturn - 0.03)) ** (i - retirementIndex);
 						unsafeDraw[i] =
-							portfolioValue[retirementIndex] * (1 + (userSetVal.getNormalizedReturn - 0.05)) ** (i - retirementIndex);
+							tempPortfolioValue[retirementIndex] *
+							(1 + (userSetVal.getNormalizedReturn - 0.05)) ** (i - retirementIndex);
 					} else {
-						safeDraw[i] = portfolioValue[i];
-						unsafeDraw[i] = portfolioValue[i];
+						safeDraw[i] = tempPortfolioValue[i];
+						unsafeDraw[i] = tempPortfolioValue[i];
 					}
 				}
 			}
