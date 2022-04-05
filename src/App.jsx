@@ -6,101 +6,26 @@ import PlotContainer from './components/plotContainer';
 import UserInputFieldsAdvanced from './components/userInputFieldsAdvanced';
 import myImg from './logo.png';
 import './styles.css';
+import { auth, db, logout, signInWithGoogle } from './firebase-config';
+import {
+	collection,
+	addDoc,
+	Timestamp,
+	query,
+	orderBy,
+	onSnapshot,
+	doc,
+	updateDoc,
+	deleteDoc,
+} from 'firebase/firestore';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 export default function App() {
-	const [assetValues, setAssetValues] = React.useState([
-		{
-			id: 'zeroth',
-			purchaseYear: '2030',
-			totalCost: '100000',
-			amountFinanced: '80000',
-			savingsUsed: '20000',
-			financeTerm: '30',
-			financeRate: '4.5',
-			appreciationRate: '2',
-			cocReturn: '10',
-			ownershipLength: '',
-			salesPrice: '',
-		},
-		{
-			id: 'first',
-			purchaseYear: '2030',
-			totalCost: '10000000',
-			amountFinanced: '80000',
-			savingsUsed: '20000',
-			financeTerm: '30',
-			financeRate: '4.5',
-			appreciationRate: '2',
-			cocReturn: '10',
-			ownershipLength: '',
-			salesPrice: '',
-		},
-		{
-			id: 'second',
-			purchaseYear: '2030',
-			totalCost: '100000',
-			amountFinanced: '80000',
-			savingsUsed: '20000',
-			financeTerm: '30',
-			financeRate: '4.5',
-			appreciationRate: '2',
-			cocReturn: '10',
-			ownershipLength: '',
-			salesPrice: '',
-		},
-		{
-			id: 'third',
-			purchaseYear: '2030',
-			totalCost: '100000',
-			amountFinanced: '80000',
-			savingsUsed: '20000',
-			financeTerm: '30',
-			financeRate: '4.5',
-			appreciationRate: '2',
-			cocReturn: '10',
-			ownershipLength: '',
-			salesPrice: '',
-		},
-		{
-			id: 'third',
-			purchaseYear: '2030',
-			totalCost: '100000',
-			amountFinanced: '80000',
-			savingsUsed: '20000',
-			financeTerm: '30',
-			financeRate: '4.5',
-			appreciationRate: '2',
-			cocReturn: '10',
-			ownershipLength: '',
-			salesPrice: '',
-		},
-		{
-			id: 'third',
-			purchaseYear: '2030',
-			totalCost: '100000',
-			amountFinanced: '80000',
-			savingsUsed: '20000',
-			financeTerm: '30',
-			financeRate: '4.5',
-			appreciationRate: '2',
-			cocReturn: '10',
-			ownershipLength: '',
-			salesPrice: '',
-		},
-		{
-			id: 'third',
-			purchaseYear: '2030',
-			totalCost: '100000',
-			amountFinanced: '80000',
-			savingsUsed: '20000',
-			financeTerm: '30',
-			financeRate: '4.5',
-			appreciationRate: '2',
-			cocReturn: '10',
-			ownershipLength: '',
-			salesPrice: '',
-		},
-	]);
+	const [user, loading, error] = useAuthState(auth);
+	console.log('user', user);
+
+	const [dbAssetValues, setDbAssetValues] = React.useState();
+	const [assetValues, setAssetValues] = React.useState([]);
 	const [userInput, setUserInput] = React.useState({
 		birthYear: '',
 		retirementAge: '',
@@ -125,6 +50,21 @@ export default function App() {
 
 	//-------------------------------------------------------
 
+	React.useEffect(() => {
+		if (user) {
+			const q = query(collection(db, 'users/' + user.uid + '/assets'), orderBy('created', 'desc'));
+			onSnapshot(q, (querySnapshot) => {
+				setDbAssetValues(
+					querySnapshot.docs.map((doc) => ({
+						dbid: doc.id,
+						...doc.data(),
+					}))
+				);
+			});
+		}
+	}, [user]);
+
+	console.log(dbAssetValues);
 	//-----------------------------------------------------------
 
 	const handleInputChange = (value, name) => {
@@ -198,23 +138,47 @@ export default function App() {
 		}
 	};
 
-	const handleSubmit = (values) => {
-		setAssetValues([...assetValues, values]);
+	const handleSubmit = async (values) => {
+		if (user) {
+			try {
+				await addDoc(collection(db, 'users/', user.uid, '/assets/'), {
+					...values,
+					created: Timestamp.now(),
+				});
+			} catch (err) {
+				alert(err);
+			}
+		} else {
+			setAssetValues([...assetValues, values]);
+		}
 	};
 
-	const removeAsset = (id) => {
-		let temp = [...assetValues];
-		temp.splice(
-			temp.findIndex((assetNumber) => assetNumber.id === id),
-			1
-		);
-		setAssetValues(temp);
+	const removeAsset = async (assetProps) => {
+		if (user) {
+			try {
+				await deleteDoc(doc(db, 'users/', user.uid, '/assets/', assetProps.dbid));
+			} catch (err) {
+				alert(err);
+			}
+		} else {
+			setAssetValues(assetValues.filter((assetNumber) => assetNumber.id !== assetProps.id));
+		}
 	};
 
-	const updateAsset = (values, index) => {
-		let temp = [...assetValues];
-		temp[index] = { ...temp[index], ...values };
-		setAssetValues(temp);
+	const updateAsset = async (values, index) => {
+		if (user) {
+			try {
+				await updateDoc(doc(db, 'users/', user.uid, '/assets/', values.dbid), {
+					...values,
+				});
+			} catch (err) {
+				alert(err);
+			}
+		} else {
+			let temp = [...assetValues];
+			temp[index] = { ...temp[index], ...values };
+			setAssetValues(temp);
+		}
 	};
 
 	return (
@@ -231,6 +195,9 @@ export default function App() {
 				</Container>
 			</Menu>
 			<div className="main-segment">
+				<button className="ui button" onClick={signInWithGoogle}>
+					Login
+				</button>
 				<Segment className="plot-section" style={{ paddingTop: '5em' }}>
 					<div className="user-form advanced-options">
 						<UserInputFieldsAdvanced
@@ -242,13 +209,14 @@ export default function App() {
 						<AddAssetModal handleSubmit={handleSubmit} />
 						<AssetList
 							handleSubmit={handleSubmit}
-							assetValues={assetValues}
+							assetValues={dbAssetValues || assetValues}
 							removeAsset={removeAsset}
 							updateAsset={updateAsset}
+							user={user}
 						/>
 					</div>
 					<Container className="plot-container">
-						<PlotContainer assetValues={assetValues} userInput={userInput} />
+						<PlotContainer assetValues={dbAssetValues || assetValues} userInput={userInput} />
 					</Container>
 				</Segment>
 			</div>

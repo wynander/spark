@@ -4,21 +4,22 @@ import CurrencyInput from 'react-currency-input-field';
 import { Button, Form, Icon, Label, Header } from 'semantic-ui-react';
 import { assetInputValidationSchema } from './assetInputValidationSchema';
 
-export default function UpdateAssetForm({ updateAsset, removeAsset, activeAssetIndex, assetValues }) {
-	//   const initialValues = {
-	//     ...assetValues[activeAssetIndex]
-	//   };
-	// console.log(initialValues)
+export default function UpdateAssetForm({ updateAsset, removeAsset, activeAssetIndex, assetValues, user }) {
+	let initialValuesIndex = activeAssetIndex;
+
+	if (user) {
+		initialValuesIndex = assetValues.findIndex((asset) => asset.dbid === activeAssetIndex);
+	}
 
 	return (
 		<Formik
 			enableReinitialize
-			initialValues={{ ...assetValues[activeAssetIndex] }}
+			initialValues={{ ...assetValues[initialValuesIndex] }}
 			onSubmit={(values) => {
 				updateAsset(values, activeAssetIndex);
 			}}
 			validationSchema={assetInputValidationSchema}>
-			{({ values, errors, handleChange, handleBlur, handleSubmit, setFieldValue }) => (
+			{({ values, errors, handleBlur, handleSubmit, setFieldValue }) => (
 				<Form autoComplete="off" onSubmit={handleSubmit}>
 					<Header as="h1" dividing textAlign="center">
 						{values.id}
@@ -239,7 +240,7 @@ export default function UpdateAssetForm({ updateAsset, removeAsset, activeAssetI
 						</Form.Field>
 					</Form.Group>
 					<div>
-						<Button type="button" negative onClick={() => removeAsset(assetValues[activeAssetIndex].id)}>
+						<Button type="button" negative onClick={() => removeAsset(assetValues[initialValuesIndex])}>
 							<Icon name="x" />
 							Remove
 						</Button>

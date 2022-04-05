@@ -22,9 +22,9 @@ export default function AddAssetForm({ handleSubmit, setOpen }) {
 	return (
 		<Formik
 			initialValues={initialValues}
-			onSubmit={(values) => {
-				handleSubmit(values);
-				setOpen((prevState) => !prevState);
+			onSubmit={async (values) => {
+				await handleSubmit(values);
+				await setOpen((prevState) => !prevState);
 			}}
 			validationSchema={assetInputValidationSchema}>
 			{({ values, errors, handleChange, handleBlur, handleSubmit, setFieldValue }) => (

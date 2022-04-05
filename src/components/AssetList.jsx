@@ -9,18 +9,10 @@ const formatDollars = new Intl.NumberFormat('en-US', {
 	maximumFractionDigits: 0,
 });
 
-export default function AssetList({ assetValues, removeAsset, updateAsset, handleSubmit }) {
+export default function AssetList({ assetValues, removeAsset, updateAsset, handleSubmit, user }) {
 	const [open, setOpen] = React.useState(false);
 	const [activeAssetIndex, setActiveAssetIndex] = React.useState(0);
-	console.log(activeAssetIndex);
 
-	if (activeAssetIndex > assetValues.length - 1) {
-		setActiveAssetIndex(assetValues.length - 1);
-	}
-
-	if (activeAssetIndex === undefined) {
-		setActiveAssetIndex(0);
-	}
 	return (
 		<>
 			<Button onClick={() => setOpen((prevState) => !prevState)}>Manage Assets</Button>
@@ -30,10 +22,11 @@ export default function AssetList({ assetValues, removeAsset, updateAsset, handl
 					<div className="modal-div">
 						<div className="asset-list-sidebar">
 							{assetValues.map((assetNum, index) => (
-								<ItemExampleMetadata
+								<AssetItem
 									assetProperties={assetNum}
 									setActiveAssetIndex={setActiveAssetIndex}
 									index={index}
+									key={index}
 								/>
 							))}
 						</div>
@@ -45,6 +38,7 @@ export default function AssetList({ assetValues, removeAsset, updateAsset, handl
 									removeAsset={removeAsset}
 									updateAsset={updateAsset}
 									activeAssetIndex={activeAssetIndex}
+									user={user}
 								/>
 							}
 						</div>
@@ -63,9 +57,9 @@ export default function AssetList({ assetValues, removeAsset, updateAsset, handl
 	);
 }
 
-const ItemExampleMetadata = ({ assetProperties, index, setActiveAssetIndex }) => (
-	<Item className="asset-item" id="index">
-		<Button className="asset-buttons" onClick={() => setActiveAssetIndex(index)}>
+const AssetItem = ({ assetProperties, setActiveAssetIndex }) => (
+	<Item className="asset-item">
+		<Button className="asset-buttons" onClick={() => setActiveAssetIndex(assetProperties.dbid)}>
 			<Item.Content>
 				<Item.Header>
 					<Header as="h3">{assetProperties.id}</Header>
