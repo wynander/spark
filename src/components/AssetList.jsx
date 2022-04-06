@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Header, Item, Modal } from 'semantic-ui-react';
+import { Button, Header, Item, Modal, Icon } from 'semantic-ui-react';
 import UpdateAssetForm from './UpdateAssetForm';
 import AddAssetModal from './addAssetModal';
 
@@ -11,23 +11,23 @@ const formatDollars = new Intl.NumberFormat('en-US', {
 
 export default function AssetList({ assetValues, removeAsset, updateAsset, handleSubmit, user }) {
 	const [open, setOpen] = React.useState(false);
-	const [activeAssetIndex, setActiveAssetIndex] = React.useState(0);
+	const [activeAssetId, setActiveAssetId] = React.useState(null);
 
 	return (
 		<>
 			<Button onClick={() => setOpen((prevState) => !prevState)}>Manage Assets</Button>
 
 			<Modal className="manage-assets" open={open} onClose={() => setOpen((prevState) => !prevState)}>
+				<Header as="h1" className="no-asset-msg">
+					<AddAssetModal className="add-assets-btn" handleSubmit={handleSubmit}>
+						Add Asset
+					</AddAssetModal>
+				</Header>
 				{assetValues.length > 0 && (
 					<div className="modal-div">
 						<div className="asset-list-sidebar">
 							{assetValues.map((assetNum, index) => (
-								<AssetItem
-									assetProperties={assetNum}
-									setActiveAssetIndex={setActiveAssetIndex}
-									index={index}
-									key={index}
-								/>
+								<AssetItem assetProperties={assetNum} setActiveAssetId={setActiveAssetId} index={index} key={index} />
 							))}
 						</div>
 						<div className="asset-properties">
@@ -37,7 +37,8 @@ export default function AssetList({ assetValues, removeAsset, updateAsset, handl
 									assetValues={assetValues}
 									removeAsset={removeAsset}
 									updateAsset={updateAsset}
-									activeAssetIndex={activeAssetIndex}
+									activeAssetId={activeAssetId}
+									setActiveAssetId={setActiveAssetId}
 									user={user}
 								/>
 							}
@@ -45,21 +46,16 @@ export default function AssetList({ assetValues, removeAsset, updateAsset, handl
 					</div>
 				)}
 				{assetValues.length === 0 && (
-					<>
-						<Header as="h1">Add an asset to see its properties</Header>
-						<div className="no-assets-add">
-							<AddAssetModal handleSubmit={handleSubmit} />
-						</div>
-					</>
+					<h1 className="no-asset-center">Add an asset to see how it affects your portfolio over time</h1>
 				)}
 			</Modal>
 		</>
 	);
 }
 
-const AssetItem = ({ assetProperties, setActiveAssetIndex }) => (
+const AssetItem = ({ assetProperties, setActiveAssetId, index }) => (
 	<Item className="asset-item">
-		<Button className="asset-buttons" onClick={() => setActiveAssetIndex(assetProperties.dbid)}>
+		<Button className="asset-buttons" onClick={() => setActiveAssetId(assetProperties.dbid || index)}>
 			<Item.Content>
 				<Item.Header>
 					<Header as="h3">{assetProperties.id}</Header>

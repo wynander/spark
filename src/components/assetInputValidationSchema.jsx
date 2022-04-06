@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 
 export const assetInputValidationSchema = Yup.object().shape({
-	id: Yup.string().min(1, 'Too Short').max(12, 'Too Long').required('Required'),
+	id: Yup.string().min(1, 'Too Short').max(15, 'Too Long').required('Required'),
 	purchaseYear: Yup.number()
 		.min(new Date().getFullYear(), 'Must be higher than current year')
 		.max(2100, 'Purchase date too far away')

@@ -22,9 +22,9 @@ export default function AddAssetForm({ handleSubmit, setOpen }) {
 	return (
 		<Formik
 			initialValues={initialValues}
-			onSubmit={async (values) => {
-				await handleSubmit(values);
-				await setOpen((prevState) => !prevState);
+			onSubmit={(values) => {
+				handleSubmit(values);
+				setOpen((prevState) => !prevState);
 			}}
 			validationSchema={assetInputValidationSchema}>
 			{({ values, errors, handleChange, handleBlur, handleSubmit, setFieldValue }) => (
@@ -75,7 +75,7 @@ export default function AddAssetForm({ handleSubmit, setOpen }) {
 					</Form.Group>
 					<Form.Group widths="equal">
 						<Form.Field>
-							<label>Total Cost of Asset</label>
+							<label>Total Value of Asset</label>
 							<CurrencyInput
 								name="totalCost"
 								allowNegativeValue={false}

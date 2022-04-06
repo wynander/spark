@@ -1,42 +1,42 @@
+import {
+	addDoc,
+	collection,
+	deleteDoc,
+	doc,
+	onSnapshot,
+	orderBy,
+	query,
+	Timestamp,
+	updateDoc,
+	getDoc,
+} from 'firebase/firestore';
 import React from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { Container, Image, Menu, Segment } from 'semantic-ui-react';
 import AddAssetModal from './components/addAssetModal';
 import AssetList from './components/AssetList';
 import PlotContainer from './components/plotContainer';
 import UserInputFieldsAdvanced from './components/userInputFieldsAdvanced';
+import { auth, db, logout, signInWithGoogle } from './firebase-config';
 import myImg from './logo.png';
 import './styles.css';
-import { auth, db, logout, signInWithGoogle } from './firebase-config';
-import {
-	collection,
-	addDoc,
-	Timestamp,
-	query,
-	orderBy,
-	onSnapshot,
-	doc,
-	updateDoc,
-	deleteDoc,
-} from 'firebase/firestore';
-import { useAuthState } from 'react-firebase-hooks/auth';
+
+const initialUserInput = {
+	birthYear: '',
+	retirementAge: '',
+	netMonthlyIncome: '',
+	retirementSalary: '',
+	netSavingsRate: '',
+	currentInvestments: '',
+	estimatedROI: '10',
+	yearlyInflation: '3',
+	yearlyRaise: '3',
+};
 
 export default function App() {
-	const [user, loading, error] = useAuthState(auth);
-	console.log('user', user);
-
-	const [dbAssetValues, setDbAssetValues] = React.useState();
+	const [user] = useAuthState(auth);
 	const [assetValues, setAssetValues] = React.useState([]);
-	const [userInput, setUserInput] = React.useState({
-		birthYear: '',
-		retirementAge: '',
-		netMonthlyIncome: '',
-		retirementSalary: '',
-		netSavingsRate: '',
-		currentInvestments: '',
-		estimatedROI: '10',
-		yearlyInflation: '3',
-		yearlyRaise: '3',
-	});
+	const [userInput, setUserInput] = React.useState(initialUserInput);
 
 	if (userInput.yearlyRaise === undefined) {
 		setUserInput({ ...userInput, yearlyRaise: 3 });
@@ -54,7 +54,7 @@ export default function App() {
 		if (user) {
 			const q = query(collection(db, 'users/' + user.uid + '/assets'), orderBy('created', 'desc'));
 			onSnapshot(q, (querySnapshot) => {
-				setDbAssetValues(
+				setAssetValues(
 					querySnapshot.docs.map((doc) => ({
 						dbid: doc.id,
 						...doc.data(),
@@ -62,23 +62,29 @@ export default function App() {
 				);
 			});
 		}
+		if (!user) {
+			setAssetValues([]);
+		}
 	}, [user]);
 
-	console.log(dbAssetValues);
+	React.useEffect(() => {
+		(async () => {
+			if (user) {
+				const docSnap = await getDoc(doc(db, 'users', user.uid, 'portfolio-variables', 'user-input'));
+				if (docSnap.exists()) {
+					setUserInput(docSnap.data());
+				}
+			}
+		})();
+	}, [user]);
+
 	//-----------------------------------------------------------
 
 	const handleInputChange = (value, name) => {
-		if (name === 'birthYear' && value >= 10000) {
-			setUserInput({
-				...userInput,
-				[name]: value.substring(0, 4),
-			});
-		} else {
-			setUserInput({
-				...userInput,
-				[name]: value,
-			});
-		}
+		setUserInput({
+			...userInput,
+			[name]: value,
+		});
 	};
 
 	const handleClickSalary = (type) => {
@@ -146,7 +152,7 @@ export default function App() {
 					created: Timestamp.now(),
 				});
 			} catch (err) {
-				alert(err);
+				alert('Sorry, that submission did not make it to the database. Please refresh the page and try again. ');
 			}
 		} else {
 			setAssetValues([...assetValues, values]);
@@ -158,7 +164,7 @@ export default function App() {
 			try {
 				await deleteDoc(doc(db, 'users/', user.uid, '/assets/', assetProps.dbid));
 			} catch (err) {
-				alert(err);
+				alert('Sorry, that asset was not able to be removed. Please refresh the page and try again.');
 			}
 		} else {
 			setAssetValues(assetValues.filter((assetNumber) => assetNumber.id !== assetProps.id));
@@ -172,7 +178,7 @@ export default function App() {
 					...values,
 				});
 			} catch (err) {
-				alert(err);
+				alert('Sorry, that update did not make it to the database. Please refresh the page and try again.');
 			}
 		} else {
 			let temp = [...assetValues];
@@ -187,17 +193,32 @@ export default function App() {
 				<Container>
 					<Menu.Item as="a" header>
 						<Image size="mini" src={myImg} style={{ marginRight: '.5em' }} />
-						spark
+						Spark
 					</Menu.Item>
 					<Menu.Item as="a">Home</Menu.Item>
-					<Menu.Item as="a">Retirement Planner</Menu.Item>
+					<Menu.Item as="a">Portfolio</Menu.Item>
 					<Menu.Item as="a">Contact</Menu.Item>
 				</Container>
+				{user ? (
+					<>
+						<Menu.Item as="a" header>
+							<Image size="mini" className="user-icon" src={user.photoURL} style={{ marginRight: '.5em' }} />
+							<div className="user-detail-mini">
+								<div className="display-name">{user.displayName}</div>
+								<div className="display-email">{user.email}</div>
+							</div>
+						</Menu.Item>
+						<Menu.Item as="a" className="sign-in-btn" onClick={logout}>
+							Sign out
+						</Menu.Item>
+					</>
+				) : (
+					<Menu.Item as="a" className="sign-in-btn" onClick={signInWithGoogle}>
+						Sign in using Google
+					</Menu.Item>
+				)}
 			</Menu>
 			<div className="main-segment">
-				<button className="ui button" onClick={signInWithGoogle}>
-					Login
-				</button>
 				<Segment className="plot-section" style={{ paddingTop: '5em' }}>
 					<div className="user-form advanced-options">
 						<UserInputFieldsAdvanced
@@ -205,22 +226,22 @@ export default function App() {
 							handleClickSalary={handleClickSalary}
 							handleClickAge={handleClickAge}
 							userInput={userInput}
+							user={user}
 						/>
-						<AddAssetModal handleSubmit={handleSubmit} />
+						<AddAssetModal handleSubmit={handleSubmit}>Add Assets</AddAssetModal>
 						<AssetList
 							handleSubmit={handleSubmit}
-							assetValues={dbAssetValues || assetValues}
+							assetValues={assetValues}
 							removeAsset={removeAsset}
 							updateAsset={updateAsset}
 							user={user}
 						/>
 					</div>
 					<Container className="plot-container">
-						<PlotContainer assetValues={dbAssetValues || assetValues} userInput={userInput} />
+						<PlotContainer assetValues={assetValues} userInput={userInput} />
 					</Container>
 				</Segment>
 			</div>
-
 			<footer></footer>
 		</div>
 	);

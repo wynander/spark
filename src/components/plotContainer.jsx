@@ -11,7 +11,6 @@ export default function PlotContainer({ assetValues, userInput }) {
 	let data = React.useMemo(() => {
 		const { userSetVal } = propsParseInt(userInput); //parse Prop strings to floats so that these variables have number values
 		const assetValuesParsed = assetParseFloat(assetValues);
-		console.log('', assetValuesParsed);
 		const { investmentValue, retirementDraw, labels, retirementIndex } = portfolioReturnCalculator(userSetVal);
 
 		let portfolioValue = investmentValue.map((item, index) => {
@@ -67,6 +66,11 @@ export default function PlotContainer({ assetValues, userInput }) {
 			}
 		}
 
+		// console.log('sale', assetTotals.salePortfolioEffect);
+		// console.log('appreciation', assetTotals.equityAppreciationEffect);
+		console.log('paydown', assetArrays);
+		console.log('cashflow', assetTotals.cashFlowEffect);
+
 		let tempPortfolioValue = portfolioValue.map((item, index) => {
 			let temp =
 				item -
@@ -82,8 +86,6 @@ export default function PlotContainer({ assetValues, userInput }) {
 		});
 
 		let temp = datasets;
-
-		let dataColor = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
 
 		let safeDraw = new Array(labels.length),
 			unsafeDraw = new Array(labels.length);
@@ -108,39 +110,41 @@ export default function PlotContainer({ assetValues, userInput }) {
 				}
 			}
 
-			temp.push({
-				id: 'safeDraw',
-				label: 'Very Safe',
-				data: safeDraw,
-				borderColor: '#36964d',
-				fill: '+1',
-				backgroundColor: 'rgba(45, 100, 45,.25)',
-				borderDash: [10, 10],
-				radius: '0',
-				key: new Date(),
-			});
-			temp.push({
-				id: 'unsafeDraw',
-				label: 'Unsafe',
-				data: unsafeDraw,
-				borderDash: [10, 10],
-				borderColor: '#964336',
-				fill: true,
-				backgroundColor: 'rgba(182, 65, 45,.15)',
-				radius: '0',
-				key: new Date(),
-			});
-			temp.push({
-				id: 'safeDraw',
-				label: 'Equity in Assets',
-				data: assetsEquityValue,
-				borderColor: 'rgba(66, 135, 245,1)',
-				fill: true,
-				borderDash: [0, 0],
-				backgroundColor: 'rgba(66, 135, 245,1)',
-				radius: '0',
-				key: new Date(),
-			});
+			temp.push(
+				{
+					id: 'safeDraw',
+					label: 'Very Safe',
+					data: safeDraw,
+					borderColor: '#36964d',
+					fill: '+1',
+					backgroundColor: 'rgba(45, 100, 45,.25)',
+					borderDash: [10, 10],
+					radius: '0',
+					key: new Date(),
+				},
+				{
+					id: 'unsafeDraw',
+					label: 'Unsafe',
+					data: unsafeDraw,
+					borderDash: [10, 10],
+					borderColor: '#964336',
+					fill: true,
+					backgroundColor: 'rgba(182, 65, 45,.15)',
+					radius: '0',
+					key: new Date(),
+				},
+				{
+					id: 'safeDraw',
+					label: 'Equity in Assets',
+					data: assetsEquityValue,
+					borderColor: 'rgba(66, 135, 245,1)',
+					fill: true,
+					borderDash: [0, 0],
+					backgroundColor: 'rgba(66, 135, 245,1)',
+					radius: '0',
+					key: new Date(),
+				}
+			);
 
 			datasets = temp;
 			return data;
@@ -157,28 +161,30 @@ export default function PlotContainer({ assetValues, userInput }) {
 						unsafeDraw[i] = portfolioValue[i];
 					}
 				}
-				temp.push({
-					id: 'safeDraw',
-					label: 'Very Safe',
-					data: safeDraw,
-					borderColor: '#36964d',
-					fill: '+1',
-					backgroundColor: 'rgba(45, 100, 45,.25)',
-					borderDash: [10, 10],
-					radius: '0',
-					key: new Date(),
-				});
-				temp.push({
-					id: 'unsafeDraw',
-					label: 'Less Safe',
-					data: unsafeDraw,
-					borderDash: [10, 10],
-					borderColor: '#964336',
-					fill: true,
-					backgroundColor: 'rgba(182, 65, 45,.15)',
-					radius: '0',
-					key: new Date(),
-				});
+				temp.push(
+					{
+						id: 'safeDraw',
+						label: 'Very Safe',
+						data: safeDraw,
+						borderColor: '#36964d',
+						fill: '+1',
+						backgroundColor: 'rgba(45, 100, 45,.25)',
+						borderDash: [10, 10],
+						radius: '0',
+						key: new Date(),
+					},
+					{
+						id: 'unsafeDraw',
+						label: 'Less Safe',
+						data: unsafeDraw,
+						borderDash: [10, 10],
+						borderColor: '#964336',
+						fill: true,
+						backgroundColor: 'rgba(182, 65, 45,.15)',
+						radius: '0',
+						key: new Date(),
+					}
+				);
 			}
 
 			datasets = temp;

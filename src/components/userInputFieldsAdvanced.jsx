@@ -1,12 +1,29 @@
-import { Form, Button } from 'semantic-ui-react';
+import { doc, setDoc } from 'firebase/firestore';
 import React from 'react';
 import CurrencyInput from 'react-currency-input-field';
+import { Button, Form } from 'semantic-ui-react';
+import { db } from '../firebase-config';
 
-export default function UserInputFieldsAdvanced({ userInput, handleInputChange, handleClickSalary, handleClickAge }) {
+export default function UserInputFieldsAdvanced({
+	userInput,
+	handleInputChange,
+	handleClickSalary,
+	handleClickAge,
+	user,
+}) {
 	const [isAdvanced, setAdvanced] = React.useState(false);
-
 	const handleAdvanced = () => {
 		setAdvanced((prevState) => !isAdvanced);
+	};
+
+	const updateDbUserInputs = async () => {
+		try {
+			setDoc(doc(db, 'users/', user.uid, 'portfolio-variables', 'user-input'), {
+				...userInput,
+			});
+		} catch (err) {
+			alert(err);
+		}
 	};
 
 	//focus styling for main UI inputs
@@ -16,12 +33,25 @@ export default function UserInputFieldsAdvanced({ userInput, handleInputChange, 
 
 	const handleBlur = (e) => {
 		e.target.parentElement.classList.remove('focus-input');
+		if (user) {
+			updateDbUserInputs();
+		}
 	};
 
+	const handleClick = (field, type) => {
+		if (field === 'salary') {
+			handleClickSalary(type);
+		}
+		if (field === 'age') {
+			handleClickAge(type);
+		}
+		updateDbUserInputs();
+	};
 	return (
 		<>
 			<Form autoComplete="off" className="form-main">
 				<Form.Field className="webflow-style-input">
+					{userInput.birthYear && <label className="input-label">Birth Year</label>}
 					<CurrencyInput
 						name="birthYear"
 						disableGroupSeparators="true"
@@ -32,10 +62,12 @@ export default function UserInputFieldsAdvanced({ userInput, handleInputChange, 
 						onValueChange={handleInputChange}
 						onFocus={handleFocus}
 						onBlur={handleBlur}
+						maxLength={4}
 					/>
 				</Form.Field>
 
 				<Form.Field className="webflow-style-input">
+					{userInput.netMonthlyIncome && <label className="input-label">Net Monthly Income</label>}
 					<CurrencyInput
 						name="netMonthlyIncome"
 						prefix="$"
@@ -49,6 +81,7 @@ export default function UserInputFieldsAdvanced({ userInput, handleInputChange, 
 					/>
 				</Form.Field>
 				<Form.Field className="webflow-style-input">
+					{userInput.netSavingsRate && <label className="input-label">Percentage of Income Saved</label>}
 					<CurrencyInput
 						name="netSavingsRate"
 						className=""
@@ -62,6 +95,8 @@ export default function UserInputFieldsAdvanced({ userInput, handleInputChange, 
 					/>
 				</Form.Field>
 				<Form.Field className="webflow-style-input">
+					{userInput.currentInvestments && <label className="input-label">Current Investments Value</label>}
+
 					<CurrencyInput
 						name="currentInvestments"
 						className=""
@@ -77,36 +112,40 @@ export default function UserInputFieldsAdvanced({ userInput, handleInputChange, 
 				{isAdvanced && (
 					<>
 						<Form.Field className="webflow-style-input">
+							{userInput.yearlyRaise && <label className="input-label">Yearly Raise Percentage</label>}
 							<CurrencyInput
 								name="yearlyRaise"
 								className=""
 								suffix="%"
 								allowNegativeValue={false}
-								placeholder={`Change yearly raise percentage: ${userInput.yearlyRaise}%`}
+								value={userInput.yearlyRaise}
 								onValueChange={handleInputChange}
 								onFocus={handleFocus}
 								onBlur={handleBlur}
 							/>
 						</Form.Field>
 						<Form.Field className="webflow-style-input">
+							{userInput.currentInvestments && <label className="input-label">Estimated ROI</label>}
 							<CurrencyInput
 								name="estimatedROI"
 								className=""
 								suffix="%"
 								allowNegativeValue={false}
-								placeholder={`Change future R.O.I: ${userInput.estimatedROI}%`}
+								value={userInput.estimatedROI}
 								onValueChange={handleInputChange}
 								onFocus={handleFocus}
 								onBlur={handleBlur}
 							/>
 						</Form.Field>
 						<Form.Field className="webflow-style-input">
+							{userInput.yearlyInflation && <label className="input-label">Yearly Inflation</label>}
+
 							<CurrencyInput
 								name="yearlyInflation"
 								className=""
 								suffix="%"
 								allowNegativeValue={false}
-								placeholder={`Change estimated yearly inflation: ${userInput.yearlyInflation}%`}
+								value={userInput.yearlyInflation}
 								onValueChange={handleInputChange}
 								onFocus={handleFocus}
 								onBlur={handleBlur}
@@ -115,6 +154,7 @@ export default function UserInputFieldsAdvanced({ userInput, handleInputChange, 
 					</>
 				)}
 				<Form.Field className="webflow-style-input">
+					{userInput.retirementAge !== '' ? <label className="input-label">Retirement Age</label> : null}
 					<CurrencyInput
 						name="retirementAge"
 						suffix=" years of age"
@@ -128,7 +168,7 @@ export default function UserInputFieldsAdvanced({ userInput, handleInputChange, 
 						onBlur={handleBlur}
 					/>
 					<div className="button-container">
-						<button type="button" onClick={() => handleClickAge('AgeUp')} tabIndex="-1">
+						<button type="button" onClick={() => handleClick('age', 'AgeUp')} tabIndex="-1">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								fill="currentColor"
@@ -140,7 +180,7 @@ export default function UserInputFieldsAdvanced({ userInput, handleInputChange, 
 								/>
 							</svg>
 						</button>
-						<button type="button" onClick={() => handleClickAge('AgeDown')} tabIndex="-1">
+						<button type="button" onClick={() => handleClick('age', 'AgeDown')} tabIndex="-1">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								fill="currentColor"
@@ -155,6 +195,7 @@ export default function UserInputFieldsAdvanced({ userInput, handleInputChange, 
 					</div>
 				</Form.Field>
 				<Form.Field className="webflow-style-input">
+					{userInput.retirementSalary !== '' ? <label className="input-label">Retirement Salary</label> : null}
 					<CurrencyInput
 						name="retirementSalary"
 						allowDecimals={false}
@@ -168,7 +209,7 @@ export default function UserInputFieldsAdvanced({ userInput, handleInputChange, 
 						onBlur={handleBlur}
 					/>
 					<div className="button-container">
-						<button type="button" onClick={() => handleClickSalary('SalaryUp')} tabIndex="-1">
+						<button type="button" onClick={() => handleClick('salary', 'SalaryUp')} tabIndex="-1">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								fill="currentColor"
@@ -180,7 +221,7 @@ export default function UserInputFieldsAdvanced({ userInput, handleInputChange, 
 								/>
 							</svg>
 						</button>
-						<button type="button" onClick={() => handleClickSalary('SalaryDown')} tabIndex="-1">
+						<button type="button" onClick={() => handleClick('salary', 'SalaryDown')} tabIndex="-1">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								fill="currentColor"

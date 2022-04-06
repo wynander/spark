@@ -4,7 +4,6 @@
 	box-sizing: border-box;
 	margin: 0;
 }
-/* Css from Phil Rose ----------------------------------*/
 body,
 ul,
 li {
@@ -59,9 +58,18 @@ button {
 	display: flex;
 	flex-direction: row;
 	width: 100%;
-	margin: 0.25rem auto;
+	margin: 0.2rem auto;
 	border-radius: 4px;
 	max-height: 40px;
+}
+
+.ui.form .field.webflow-style-input > .input-label {
+	position: absolute;
+	top: -0.8rem;
+	left: 0.4rem;
+	background: white;
+	padding: 0px 0.3rem;
+	color: rgb(65, 65, 65);
 }
 
 .focus-input:after {
@@ -78,6 +86,11 @@ button {
 	background: linear-gradient(to right, #a73c2e, #b6412d, #c25b16, #e66857, #ad480d, #ff7e7e);
 	background-size: 500% auto;
 	animation: gradient 3s linear infinite alternate;
+	width: 100%;
+}
+
+.ui.form .field.webflow-style-input {
+	margin-bottom: 1.5rem;
 }
 
 .webflow-style-input input {
@@ -203,8 +216,8 @@ canvas {
 }
 
 .button {
-	margin-top: 1rem !important;
-	width: 13rem !important;
+	margin-top: 1rem;
+	width: 13rem;
 	text-align: center;
 }
 
@@ -225,7 +238,7 @@ canvas {
 }
 
 .modal-div {
-	height: 100%;
+	height: calc(100% - 72px);
 	width: 100%;
 	display: flex;
 	flex-direction: row;
@@ -260,4 +273,49 @@ canvas {
 	height: 100%;
 	overflow-y: scroll;
 	max-width: 20%;
+}
+
+.user-details-mini {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.display-name {
+	font-size: 1.2rem;
+}
+
+.display-email {
+	margin-top: 0.4rem;
+	font-size: 0.9rem;
+}
+
+.no-asset-container {
+	width: 100%;
+	height: 80%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.no-asset-msg {
+	width: 100% !important;
+	display: flex !important;
+	justify-content: right !important;
+	align-items: center !important;
+}
+.no-asset-index-msg {
+	height: 100%;
+	display: flex !important;
+	justify-content: center !important;
+	align-items: center !important;
+	margin-top: 0px;
+}
+.no-asset-center {
+	text-align: center;
+	height: 100%;
+}
+
+.ui.mini.image.user-icon {
+	border-radius: 100%;
 }

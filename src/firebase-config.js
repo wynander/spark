@@ -1,14 +1,14 @@
 import { initializeApp } from 'firebase/app';
 import {
-	GoogleAuthProvider,
-	getAuth,
-	signInWithPopup,
-	signInWithEmailAndPassword,
 	createUserWithEmailAndPassword,
+	getAuth,
+	GoogleAuthProvider,
 	sendPasswordResetEmail,
+	signInWithEmailAndPassword,
+	signInWithPopup,
 	signOut,
 } from 'firebase/auth';
-import { getFirestore, query, getDocs, collection, where, addDoc, setDoc, doc } from 'firebase/firestore';
+import { addDoc, collection, doc, getFirestore, orderBy, query, setDoc, where } from 'firebase/firestore';
 
 const firebaseConfig = {
 	apiKey: 'AIzaSyAWkGj3uwm06HlSMgLdQuhwoPCkUZkPQIk',
@@ -28,18 +28,17 @@ const signInWithGoogle = async () => {
 	try {
 		const res = await signInWithPopup(auth, googleProvider);
 		const user = res.user;
-		const q = query(collection(db, 'users'), where('uid', '==', user.uid));
-		const docs = await getDocs(q);
-		if (docs.docs.length === 0) {
-			await setDoc(doc(db, 'users', user.uid), {
-				uid: user.uid,
-				name: user.displayName,
-				authProvider: 'google',
-				email: user.email,
-			});
-		}
+		const credential = GoogleAuthProvider.credentialFromResult(res);
+		const googleToken = credential.accessToken;
+		await setDoc(doc(db, 'users', user.uid), {
+			uid: user.uid,
+			name: user.displayName,
+			authProvider: 'google',
+			email: user.email,
+			googleToken: googleToken,
+		});
 	} catch (err) {
-		console.error(err);
+		console.error('', err);
 		alert(err.message);
 	}
 };
