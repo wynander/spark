@@ -45,7 +45,9 @@ export default function UserInputFieldsAdvanced({
 		if (field === 'age') {
 			handleClickAge(type);
 		}
-		updateDbUserInputs();
+		if (user) {
+			updateDbUserInputs();
+		}
 	};
 	return (
 		<>

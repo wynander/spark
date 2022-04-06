@@ -75,6 +75,9 @@ export default function App() {
 					setUserInput(docSnap.data());
 				}
 			}
+			if (!user) {
+				setUserInput(initialUserInput);
+			}
 		})();
 	}, [user]);
 
