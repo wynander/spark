@@ -19,7 +19,7 @@ import PlotContainer from './components/plotContainer';
 import UserInputFieldsAdvanced from './components/userInputFieldsAdvanced';
 import { auth, db, logout, signInWithGoogle } from './firebase-config';
 import myImg from './logo.png';
-import './styles.css';
+import './App.css'
 
 const initialUserInput = {
 	birthYear: '',
@@ -198,7 +198,7 @@ export default function App() {
 						<Image size="mini" src={myImg} style={{ marginRight: '.5em' }} />
 						Spark
 					</Menu.Item>
-					<Menu.Item as="a">Home</Menu.Item>
+					<Menu.Item as="a">Hoe</Menu.Item>
 					<Menu.Item as="a">Portfolio</Menu.Item>
 					<Menu.Item as="a">Contact</Menu.Item>
 				</Container>
