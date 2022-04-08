@@ -327,3 +327,7 @@ canvas {
 .ui.mini.image.user-icon {
   border-radius: 100%;
 }
+
+.nav-item.item {
+  height: 100%;
+}

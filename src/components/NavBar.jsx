@@ -8,25 +8,33 @@ export function NavBar({ user }) {
   return (
     <Menu fixed='top' inverted>
       <Container>
-        <Menu.Item as='a' header>
-          <Image
-            size='mini'
-            src={myImg}
-            style={{
-              marginRight: '.5em',
-            }}
-          />
-          Spark
-        </Menu.Item>
-        <Menu.Item as='a'>
-          <Link to='/'>Home</Link>
-        </Menu.Item>
-        <Menu.Item as='a'>
-          <Link to='portfolio'>Portfolio</Link>
-        </Menu.Item>
-        <Menu.Item as='a'>
-          <Link to='contact'>Contact</Link>
-        </Menu.Item>
+        <Link to='/'>
+          <Menu.Item as='a' header>
+            <Image
+              size='mini'
+              src={myImg}
+              style={{
+                marginRight: '.5em',
+              }}
+            />
+            Spark
+          </Menu.Item>
+        </Link>
+        <Link to='/'>
+          <Menu.Item className='nav-item' as='a'>
+            Home
+          </Menu.Item>
+        </Link>
+        <Link to='portfolio'>
+          <Menu.Item className='nav-item' as='a'>
+            Portfolio
+          </Menu.Item>
+        </Link>
+        <Link to='contact'>
+          <Menu.Item className='nav-item' as='a'>
+            Contact
+          </Menu.Item>
+        </Link>
       </Container>
       {user ? (
         <>

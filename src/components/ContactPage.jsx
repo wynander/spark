@@ -1,3 +1,3 @@
 export function ContactPage() {
-  return <p>hello</p>
+  return <p>Home Page</p>
 }
