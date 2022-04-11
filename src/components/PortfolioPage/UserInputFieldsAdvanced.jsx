@@ -37,9 +37,9 @@ export default function UserInputFieldsAdvanced({
     <>
       <Form autoComplete="off" className="form-main">
         <Form.Field className="webflow-style-input">
-          {userInput.birthYear && (
+          {userInput.birthYear >= 0 ? (
             <label className="input-label">Birth Year</label>
-          )}
+          ) : null}
           <CurrencyInput
             name="birthYear"
             disableGroupSeparators="true"
@@ -55,9 +55,9 @@ export default function UserInputFieldsAdvanced({
         </Form.Field>
 
         <Form.Field className="webflow-style-input">
-          {userInput.netMonthlyIncome && (
+          {userInput.netMonthlyIncome >= 0 ? (
             <label className="input-label">Net Monthly Income</label>
-          )}
+          ) : null}
           <CurrencyInput
             name="netMonthlyIncome"
             prefix="$"
@@ -71,9 +71,9 @@ export default function UserInputFieldsAdvanced({
           />
         </Form.Field>
         <Form.Field className="webflow-style-input">
-          {userInput.netSavingsRate && (
+          {userInput.netSavingsRate >= 0 ? (
             <label className="input-label">Percentage of Income Saved</label>
-          )}
+          ) : null}
           <CurrencyInput
             name="netSavingsRate"
             className=""
@@ -87,7 +87,7 @@ export default function UserInputFieldsAdvanced({
           />
         </Form.Field>
         <Form.Field className="webflow-style-input">
-          {userInput.currentInvestments ? (
+          {userInput.currentInvestments >= 0 ? (
             <label className="input-label">Current Investments Value</label>
           ) : null}
 
@@ -105,9 +105,9 @@ export default function UserInputFieldsAdvanced({
         {isAdvanced && (
           <>
             <Form.Field className="webflow-style-input">
-              {userInput.yearlyRaise>=0 ? (
+              {userInput.yearlyRaise >= 0 ? (
                 <label className="input-label">Yearly Raise Percentage</label>
-              ):null}
+              ) : null}
               <CurrencyInput
                 name="yearlyRaise"
                 className=""
@@ -135,7 +135,7 @@ export default function UserInputFieldsAdvanced({
               />
             </Form.Field>
             <Form.Field className="webflow-style-input">
-              {userInput.yearlyInflation >=0 ? (
+              {userInput.yearlyInflation >= 0 ? (
                 <label className="input-label">Yearly Inflation</label>
               ) : null}
 
@@ -153,7 +153,7 @@ export default function UserInputFieldsAdvanced({
           </>
         )}
         <Form.Field className="webflow-style-input">
-          {userInput.retirementAge ? (
+          {userInput.retirementAge >= 0 ? (
             <label className="input-label">Retirement Age</label>
           ) : null}
           <CurrencyInput
@@ -206,7 +206,7 @@ export default function UserInputFieldsAdvanced({
           </div>
         </Form.Field>
         <Form.Field className="webflow-style-input">
-          {userInput.retirementSalary ? (
+          {userInput.retirementSalary >= 0 ? (
             <label className="input-label">Retirement Salary</label>
           ) : null}
           <CurrencyInput
