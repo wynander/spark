@@ -229,14 +229,6 @@ canvas {
   text-align: center;
 }
 
-@media only screen and (min-width: 1200px) {
-  .ui.container {
-    width: 80vw !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-}
-
 .form-main {
   transition: 1s ease;
 }
@@ -331,3 +323,9 @@ canvas {
 .nav-item.item {
   height: 100%;
 }
+
+/* media query for screen size to go here  */
+/* .display-email,
+.display-name { */
+  /* display: none; */
+/* } */

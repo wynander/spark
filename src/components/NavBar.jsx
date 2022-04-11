@@ -9,7 +9,7 @@ export function NavBar({ user }) {
     <Menu fixed='top' inverted>
       <Container>
         <Link to='/'>
-          <Menu.Item as='a' header>
+          <Menu.Item as='div' header>
             <Image
               size='mini'
               src={myImg}
@@ -21,17 +21,17 @@ export function NavBar({ user }) {
           </Menu.Item>
         </Link>
         <Link to='/'>
-          <Menu.Item className='nav-item' as='a'>
+          <Menu.Item className='nav-item' as='div'>
             Home
           </Menu.Item>
         </Link>
         <Link to='portfolio'>
-          <Menu.Item className='nav-item' as='a'>
+          <Menu.Item className='nav-item' as='div'>
             Portfolio
           </Menu.Item>
         </Link>
         <Link to='contact'>
-          <Menu.Item className='nav-item' as='a'>
+          <Menu.Item className='nav-item' as='div'>
             Contact
           </Menu.Item>
         </Link>

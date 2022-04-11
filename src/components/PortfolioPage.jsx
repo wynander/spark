@@ -3,163 +3,194 @@ import {
   collection,
   deleteDoc,
   doc,
-  getDoc,
-  onSnapshot,
-  orderBy,
-  query,
+  setDoc,
   Timestamp,
-  updateDoc,
-} from 'firebase/firestore'
-import React from 'react'
-import { Container, Segment } from 'semantic-ui-react'
-import AddAssetModal from './PortfolioPage/AddAssetModal'
-import AssetList from './PortfolioPage/AssetList'
-import PlotContainer from './PortfolioPage/PlotContainer'
-import UserInputFieldsAdvanced from './PortfolioPage/UserInputFieldsAdvanced'
-import { db } from '../firebase-config'
+  updateDoc
+} from "firebase/firestore";
+import React from "react";
+import { Container, Segment } from "semantic-ui-react";
+import { db } from "../firebase-config";
+import AddAssetModal from "./PortfolioPage/AddAssetModal";
+import AssetList from "./PortfolioPage/AssetList";
+import PlotContainer from "./PortfolioPage/PlotContainer";
+import UserInputFieldsAdvanced from "./PortfolioPage/UserInputFieldsAdvanced";
+import * as debounce from "lodash.debounce";
 
 export function PortfolioPage({
   user,
   userInput,
   setUserInput,
   assetValues,
-  setAssetValues,
+  setAssetValues
 }) {
   if (userInput.yearlyRaise === undefined) {
-    setUserInput({ ...userInput, yearlyRaise: 3 })
+    setUserInput({ ...userInput, yearlyRaise: 3 });
   }
   if (userInput.yearlyInflation === undefined) {
-    setUserInput({ ...userInput, yearlyInflation: 3 })
+    setUserInput({ ...userInput, yearlyInflation: 3 });
   }
   if (userInput.estimatedROI === undefined) {
-    setUserInput({ ...userInput, estimatedROI: 10 })
+    setUserInput({ ...userInput, estimatedROI: 10 });
   }
+
+  console.log("portfoliopage", userInput);
+  const dbUpdate = async () => {
+    if (user) {
+      try {
+        setDoc(
+          doc(db, "users/", user.uid, "portfolio-variables", "user-input"),
+          {
+            ...userInput
+          }
+        );
+      } catch (err) {
+        alert(err);
+      }
+    }
+  };
+
+  //create reference to Firestore update function, then creates a debounce function to limit writes
+  const debouncedUpdateFunctionRef = React.useRef();
+  debouncedUpdateFunctionRef.current = userInput => dbUpdate(userInput);
+  const debouncedChange = React.useCallback(
+    debounce((...args) => debouncedUpdateFunctionRef.current(...args), 1500),
+    []
+  );
 
   const handleInputChange = (value, name) => {
+    let val = value;
+    if (value === undefined) {
+      val = "";
+    }
+
     setUserInput({
       ...userInput,
-      [name]: value,
-    })
-  }
+      [name]: Number(val)
+    });
 
-  const handleClickSalary = (type) => {
-    let increment = 1000
+    debouncedChange(userInput);
+  };
+
+  const handleClickSalary = type => {
+    let increment = 1000;
     if (userInput.retirementSalary >= 10000) {
-      increment = 2000
+      increment = 2000;
     }
     if (userInput.retirementSalary >= 50000) {
-      increment = 2500
+      increment = 2500;
     }
     if (userInput.retirementSalary >= 100000) {
-      increment = 5000
+      increment = 5000;
     }
     switch (type) {
-      case 'SalaryUp':
+      case "SalaryUp":
         setUserInput({
           ...userInput,
-          retirementSalary: Number(userInput.retirementSalary) + increment,
-        })
-        break
-      case 'SalaryDown':
+          retirementSalary: userInput.retirementSalary + increment
+        });
+        break;
+      case "SalaryDown":
         if (userInput.retirementSalary < 1000) {
           setUserInput({
             ...userInput,
-            retirementSalary: 0,
-          })
+            retirementSalary: 0
+          });
         } else {
           setUserInput({
             ...userInput,
-            retirementSalary: Number(userInput.retirementSalary) - increment,
-          })
+            retirementSalary: userInput.retirementSalary - increment
+          });
         }
-        break
+        break;
       default:
-        throw new Error()
+        throw new Error();
     }
-  }
+    debouncedChange(userInput);
+  };
 
-  const handleClickAge = (type) => {
+  const handleClickAge = type => {
     switch (type) {
-      case 'AgeDown':
+      case "AgeDown":
         if (userInput.retirementAge > 0) {
           setUserInput({
             ...userInput,
-            retirementAge: Number(userInput.retirementAge) - 1,
-          })
+            retirementAge: userInput.retirementAge - 1
+          });
         }
-        break
-      case 'AgeUp':
+        break;
+      case "AgeUp":
         setUserInput({
           ...userInput,
-          retirementAge: Number(userInput.retirementAge) + 1,
-        })
-        break
+          retirementAge: userInput.retirementAge + 1
+        });
+        break;
       default:
-        throw new Error()
+        throw new Error();
     }
-  }
+    debouncedChange(userInput);
+  };
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async values => {
     if (user) {
       try {
-        await addDoc(collection(db, 'users/', user.uid, '/assets/'), {
+        await addDoc(collection(db, "users/", user.uid, "/assets/"), {
           ...values,
-          created: Timestamp.now(),
-        })
+          created: Timestamp.now()
+        });
       } catch (err) {
         alert(
-          'Sorry, that submission did not make it to the database. Please refresh the page and try again. '
-        )
+          "Sorry, that submission did not make it to the database. Please refresh the page and try again. "
+        );
       }
     } else {
-      setAssetValues([...assetValues, values])
+      setAssetValues([...assetValues, values]);
     }
-  }
+  };
 
-  const removeAsset = async (assetProps) => {
+  const removeAsset = async assetProps => {
     if (user) {
       try {
         await deleteDoc(
-          doc(db, 'users/', user.uid, '/assets/', assetProps.dbid)
-        )
+          doc(db, "users/", user.uid, "/assets/", assetProps.dbid)
+        );
       } catch (err) {
         alert(
-          'Sorry, that asset was not able to be removed. Please refresh the page and try again.'
-        )
+          "Sorry, that asset was not able to be removed. Please refresh the page and try again."
+        );
       }
     } else {
       setAssetValues(
-        assetValues.filter((assetNumber) => assetNumber.id !== assetProps.id)
-      )
+        assetValues.filter(assetNumber => assetNumber.id !== assetProps.id)
+      );
     }
-  }
+  };
 
   const updateAsset = async (values, index) => {
     if (user) {
       try {
-        await updateDoc(doc(db, 'users/', user.uid, '/assets/', values.dbid), {
-          ...values,
-        })
+        await updateDoc(doc(db, "users/", user.uid, "/assets/", values.dbid), {
+          ...values
+        });
       } catch (err) {
         alert(
-          'Sorry, that update did not make it to the database. Please refresh the page and try again.'
-        )
+          "Sorry, that update did not make it to the database. Please refresh the page and try again."
+        );
       }
     } else {
-      let temp = [...assetValues]
-      temp[index] = { ...temp[index], ...values }
-      setAssetValues(temp)
+      let temp = [...assetValues];
+      temp[index] = { ...temp[index], ...values };
+      setAssetValues(temp);
     }
-  }
+  };
   return (
-    <div className='main-segment'>
+    <div className="main-segment">
       <Segment
-        className='plot-section'
+        className="plot-section"
         style={{
-          paddingTop: '5em',
+          paddingTop: "5em"
         }}
       >
-        <div className='user-form advanced-options'>
+        <div className="user-form advanced-options">
           <UserInputFieldsAdvanced
             handleInputChange={handleInputChange}
             handleClickSalary={handleClickSalary}
@@ -176,10 +207,10 @@ export function PortfolioPage({
             user={user}
           />
         </div>
-        <Container className='plot-container'>
+        <Container className="plot-container">
           <PlotContainer assetValues={assetValues} userInput={userInput} />
         </Container>
       </Segment>
     </div>
-  )
+  );
 }
