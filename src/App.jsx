@@ -12,7 +12,7 @@ import { Route, Routes } from "react-router-dom";
 import { db } from "./firebase-config";
 import "./App.css";
 import { ContactPage } from "./components/ContactPage";
-import { HomePage } from "./components/HomePage";
+import { AboutPage } from "./components/AboutPage";
 import { NavBar } from "./components/NavBar";
 import { PortfolioPage } from "./components/PortfolioPage";
 import { auth } from "./firebase-config";
@@ -83,7 +83,7 @@ export default function App() {
     <div className="App">
       <NavBar user={user} />
       <Routes>
-        <Route path="/" element={<HomePage user={user} />} />
+        <Route path="/" element={<AboutPage user={user} />} />
         <Route
           path="portfolio"
           element={
@@ -96,7 +96,7 @@ export default function App() {
             />
           }
         />
-        <Route path="contact" element={<ContactPage user={user} />} />
+        {/* <Route path="contact" element={<ContactPage user={user} />} /> */}
       </Routes>
       <footer />
     </div>

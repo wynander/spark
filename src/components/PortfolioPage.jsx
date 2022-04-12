@@ -14,7 +14,8 @@ import AddAssetModal from "./PortfolioPage/AddAssetModal";
 import AssetList from "./PortfolioPage/AssetList";
 import PlotContainer from "./PortfolioPage/PlotContainer";
 import UserInputFieldsAdvanced from "./PortfolioPage/UserInputFieldsAdvanced";
-import * as debounce from "lodash.debounce";
+import { debounce } from "lodash";
+
 
 export function PortfolioPage({
   user,
@@ -201,7 +202,7 @@ export function PortfolioPage({
             userInput={userInput}
             user={user}
           />
-          <AddAssetModal handleSubmit={handleSubmit}>Add Assets</AddAssetModal>
+          <AddAssetModal className={'port-btn'} handleSubmit={handleSubmit}>Add Assets</AddAssetModal>
           <AssetList
             handleSubmit={handleSubmit}
             assetValues={assetValues}

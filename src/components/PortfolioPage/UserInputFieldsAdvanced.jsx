@@ -260,11 +260,11 @@ export default function UserInputFieldsAdvanced({
         </Form.Field>
       </Form>
       {isAdvanced ? (
-        <Button className="advanced-btn button" onClick={handleAdvanced}>
+        <Button className="advanced-btn port-btn" onClick={handleAdvanced}>
           - Advanced Options
         </Button>
       ) : (
-        <Button className="advanced-btn button" onClick={handleAdvanced}>
+        <Button className="advanced-btn port-btn" onClick={handleAdvanced}>
           + Advanced Options
         </Button>
       )}

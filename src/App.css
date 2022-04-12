@@ -324,8 +324,60 @@ canvas {
   height: 100%;
 }
 
-/* media query for screen size to go here  */
-/* .display-email,
-.display-name { */
-  /* display: none; */
-/* } */
+.ui.inverted.top.fixed.menu.home-page{
+  background-color: transparent;
+  position:absolute;
+  top:0px;
+  left:0px;
+}
+
+.item.home-page.nav-item.item::before{
+  height: 0%;
+}
+
+.spacing-div{
+  flex:1
+}
+
+.content-container{
+  display:flex;
+  position: absolute;
+  background-color: rgb(12, 12, 12);
+  width: 100vw; 
+  height:100vh;
+  top:0px;
+  left:0px;
+  flex-direction: column;
+}
+
+.about-section{
+  width:100%
+}
+
+.home-hero{
+background-color:rgb(12, 12, 12);
+}
+
+.home-page.user-details{
+  display:none;
+}
+
+.big.icon.user.home{
+  color: rgba(255, 255, 255, 0.3);
+  margin:1rem;
+}
+
+.ui.inverted.vertical.menu,.ui.inverted.vertical.menu>*,.ui.inverted.vertical.menu>*>*{
+  display:flex;
+  justify-content: center;
+  align-items: center ;
+  flex-direction: column;
+}
+
+.vertical.menu>*>img{
+ display:none;
+}
+
+.ui.button.port-btn{
+margin: .5rem;
+}

@@ -21,7 +21,7 @@ export default function AssetList({
 
   return (
     <>
-      <Button onClick={() => setOpen((prevState) => !prevState)}>
+      <Button className='port-btn' onClick={() => setOpen((prevState) => !prevState)}>
         Manage Assets
       </Button>
 
