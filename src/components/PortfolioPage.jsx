@@ -23,19 +23,22 @@ export function PortfolioPage({
   assetValues,
   setAssetValues
 }) {
-  if (userInput.yearlyRaise === undefined) {
-    setUserInput({ ...userInput, yearlyRaise: 3 });
-  }
-  if (userInput.yearlyInflation === undefined) {
-    setUserInput({ ...userInput, yearlyInflation: 3 });
-  }
-  if (userInput.estimatedROI === undefined) {
-    setUserInput({ ...userInput, estimatedROI: 10 });
-  }
 
-  console.log("portfoliopage", userInput);
+  React.useEffect(() => {
+    if (userInput.yearlyRaise === undefined) {
+      setUserInput({ ...userInput, yearlyRaise: 3 });
+    }
+    if (userInput.yearlyInflation === undefined) {
+      setUserInput({ ...userInput, yearlyInflation: 3 });
+    }
+    if (userInput.estimatedROI === undefined) {
+      setUserInput({ ...userInput, estimatedROI: 10 });
+    }
+  });
+
   const dbUpdate = async () => {
     if (user) {
+      
       try {
         setDoc(
           doc(db, "users/", user.uid, "portfolio-variables", "user-input"),
@@ -49,7 +52,7 @@ export function PortfolioPage({
     }
   };
 
-  //create reference to Firestore update function, then creates a debounce function to limit writes
+  //create ref to Firestore update function, then creates a debounce function to limit writes until after user finishes typing
   const debouncedUpdateFunctionRef = React.useRef();
   debouncedUpdateFunctionRef.current = userInput => dbUpdate(userInput);
   const debouncedChange = React.useCallback(
