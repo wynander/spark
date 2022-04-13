@@ -16,7 +16,6 @@ import PlotContainer from "./PortfolioPage/PlotContainer";
 import UserInputFieldsAdvanced from "./PortfolioPage/UserInputFieldsAdvanced";
 import { debounce } from "lodash";
 
-
 export function PortfolioPage({
   user,
   userInput,
@@ -24,7 +23,6 @@ export function PortfolioPage({
   assetValues,
   setAssetValues
 }) {
-
   React.useEffect(() => {
     if (userInput.yearlyRaise === undefined) {
       setUserInput({ ...userInput, yearlyRaise: 3 });
@@ -39,7 +37,6 @@ export function PortfolioPage({
 
   const dbUpdate = async () => {
     if (user) {
-      
       try {
         setDoc(
           doc(db, "users/", user.uid, "portfolio-variables", "user-input"),
@@ -202,7 +199,9 @@ export function PortfolioPage({
             userInput={userInput}
             user={user}
           />
-          <AddAssetModal className={'port-btn'} handleSubmit={handleSubmit}>Add Assets</AddAssetModal>
+          <AddAssetModal className={"port-btn"} handleSubmit={handleSubmit}>
+            Add Assets
+          </AddAssetModal>
           <AssetList
             handleSubmit={handleSubmit}
             assetValues={assetValues}

@@ -61,19 +61,45 @@ button {
   margin: 0.2rem auto;
   border-radius: 4px;
   max-height: 40px;
+  font-size: 1.2rem;
+}
+
+.ui.form input {
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.03) 0%,
+      rgba(255, 255, 255, 0.03) 100%
+    ),
+    linear-gradient(#121212 0%, #121212 100%) !important;
+  color: white !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.ui.form input:hover {
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.07) 0%,
+      rgba(255, 255, 255, 0.07) 100%
+    ),
+    linear-gradient(#121212 0%, #121212 100%) !important;
 }
 
 .ui.form .field.webflow-style-input > .input-label {
   position: absolute;
-  top: -0.8rem;
-  left: 0.4rem;
-  background: white;
+  top: -1rem;
+  left: 0.5rem;
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.03) 100%
+    ),
+    linear-gradient(#121212 0%, #121212 100%);
   padding: 0px 0.3rem;
-  color: rgb(65, 65, 65);
+  color: rgb(175, 175, 175);
+  border-radius: 0.5rem;
+  font: size 1rem;
+  font-weight: 400;
 }
 
 .focus-input:after {
-  content: '';
+  content: "";
   position: absolute;
   left: 0px;
   right: 0px;
@@ -114,7 +140,6 @@ button {
 }
 
 .webflow-style-input button {
-  color: white;
   font-size: 2.4rem;
   line-height: 2.4rem;
   vertical-align: middle;
@@ -138,7 +163,7 @@ button {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .section {
@@ -182,15 +207,24 @@ canvas {
   margin-left: 0.1rem;
   border: 1px solid rgba(44, 44, 44, 0.1);
   height: 50%;
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    ),
+    linear-gradient(#121212 0%, #121212 100%);
 }
 .button-container button:hover {
-  background-color: rgb(216, 216, 216);
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.16) 0%,
+      rgba(255, 255, 255, 0.16) 100%
+    ),
+    linear-gradient(#121212 0%, #121212 100%);
 }
 
 .bi {
   height: 1.6rem;
   width: 1.8rem;
-  fill: #a73c2e;
+  fill: #bf4b3c;
 }
 
 .advanced-button {
@@ -201,7 +235,11 @@ canvas {
 }
 
 .asset-button {
-  background-color: var(--input-text-inactive);
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    ),
+    linear-gradient(#121212 0%, #121212 100%) !important;
   width: 4rem;
   height: 2rem;
   margin: 0 1rem;
@@ -211,16 +249,33 @@ canvas {
 .ui.menu.fixed {
   position: relative !important;
 }
-.plot-section {
+.ui.segment.plot-section {
+  margin: 2rem auto !important;
   width: 80vw;
   display: flex;
   padding-top: 3em !important;
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    ),
+    linear-gradient(#121212 0%, #121212 100%);
+  border-radius: 1rem;
 }
 
 .main-segment {
+  position: absolute;
   flex: 1;
+  top: 0;
   display: flex;
   justify-content: center;
+  padding-top: 4rem;
+  background: radial-gradient(
+    circle at top left,
+    rgb(12, 12, 12),
+    rgb(24, 24, 24)
+  );
+  height: 100vh;
+  width: 100vw;
 }
 
 .button {
@@ -254,14 +309,21 @@ canvas {
 .asset-item > .button {
   width: 100% !important;
   margin-top: 0px !important;
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.14) 0%,
+      rgba(255, 255, 255, 0.14) 100%
+    ),
+    linear-gradient(#121212 0%, #121212 100%) !important;
+    color: rgb(154, 154, 154) !important;;
 }
 .asset-item > .content {
   width: 100%;
   padding: 1rem;
 }
 
-.asset-item > .content > .header {
+.asset-buttons > .content > .header > h3 {
   width: 100%;
+  color: white !important;;
 }
 
 .meta > span {
@@ -320,64 +382,180 @@ canvas {
   border-radius: 100%;
 }
 
-.nav-item.item {
+.nav-item.item a {
   height: 100%;
 }
 
-.ui.inverted.top.fixed.menu.home-page{
+.ui.inverted.top.fixed.menu {
   background-color: transparent;
-  position:absolute;
-  top:0px;
-  left:0px;
-}
-
-.item.home-page.nav-item.item::before{
-  height: 0%;
-}
-
-.spacing-div{
-  flex:1
-}
-
-.content-container{
-  display:flex;
   position: absolute;
-  background-color: rgb(12, 12, 12);
-  width: 100vw; 
-  height:100vh;
-  top:0px;
-  left:0px;
+  top: 0px;
+  left: 0px;
+}
+
+.item.nav-item::before {
+  height: 0% !important;
+}
+
+.spacing-div {
+  flex: 1;
+}
+
+.content-container {
+  display: flex;
+  position: absolute;
+  background-color: #121212;
+  width: 100vw;
+  height: 100vh;
+  top: 0px;
+  left: 0px;
   flex-direction: column;
 }
 
-.about-section{
-  width:100%
+.about-section {
+  width: 100%;
 }
 
-.home-hero{
-background-color:rgb(12, 12, 12);
+.home-hero {
+  background: radial-gradient(
+    circle at top left,
+    rgb(12, 12, 12),
+    rgb(48, 48, 48)
+  );
+  width: 100vw;
+  height: 100vh;
 }
 
-.home-page.user-details{
-  display:none;
+.home-page.user-details {
+  display: none;
 }
 
-.big.icon.user.home{
+.big.icon.user.home {
   color: rgba(255, 255, 255, 0.3);
-  margin:1rem;
+  margin: 1rem;
 }
 
-.ui.inverted.vertical.menu,.ui.inverted.vertical.menu>*,.ui.inverted.vertical.menu>*>*{
-  display:flex;
+.ui.inverted.vertical.menu,
+.ui.inverted.vertical.menu > *,
+.ui.inverted.vertical.menu > * > * {
+  display: flex;
   justify-content: center;
-  align-items: center ;
+  align-items: center;
   flex-direction: column;
 }
 
-.vertical.menu>*>img{
- display:none;
+.vertical.menu > * > img {
+  display: none;
 }
 
-.ui.button.port-btn{
-margin: .5rem;
+.ui.button.port-btn,
+.ui.button.port-btn:focus {
+  margin: 0.5rem;
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.12) 0%,
+      rgba(255, 255, 255, 0.12) 100%
+    ),
+    linear-gradient(#121212 0%, #121212 100%);
+  color: rgb(213, 212, 212);
+  font-size: 1rem;
+}
+
+.ui.button.port-btn:hover {
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.16) 0%,
+      rgba(255, 255, 255, 0.16) 100%
+    ),
+    linear-gradient(#121212 0%, #121212 100%);
+  color: white;
+}
+
+.item:hover {
+  color: #ad480d;
+}
+
+#sign-in-btn {
+  max-height: 61px;
+  margin: auto 1rem;
+  padding: 0.75rem 1.5rem !important;
+  border: 1px solid white;
+  border-radius: 50vh;
+  color: white;
+}
+
+.ui.dimmer {
+  background-color: rgba(0, 0, 0, 0.6) !important;
+}
+.ui.modal > .header {
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    ),
+    linear-gradient(#121212 0%, #121212 100%) !important;
+  color: white !important;
+  padding-bottom: 0px !important;
+}
+.ui.button.port-btn.add-asset-list {
+  margin-top: -0.5rem;
+  margin-bottom: -0.5rem;
+}
+
+.ui.modal.manage-assets,
+.ui.modal > .content {
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    ),
+    linear-gradient(#121212 0%, #121212 100%) !important;
+}
+
+.fields > .field > label {
+  color: white !important;
+}
+
+.ui.red.pointing.basic.label {
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    ),
+    linear-gradient(#121212 0%, #121212 100%) !important;
+  color: #ff8465 !important;
+  border-color: #ff8465 !important;
+}
+
+.ui.negative.button {
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.12) 0%,
+      rgba(255, 255, 255, 0.12) 100%
+    ),
+    linear-gradient(#121212 0%, #121212 100%) !important;
+}
+
+.form > div > .button {
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.12) 0%,
+      rgba(255, 255, 255, 0.12) 100%
+    ),
+    linear-gradient(#121212 0%, #121212 100%) !important;
+  color: white !important;
+}
+
+.ui.green.button {
+  background: #b87868 !important;
+}
+
+.no-asset-center {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  height: 70%;
+}
+
+.asset-list-logo {
+  max-height: 70%;
+  margin: 4rem auto;
+  width: auto;
+}
+
+.ui.dividing.center.aligned.header{
+  color: white;
 }

@@ -14,8 +14,8 @@ export function NavBar({ user }) {
 
   return (
     <Menu fixed="top" inverted className={className}>
-      <Link to="/">
-        <Menu.Item as="div" className={className + " nav-item"}>
+      
+        <Menu.Item as={Link} to="/" className={className + " nav-item"}>
           <Image
             size="mini"
             src={myImg}
@@ -25,13 +25,13 @@ export function NavBar({ user }) {
           />
           <strong>Spark</strong>
         </Menu.Item>
-      </Link>
+     
 
-      <Link to="portfolio">
-        <Menu.Item className={className + " nav-item"} as="div">
+      
+        <Menu.Item to="portfolio" className={className + " nav-item"} as={Link}>
           Portfolio View
         </Menu.Item>
-      </Link>
+     
       {/* <Link to="contact">
         <Menu.Item className={className + " nav-item"} as="div">
           Contact

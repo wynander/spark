@@ -8,7 +8,6 @@ export const assetInputValidationSchema = Yup.object().shape({
     .required('Required'),
   totalCost: Yup.number().positive('Must be positive').required('Required'),
   amountFinanced: Yup.number()
-    .positive('Must be positive')
     .required('Required'),
   savingsUsed: Yup.number().min(0, 'Must be $0 or higher').required('Required'),
   financeTerm: Yup.number()

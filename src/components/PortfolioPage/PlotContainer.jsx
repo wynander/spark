@@ -31,7 +31,8 @@ export default function PlotContainer({ assetValues, userInput }) {
           fill: false,
           backgroundColor: "rgba(80, 80, 80,0)",
           radius: "0",
-          key: new Date()
+          key: new Date(),
+          retirementIndex: retirementIndex
         }
       ];
 
@@ -116,9 +117,9 @@ export default function PlotContainer({ assetValues, userInput }) {
           label: "Unsafe",
           data: unsafeDraw,
           borderDash: [10, 10],
-          borderColor: "#964336",
+          borderColor: "rgba(220, 45, 45,.7)",
           fill: true,
-          backgroundColor: "rgba(182, 65, 45,.15)",
+          backgroundColor: "rgba(255, 45, 45,.08)",
           radius: "0",
           key: new Date()
         }

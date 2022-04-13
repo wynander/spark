@@ -5,25 +5,23 @@ import myImg from "../logo.png";
 import { Link, useLocation } from "react-router-dom";
 
 export default function UserLogin({ user }) {
-  const location = useLocation();
-  console.log(user);
-  if (location.pathname === "/") {
-    return (
-      <Popup
-        trigger={<Icon className="user circle home" size="big" />}
-        content={<UserDetails user={user} flexDir={"vertical"} />}
-        on="click"
-        inverted
-      />
-    );
-  } else {
-    return <UserDetails user={user} />;
-  }
+  return (
+    <>
+      {user ? (
+        <Popup
+          trigger={<Icon className="user circle home" size="big" />}
+          content={<UserDetails user={user} flexDir={"vertical"} />}
+          on="click"
+          inverted
+        />
+      ) : (
+        <button id='sign-in-btn' onClick={signInWithGoogle}>Sign In</button>
+      )}
+    </>
+  );
 }
 
 function UserDetails({ user, flexDir }) {
-  console.log(user);
-
   return (
     <Menu inverted className={flexDir}>
       {user ? (
