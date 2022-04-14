@@ -47,7 +47,7 @@ export default function AddAssetForm({ handleSubmit, setOpen }) {
                 allowDecimals={false}
                 value={values.purchaseYear}
                 onValueChange={(value, name) => {
-                  setFieldValue(name, Number(value))
+                  setFieldValue(name, Number(value) ? Number(value) : '')
                 }}
                 onBlur={handleBlur}
               />

@@ -33,11 +33,12 @@ export default function UserInputFieldsAdvanced({
       handleClickAge(type);
     }
   };
+
   return (
     <>
       <Form autoComplete="off" className="form-main">
         <Form.Field className="webflow-style-input">
-          {userInput.birthYear >= 0 ? (
+          {userInput.birthYear !== null ? (
             <label className="input-label">Birth Year</label>
           ) : null}
           <CurrencyInput
@@ -55,7 +56,7 @@ export default function UserInputFieldsAdvanced({
         </Form.Field>
 
         <Form.Field className="webflow-style-input">
-          {userInput.netMonthlyIncome >= 0 ? (
+          {userInput.netMonthlyIncome !== null ? (
             <label className="input-label">Net Monthly Income</label>
           ) : null}
           <CurrencyInput
@@ -71,7 +72,7 @@ export default function UserInputFieldsAdvanced({
           />
         </Form.Field>
         <Form.Field className="webflow-style-input">
-          {userInput.netSavingsRate >= 0 ? (
+          {userInput.netSavingsRate !== null ? (
             <label className="input-label">Percentage of Income Saved</label>
           ) : null}
           <CurrencyInput
@@ -87,7 +88,7 @@ export default function UserInputFieldsAdvanced({
           />
         </Form.Field>
         <Form.Field className="webflow-style-input">
-          {userInput.currentInvestments >= 0 ? (
+          {userInput.currentInvestments !== null ? (
             <label className="input-label">Current Investments Value</label>
           ) : null}
 
@@ -105,8 +106,8 @@ export default function UserInputFieldsAdvanced({
         {isAdvanced && (
           <>
             <Form.Field className="webflow-style-input">
-              {userInput.yearlyRaise >= 0 ? (
-                <label className="input-label">Yearly Raise Percentage</label>
+              {userInput.yearlyRaise !== null ? (
+                <label className="input-label">Yearly Raise</label>
               ) : null}
               <CurrencyInput
                 name="yearlyRaise"
@@ -114,13 +115,14 @@ export default function UserInputFieldsAdvanced({
                 suffix="%"
                 allowNegativeValue={false}
                 value={userInput.yearlyRaise}
+                placeholder="Yearly Raise %"
                 onValueChange={handleInputChange}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
               />
             </Form.Field>
             <Form.Field className="webflow-style-input">
-              {userInput.estimatedROI >= 0 ? (
+              {userInput.estimatedROI !== null ? (
                 <label className="input-label">Estimated ROI</label>
               ) : null}
               <CurrencyInput
@@ -129,13 +131,14 @@ export default function UserInputFieldsAdvanced({
                 suffix="%"
                 allowNegativeValue={false}
                 value={userInput.estimatedROI}
+                placeholder="Estimated ROI %"
                 onValueChange={handleInputChange}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
               />
             </Form.Field>
             <Form.Field className="webflow-style-input">
-              {userInput.yearlyInflation >= 0 ? (
+              {userInput.yearlyInflation !== null ? (
                 <label className="input-label">Yearly Inflation</label>
               ) : null}
 
@@ -145,6 +148,7 @@ export default function UserInputFieldsAdvanced({
                 suffix="%"
                 allowNegativeValue={false}
                 value={userInput.yearlyInflation}
+                placeholder="Yearly Inflation %"
                 onValueChange={handleInputChange}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
@@ -153,7 +157,7 @@ export default function UserInputFieldsAdvanced({
           </>
         )}
         <Form.Field className="webflow-style-input">
-          {userInput.retirementAge >= 0 ? (
+          {userInput.retirementAge !== null ? (
             <label className="input-label">Retirement Age</label>
           ) : null}
           <CurrencyInput
@@ -206,7 +210,7 @@ export default function UserInputFieldsAdvanced({
           </div>
         </Form.Field>
         <Form.Field className="webflow-style-input">
-          {userInput.retirementSalary >= 0 ? (
+          {userInput.retirementSalary !== null ? (
             <label className="input-label">Retirement Salary</label>
           ) : null}
           <CurrencyInput

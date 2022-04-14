@@ -10,13 +10,17 @@ export default function PlotContainer({ assetValues, userInput }) {
 
   let data = React.useMemo(
     () => {
+      const getNormalizedReturn =
+        ((userInput.estimatedROI ?? 10) - (userInput.yearlyInflation ?? 3)) /
+        100;
+
       const assetValuesParsed = assetParseFloat(assetValues);
       const {
         investmentValue,
         retirementDraw,
         labels,
-        retirementIndex
-      } = portfolioReturnCalculator(userInput);
+        retirementIndex,
+      } = portfolioReturnCalculator(userInput,getNormalizedReturn);
 
       let portfolioValue = investmentValue.map((item, index) => {
         return item + retirementDraw[index];
@@ -44,7 +48,8 @@ export default function PlotContainer({ assetValues, userInput }) {
       const assetArrays = assetArrayCalculator(
         userInput,
         labels,
-        assetValuesParsed
+        assetValuesParsed,
+        getNormalizedReturn
       );
 
       let assetTotals = {
@@ -146,11 +151,11 @@ export default function PlotContainer({ assetValues, userInput }) {
             if (i > retirementIndex) {
               getRetirementArrays(
                 safeDraw,
-                i,
-                userInput,
+                i,              
                 tempPortfolioValue,
                 retirementIndex,
-                unsafeDraw
+                unsafeDraw,
+                getNormalizedReturn
               );
             } else {
               safeDraw[i] = tempPortfolioValue[i];
@@ -165,11 +170,11 @@ export default function PlotContainer({ assetValues, userInput }) {
             if (i > retirementIndex) {
               getRetirementArrays(
                 safeDraw,
-                i,
-                userInput,
+                i,                
                 portfolioValue,
                 retirementIndex,
-                unsafeDraw
+                unsafeDraw,
+                getNormalizedReturn
               );
             } else {
               safeDraw[i] = portfolioValue[i];
@@ -195,17 +200,16 @@ export default function PlotContainer({ assetValues, userInput }) {
 function getRetirementArrays(
   safeDraw,
   i,
-  userInput,
   portfolioValArray,
   retirementIndex,
-  unsafeDraw
+  unsafeDraw,
+  getNormalizedReturn
 ) {
-  let normalizedReturn =
-    (userInput.estimatedROI - userInput.yearlyInflation) / 100;
+  
   safeDraw[i] = calcRetirementPortfolioVal(
     safeDraw,
     i,
-    normalizedReturn,
+    getNormalizedReturn,
     portfolioValArray,
     retirementIndex,
     0.03
@@ -213,7 +217,7 @@ function getRetirementArrays(
   unsafeDraw[i] = calcRetirementPortfolioVal(
     unsafeDraw,
     i,
-    normalizedReturn,
+    getNormalizedReturn,
     portfolioValArray,
     retirementIndex,
     0.05

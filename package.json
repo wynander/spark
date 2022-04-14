@@ -24,6 +24,7 @@
     "react-firebase-hooks": "5.0.3",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.0",
+    "react-text-loop": "^2.3.0",
     "semantic-ui-react": "2.1.2",
     "web-vitals": "^2.1.4",
     "yup": "0.32.11"

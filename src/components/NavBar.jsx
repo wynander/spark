@@ -29,7 +29,7 @@ export function NavBar({ user }) {
 
       
         <Menu.Item to="portfolio" className={className + " nav-item"} as={Link}>
-          Portfolio View
+          Portfolio Dashboard
         </Menu.Item>
      
       {/* <Link to="contact">

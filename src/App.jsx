@@ -24,9 +24,9 @@ const initialUserInput = {
   retirementSalary: null,
   netSavingsRate: null,
   currentInvestments: null,
-  estimatedROI: 10,
-  yearlyInflation: 3,
-  yearlyRaise: 3
+  estimatedROI: null,
+  yearlyInflation: null,
+  yearlyRaise: null
 };
 
 export default function App() {

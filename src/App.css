@@ -22,28 +22,25 @@ h5,
 h6 {
   margin-top: 0;
 }
-
 a {
   text-decoration: none;
 }
 input {
   border-style: none;
   background: transparent;
-  outline: none;
+  outline: 0;
 }
 button {
   padding: 0;
-  background: none;
-  border: none;
-  outline: none;
+  background: 0;
+  border: 0;
+  outline: 0;
 }
-
 :root {
   --input-background: rgba(57, 63, 84, 0.8);
   --input-text-inactive: #72788d;
   --input-text-active: #bfd2ff;
 }
-
 @keyframes gradient {
   0% {
     background-position: 0 0;
@@ -52,7 +49,6 @@ button {
     background-position: 100% 0;
   }
 }
-
 .webflow-style-input {
   position: relative;
   display: flex;
@@ -63,52 +59,48 @@ button {
   max-height: 40px;
   font-size: 1.2rem;
 }
-
 .ui.form input {
   background: linear-gradient(
-      rgba(255, 255, 255, 0.03) 0%,
+      rgba(255, 255, 255, 0.03) 0,
       rgba(255, 255, 255, 0.03) 100%
     ),
-    linear-gradient(#121212 0%, #121212 100%) !important;
+    linear-gradient(#121212 0, #121212 100%) !important;
   color: white !important;
   border: 1px solid rgba(255, 255, 255, 0.2) !important;
 }
-
 .ui.form input:hover {
   background: linear-gradient(
-      rgba(255, 255, 255, 0.07) 0%,
+      rgba(255, 255, 255, 0.07) 0,
       rgba(255, 255, 255, 0.07) 100%
     ),
-    linear-gradient(#121212 0%, #121212 100%) !important;
+    linear-gradient(#121212 0, #121212 100%) !important;
 }
-
 .ui.form .field.webflow-style-input > .input-label {
   position: absolute;
   top: -1rem;
   left: 0.5rem;
   background: linear-gradient(
-      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.05) 0,
       rgba(255, 255, 255, 0.03) 100%
     ),
-    linear-gradient(#121212 0%, #121212 100%);
-  padding: 0px 0.3rem;
-  color: rgb(175, 175, 175);
+    linear-gradient(#121212 0, #121212 100%);
+  padding: 0 0.3rem;
+  color: #afafaf;
   border-radius: 0.5rem;
   font: size 1rem;
   font-weight: 400;
 }
-
 .focus-input:after {
   content: "";
   position: absolute;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 999;
   height: 2px;
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
-  background-position: 0% 0%;
+  background-position: 0 0;
   background: linear-gradient(
     to right,
     #a73c2e,
@@ -122,11 +114,9 @@ button {
   animation: gradient 3s linear infinite alternate;
   width: 100%;
 }
-
 .ui.form .field.webflow-style-input {
   margin-bottom: 1.5rem;
 }
-
 .webflow-style-input input {
   flex-grow: 1;
   color: var(--input-text-active);
@@ -134,17 +124,15 @@ button {
   line-height: 2.4rem;
   vertical-align: middle;
 }
-
 ::-webkit-input-placeholder {
   color: var(--input-text-inactive);
 }
-
 .webflow-style-input button {
   font-size: 2.4rem;
   line-height: 2.4rem;
   vertical-align: middle;
   transition: color 0.25s;
-  padding: 0px;
+  padding: 0;
   margin-right: -1.2rem;
   display: flex;
   align-items: center;
@@ -152,9 +140,6 @@ button {
 .webflow-style-input button:hover {
   color: var(--input-text-active);
 }
-
-/*--------------------------------------------*/
-
 .App {
   box-sizing: border-box;
   display: flex;
@@ -165,13 +150,11 @@ button {
   -moz-osx-font-smoothing: grayscale;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-
 .section {
   display: flex;
   flex: 1;
   justify-content: center;
 }
-
 .form {
   display: flex;
   flex-direction: column;
@@ -180,7 +163,6 @@ button {
   margin: 1rem;
   margin-top: 1rem;
 }
-
 canvas {
   height: 100% !important;
   width: 100% !important;
@@ -191,6 +173,7 @@ canvas {
 }
 .user-form {
   padding-top: 4.5rem;
+
 }
 .button-container {
   display: flex;
@@ -198,9 +181,8 @@ canvas {
   height: auto;
   justify-content: center;
 }
-
 .button-container button {
-  padding: 0px 10px;
+  padding: 0 10px;
   border-radius: 5px;
   flex: 1;
   margin-right: 0rem;
@@ -208,44 +190,40 @@ canvas {
   border: 1px solid rgba(44, 44, 44, 0.1);
   height: 50%;
   background: linear-gradient(
-      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.05) 0,
       rgba(255, 255, 255, 0.05) 100%
     ),
-    linear-gradient(#121212 0%, #121212 100%);
+    linear-gradient(#121212 0, #121212 100%);
 }
 .button-container button:hover {
   background: linear-gradient(
-      rgba(255, 255, 255, 0.16) 0%,
+      rgba(255, 255, 255, 0.16) 0,
       rgba(255, 255, 255, 0.16) 100%
     ),
-    linear-gradient(#121212 0%, #121212 100%);
+    linear-gradient(#121212 0, #121212 100%);
 }
-
 .bi {
   height: 1.6rem;
   width: 1.8rem;
   fill: #bf4b3c;
 }
-
 .advanced-button {
   background-color: var(--input-text-inactive);
   width: 4rem;
   height: 2rem;
   margin: 0 1rem;
 }
-
 .asset-button {
   background: linear-gradient(
-      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.05) 0,
       rgba(255, 255, 255, 0.05) 100%
     ),
-    linear-gradient(#121212 0%, #121212 100%) !important;
+    linear-gradient(#121212 0, #121212 100%) !important;
   width: 4rem;
   height: 2rem;
   margin: 0 1rem;
   border: 1px solid red;
 }
-
 .ui.menu.fixed {
   position: relative !important;
 }
@@ -255,13 +233,12 @@ canvas {
   display: flex;
   padding-top: 3em !important;
   background: linear-gradient(
-      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.05) 0,
       rgba(255, 255, 255, 0.05) 100%
     ),
-    linear-gradient(#121212 0%, #121212 100%);
+    linear-gradient(#121212 0, #121212 100%);
   border-radius: 1rem;
 }
-
 .main-segment {
   position: absolute;
   flex: 1;
@@ -269,21 +246,15 @@ canvas {
   display: flex;
   justify-content: center;
   padding-top: 4rem;
-  background: radial-gradient(
-    circle at top left,
-    rgb(12, 12, 12),
-    rgb(24, 24, 24)
-  );
+  background: radial-gradient(circle at top left, #0c0c0c, #181818);
   height: 100vh;
   width: 100vw;
 }
-
 .button {
   margin-top: 1rem;
   width: 13rem;
   text-align: center;
 }
-
 .form-main {
   transition: 1s ease;
 }
@@ -291,7 +262,6 @@ canvas {
   width: 70vw !important;
   height: 60vh !important;
 }
-
 .modal-div {
   height: calc(100% - 72px);
   width: 100%;
@@ -301,57 +271,49 @@ canvas {
 .asset-properties {
   flex: 1;
 }
-
 .asset-item {
   padding: 5px;
   width: 100% !important;
 }
 .asset-item > .button {
   width: 100% !important;
-  margin-top: 0px !important;
+  margin-top: 0 !important;
   background: linear-gradient(
-      rgba(255, 255, 255, 0.14) 0%,
+      rgba(255, 255, 255, 0.14) 0,
       rgba(255, 255, 255, 0.14) 100%
     ),
-    linear-gradient(#121212 0%, #121212 100%) !important;
-    color: rgb(154, 154, 154) !important;;
+    linear-gradient(#121212 0, #121212 100%) !important;
+  color: #9a9a9a !important;
 }
 .asset-item > .content {
   width: 100%;
   padding: 1rem;
 }
-
 .asset-buttons > .content > .header > h3 {
   width: 100%;
-  color: white !important;;
+  color: white !important;
 }
-
 .meta > span {
   padding: 5px;
   display: block;
 }
-
 .asset-list-sidebar {
   height: 100%;
   overflow-y: scroll;
   max-width: 20%;
 }
-
 .user-details-mini {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
 .display-name {
   font-size: 1.2rem;
 }
-
 .display-email {
   margin-top: 0.4rem;
   font-size: 0.9rem;
 }
-
 .no-asset-container {
   width: 100%;
   height: 80%;
@@ -359,7 +321,6 @@ canvas {
   justify-content: center;
   align-items: center;
 }
-
 .no-asset-msg {
   width: 100% !important;
   display: flex !important;
@@ -371,70 +332,74 @@ canvas {
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
-  margin-top: 0px;
+  margin-top: 0;
 }
 .no-asset-center {
   text-align: center;
   height: 80%;
 }
-
 .ui.mini.image.user-icon {
   border-radius: 100%;
 }
-
 .nav-item.item a {
   height: 100%;
 }
-
 .ui.inverted.top.fixed.menu {
   background-color: transparent;
   position: absolute;
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
 }
-
 .item.nav-item::before {
-  height: 0% !important;
+  height: 0 !important;
 }
-
 .spacing-div {
   flex: 1;
 }
-
 .content-container {
   display: flex;
   position: absolute;
   background-color: #121212;
   width: 100vw;
   height: 100vh;
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
   flex-direction: column;
+ overflow: hidden;
+ z-index: 0;
 }
 
+@media only screen and (max-width: 700px) {
+ .content-container {
+    overflow-y: scroll;
+  }
+  .ui.inverted.top.fixed.menu {
+    background:linear-gradient(
+      rgba(255, 255, 255, 0.09) 0,
+      rgba(255, 255, 255, 0.09) 100%
+    ),
+    linear-gradient(#121212 0, #121212 100%);
+  }
+
+}
 .about-section {
   width: 100%;
 }
-
 .home-hero {
-  background: radial-gradient(
-    circle at top left,
-    rgb(12, 12, 12),
-    rgb(48, 48, 48)
-  );
+  background: radial-gradient(circle at top left, #0c0c0c, #303030);
   width: 100vw;
   height: 100vh;
 }
-
 .home-page.user-details {
   display: none;
 }
-
 .big.icon.user.home {
   color: rgba(255, 255, 255, 0.3);
   margin: 1rem;
 }
-
+.big.icon.user.home:hover {
+  color: #ad480d;
+}
 .ui.inverted.vertical.menu,
 .ui.inverted.vertical.menu > *,
 .ui.inverted.vertical.menu > * > * {
@@ -443,119 +408,205 @@ canvas {
   align-items: center;
   flex-direction: column;
 }
-
 .vertical.menu > * > img {
   display: none;
 }
-
 .ui.button.port-btn,
 .ui.button.port-btn:focus {
   margin: 0.5rem;
   background: linear-gradient(
-      rgba(255, 255, 255, 0.12) 0%,
+      rgba(255, 255, 255, 0.12) 0,
       rgba(255, 255, 255, 0.12) 100%
     ),
-    linear-gradient(#121212 0%, #121212 100%);
-  color: rgb(213, 212, 212);
+    linear-gradient(#121212 0, #121212 100%);
+  color: #d5d4d4;
   font-size: 1rem;
 }
-
 .ui.button.port-btn:hover {
   background: linear-gradient(
-      rgba(255, 255, 255, 0.16) 0%,
+      rgba(255, 255, 255, 0.16) 0,
       rgba(255, 255, 255, 0.16) 100%
     ),
-    linear-gradient(#121212 0%, #121212 100%);
+    linear-gradient(#121212 0, #121212 100%);
   color: white;
 }
-
 .item:hover {
-  color: #ad480d;
+  color: #ad480d !important;
+  background-color: transparent !important;
 }
-
 #sign-in-btn {
   max-height: 61px;
   margin: auto 1rem;
   padding: 0.75rem 1.5rem !important;
-  border: 1px solid white;
+  border: 2px solid #fff;
   border-radius: 50vh;
   color: white;
+  font-weight: 700;
+
 }
 
+#sign-in-btn:hover{
+color:#121212;
+border: 2px solid #ad480d;
+background-color: #ad480d;
+}
 .ui.dimmer {
   background-color: rgba(0, 0, 0, 0.6) !important;
 }
 .ui.modal > .header {
   background: linear-gradient(
-      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.05) 0,
       rgba(255, 255, 255, 0.05) 100%
     ),
-    linear-gradient(#121212 0%, #121212 100%) !important;
+    linear-gradient(#121212 0, #121212 100%) !important;
   color: white !important;
-  padding-bottom: 0px !important;
+  padding-bottom: 0 !important;
 }
 .ui.button.port-btn.add-asset-list {
   margin-top: -0.5rem;
   margin-bottom: -0.5rem;
 }
-
 .ui.modal.manage-assets,
 .ui.modal > .content {
   background: linear-gradient(
-      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.05) 0,
       rgba(255, 255, 255, 0.05) 100%
     ),
-    linear-gradient(#121212 0%, #121212 100%) !important;
+    linear-gradient(#121212 0, #121212 100%) !important;
+    overflow-y: scroll;
 }
-
 .fields > .field > label {
   color: white !important;
 }
-
 .ui.red.pointing.basic.label {
   background: linear-gradient(
-      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.05) 0,
       rgba(255, 255, 255, 0.05) 100%
     ),
-    linear-gradient(#121212 0%, #121212 100%) !important;
+    linear-gradient(#121212 0, #121212 100%) !important;
   color: #ff8465 !important;
   border-color: #ff8465 !important;
 }
-
 .ui.negative.button {
   background: linear-gradient(
-      rgba(255, 255, 255, 0.12) 0%,
+      rgba(255, 255, 255, 0.12) 0,
       rgba(255, 255, 255, 0.12) 100%
     ),
-    linear-gradient(#121212 0%, #121212 100%) !important;
+    linear-gradient(#121212 0, #121212 100%) !important;
 }
-
 .form > div > .button {
   background: linear-gradient(
-      rgba(255, 255, 255, 0.12) 0%,
+      rgba(255, 255, 255, 0.12) 0,
       rgba(255, 255, 255, 0.12) 100%
     ),
-    linear-gradient(#121212 0%, #121212 100%) !important;
+    linear-gradient(#121212 0, #121212 100%) !important;
   color: white !important;
 }
-
 .ui.green.button {
   background: #b87868 !important;
 }
-
 .no-asset-center {
-  color: white;
+  color: #fff;
   display: flex;
   flex-direction: column;
   height: 70%;
 }
-
 .asset-list-logo {
   max-height: 70%;
   margin: 4rem auto;
   width: auto;
 }
-
-.ui.dividing.center.aligned.header{
+.ui.dividing.center.aligned.header {
   color: white;
+}
+
+.hero-section{
+  height: 50vh;
+  width:clamp(65vw, 1200px, 100vw);
+ color:rgb(255, 255, 255);
+ margin:auto auto;
+
+}
+
+
+
+.hero-desc{
+  width:100%;
+  height:auto;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.desc-header{
+  font-size:6em;
+  line-height:1.5ch;
+}
+
+.cycle-text::after{
+  content:'';
+  position: relative;
+  z-index: -1;
+  background-color: #ad480d;
+  color:#ad480d;
+  height: 10px;
+  width:100%;
+  left:0;
+  bottom:0;
+
+
+}
+.desc-text{
+  margin-top:1.75rem;
+  font-size:3.5em;
+  line-height:1.8ch ;
+  width: clamp(60%,500px,100%);
+}
+
+.portfolio-button{
+  margin: auto 1rem;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 50vh;
+  color: #121212;
+  background: linear-gradient(#ad480d 0, #c84938 100%);
+  font-weight: 700;
+  z-index: 999;
+}
+
+.portfolio-button:hover{
+    background: linear-gradient(#be4f0f 0, #c45b37 100%);
+  color: #121212;
+
+}
+ .desc-buttons{
+   margin-top: 3rem;
+   font-size: large;
+ }
+
+.how-link{
+  color: white;
+  text-decoration: underline;
+}
+
+.how-link:hover{
+color: white;
+}
+
+.hero-svg{
+  height: 400px;
+  width:auto;
+  position:relative;
+  top:0px;
+  align-self: flex-end;
+  margin-top: -400px;
+  z-index: -1;
+}
+
+@media screen and (max-width: 1200px) {
+  .hero-svg {
+   margin-top: calc(-375*100vw/1200);
+  }
+   .hero-section{
+    padding: 2rem;
+  }
 }

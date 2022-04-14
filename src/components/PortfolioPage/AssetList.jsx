@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Header, Item, Modal, Icon } from "semantic-ui-react";
 import UpdateAssetForm from "./UpdateAssetForm";
 import AddAssetModal from "./AddAssetModal";
+import imgUrl from "../../logo.png";
 
 const formatDollars = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -72,8 +73,7 @@ export default function AssetList({
           <>
             <h1 className="no-asset-center">
               Add an asset to see how it affects your portfolio over time
-              <img className='asset-list-logo' src="/src/logo.png" alt="spark logo" />
-
+              <img className="asset-list-logo" src={imgUrl} alt="spark logo" />
             </h1>
           </>
         )}

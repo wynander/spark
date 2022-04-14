@@ -15,7 +15,9 @@ export default function UserLogin({ user }) {
           inverted
         />
       ) : (
-        <button id='sign-in-btn' onClick={signInWithGoogle}>Sign In</button>
+        <button id="sign-in-btn" onClick={signInWithGoogle}>
+          Sign In
+        </button>
       )}
     </>
   );

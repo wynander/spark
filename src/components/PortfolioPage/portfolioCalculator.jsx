@@ -1,15 +1,14 @@
 import plotVariablesCalculator from "./calcPlotVariables";
 let defaultXAxisLength = 50;
 
-export default function portfolioReturnCalculator(userInput) {
+export default function portfolioReturnCalculator(userInput, getNormalizedReturn) {
   const {
     xAxisLength,
     startYear,
     periodUntilRetirement
   } = plotVariablesCalculator(userInput, defaultXAxisLength);
-  const getNormalizedReturn =
-    (userInput.estimatedROI - userInput.yearlyInflation) / 100;
-
+  //nullish coalescing operator to use default values if the user does not change the advanced default values
+  
   let retirementIndex = periodUntilRetirement.length - 1;
   const investmentValue = [userInput.currentInvestments];
   const investmentGainsData = [
@@ -43,7 +42,7 @@ export default function portfolioReturnCalculator(userInput) {
             userInput.netMonthlyIncome *
             userInput.netSavingsRate /
             100 *
-            Math.pow(1 + userInput.yearlyRaise / 100, i - 1)
+            Math.pow(1 + (userInput.yearlyRaise ?? 4) / 100, i - 1)
       );
 
       investmentGainsData.push(investmentValue[i] - investmentValue[i - 1]);

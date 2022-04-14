@@ -1,10 +1,10 @@
 export default function assetArrayCalculator(
   userInput,
   labels,
-  assetValuesParsed
+  assetValuesParsed,
+  getNormalizedReturn
 ) {
-  const getNormalizedReturn =
-    (userInput.estimatedROI - userInput.yearlyInflation) / 100;
+  
   labels = labels ? labels : []; //handle error boundary if assets are added without base user info
   if (assetValuesParsed.length > 0) {
     let assetArrays = new Array(assetValuesParsed.length);
