@@ -5,6 +5,6 @@ Default functionality includes the ability to predict portfolio value over time 
 
 spark has the functionality to add and remove assets from your portfolio using simple variables that are standard to most asset investors; whether it is real estate, motor vehicles, or gold, spark can project the asset's performance over time and how it may influence the user's retirement plans. 
 
-This project is developed using **React**, **Chart.js**, **Formik**, and **Semantic UI**. 
+The frontend is developed using **React**, **Chart.js**, **Semantic UI**, along with some homemade CSS to tune things for the componenents not covered by SUI. Spark uses Firebase **Firestore** as its NoSQL database for storing user details, asset characteristics, and handling authentication/login. 
 
-Future additions: Reorganize business logic, add user stored portfolio projections, asset database, landing page explaining the method of projection
+Future additions: 'how it works' explaining the method of projection, refactoring large functions -> smaller, maintainable functions
