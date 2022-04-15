@@ -158,7 +158,7 @@ button {
 .form {
   display: flex;
   flex-direction: column;
-  min-width: 30vw;
+  width:90%;
   justify-content: flex-start;
   margin: 1rem;
   margin-top: 1rem;
@@ -228,8 +228,9 @@ canvas {
   position: relative !important;
 }
 .ui.segment.plot-section {
-  margin: 2rem auto !important;
+  margin: auto auto !important;
   width: 80vw;
+  min-height: 90vh;
   display: flex;
   padding-top: 3em !important;
   background: linear-gradient(
@@ -241,13 +242,13 @@ canvas {
 }
 .main-segment {
   position: absolute;
-  flex: 1;
   top: 0;
   display: flex;
   justify-content: center;
   padding-top: 4rem;
   background: radial-gradient(circle at top left, #0c0c0c, #181818);
-  height: 100vh;
+  min-height: 100vh;
+
   width: 100vw;
 }
 .button {
@@ -349,6 +350,7 @@ canvas {
   position: absolute;
   top: 0;
   left: 0;
+  border-bottom: none;
 }
 .item.nav-item::before {
   height: 0 !important;
@@ -379,6 +381,7 @@ canvas {
       rgba(255, 255, 255, 0.09) 100%
     ),
     linear-gradient(#121212 0, #121212 100%);
+
   }
 
 }
@@ -602,11 +605,42 @@ color: white;
   z-index: -1;
 }
 
+
 @media screen and (max-width: 1200px) {
   .hero-svg {
    margin-top: calc(-375*100vw/1200);
   }
    .hero-section{
     padding: 2rem;
+  }
+}
+
+@media  screen and (max-width:500px) {
+  .ui.plot-container{
+    min-height: 50vh;
+  }
+  .ui.segment.plot-section{
+    min-width: 100vw;
+  }
+  #sign-in-btn{
+      padding: 0rem 0rem 0rem 0rem !important;
+  border: 0px solid #fff;
+  }
+  
+}
+
+@media screen and (max-height: 900px){
+  .user-form.advanced-options{
+    overflow-y: scroll;
+  }
+  .main-segment{
+    flex:1;
+  }
+  
+}
+
+@media screen and (max-width: 825px) {
+  .ui.segment.plot-section{
+    flex-direction: column;
   }
 }

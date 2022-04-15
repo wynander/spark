@@ -13,10 +13,9 @@ const Hero = () => {
         <div>
           <div className="desc-header">
             <strong>
-              Plan your{" "}
-              { width > 1000 ?
+              Plan your <br />
+              {width > 1000 ? (
                 <>
-                  <br />
                   <TextLoop
                     className="cycle-text"
                     interval={5000}
@@ -29,8 +28,10 @@ const Hero = () => {
                       "early retirement"
                     ]}
                   />
-                </> : 'financial future'
-              }
+                </>
+              ) : (
+                "financial future"
+              )}
             </strong>
           </div>
           <div className="desc-text">
@@ -42,9 +43,9 @@ const Hero = () => {
           <Link className="portfolio-button" to="/portfolio">
             Try Spark
           </Link>
-          <Link className="how-link" to="/">
+          {/* <Link className="how-link" to="/">
             How it works
-          </Link>
+          </Link> */}
         </div>
         <img src={heroSvg} className="hero-svg" />
       </div>
