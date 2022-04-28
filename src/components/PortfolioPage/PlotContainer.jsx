@@ -15,6 +15,7 @@ export default function PlotContainer({ assetValues, userInput }) {
         100;
 
       const assetValuesParsed = assetParseFloat(assetValues);
+
       const {
         investmentValue,
         retirementDraw,
@@ -46,7 +47,6 @@ export default function PlotContainer({ assetValues, userInput }) {
       };
 
       const assetArrays = assetArrayCalculator(
-        userInput,
         labels,
         assetValuesParsed,
         getNormalizedReturn
@@ -81,11 +81,6 @@ export default function PlotContainer({ assetValues, userInput }) {
         }
       }
 
-      // console.log('sale', assetTotals.salePortfolioEffect);
-      // console.log('appreciation', assetTotals.equityAppreciationEffect);
-      //console.log("paydown", assetArrays);
-      //console.log("cashflow", assetTotals.cashFlowEffect);
-
       let tempPortfolioValue = portfolioValue.map((item, index) => {
         let temp =
           item -
@@ -95,7 +90,7 @@ export default function PlotContainer({ assetValues, userInput }) {
         return temp;
       });
 
-      let assetsEquityValue = portfolioValue.map((item, index) => {
+      let assetsEquityValue = portfolioValue.map(( _ , index) => {
         let temp =
           assetTotals.equityAppreciationEffect[index] +
           assetTotals.equityPaydownEffect[index];
@@ -193,8 +188,6 @@ export default function PlotContainer({ assetValues, userInput }) {
       <PortfolioChart data={data} />
     </>
   );
-
-  //-----------------Functions--------------------------------
 }
 
 function getRetirementArrays(
@@ -214,6 +207,7 @@ function getRetirementArrays(
     retirementIndex,
     0.03
   );
+
   unsafeDraw[i] = calcRetirementPortfolioVal(
     unsafeDraw,
     i,

@@ -469,6 +469,11 @@ background-color: #ad480d;
   margin-top: -0.5rem;
   margin-bottom: -0.5rem;
 }
+
+.ui.modal.active{
+  border-radius: 10px !important;
+}
+
 .ui.modal.manage-assets,
 .ui.modal > .content {
   background: linear-gradient(

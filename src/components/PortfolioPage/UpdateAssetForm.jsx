@@ -41,6 +41,7 @@ export default function UpdateAssetForm({
         enableReinitialize
         initialValues={{ ...assetValues[initialValuesIndex] }}
         onSubmit={values => {
+          console.log(values.ownershipLength);
           updateAsset(values, activeAssetId);
         }}
         validationSchema={assetInputValidationSchema}

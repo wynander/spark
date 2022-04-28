@@ -5,7 +5,8 @@ import {
   doc,
   setDoc,
   Timestamp,
-  updateDoc
+  updateDoc,
+  deleteField
 } from "firebase/firestore";
 import React from "react";
 import { Container, Segment } from "semantic-ui-react";
@@ -169,6 +170,19 @@ export function PortfolioPage({
   const updateAsset = async (values, index) => {
     if (user) {
       try {
+        if (
+          values.salesPrice === undefined ||
+          values.ownershipLength === undefined
+        ) {
+          await updateDoc(
+            doc(db, "users/", user.uid, "/assets/", values.dbid),
+            {
+              salesPrice: deleteField(),
+              ownershipLength: deleteField()
+            }
+          );
+        }
+
         await updateDoc(doc(db, "users/", user.uid, "/assets/", values.dbid), {
           ...values
         });
@@ -179,10 +193,11 @@ export function PortfolioPage({
       }
     } else {
       let temp = [...assetValues];
-      temp[index] = { ...temp[index], ...values };
+      temp[index] = { ...values };
       setAssetValues(temp);
     }
   };
+
   return (
     <div className="main-segment">
       <Segment
