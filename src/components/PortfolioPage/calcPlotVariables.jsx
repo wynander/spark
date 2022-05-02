@@ -5,6 +5,7 @@ export default function plotVariablesCalculator(userInput, defaultXAxisLength) {
     ? userInput.birthYear + userInput.retirementAge
     : startYear + xAxisLength;
   let periodUntilRetirement = [];
+  
   if (endYear - startYear + 1 > 0) {
     periodUntilRetirement = [...Array(endYear - startYear + 1)].map(
       (_, i) => i + startYear

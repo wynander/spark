@@ -20,8 +20,8 @@ export default function PlotContainer({ assetValues, userInput }) {
         investmentValue,
         retirementDraw,
         labels,
-        retirementIndex,
-      } = portfolioReturnCalculator(userInput,getNormalizedReturn);
+        retirementIndex
+      } = portfolioReturnCalculator(userInput, getNormalizedReturn);
 
       let portfolioValue = investmentValue.map((item, index) => {
         return item + retirementDraw[index];
@@ -59,9 +59,11 @@ export default function PlotContainer({ assetValues, userInput }) {
         equityAppreciationEffect: [],
         equityPaydownEffect: []
       };
+      
 
       if (assetValues.length > 0) {
         //sum the asset arrays to get cumulative effects
+        //could also be done using Object.keys / .forEach but this is more readable and allows the assetTotals to have different names
         for (let i = 0; i < labels.length; i++) {
           assetTotals.pricePortfolioEffect[i] = assetArrays
             .map(item => item.assetPricePortfolioEffect[i])
@@ -90,7 +92,7 @@ export default function PlotContainer({ assetValues, userInput }) {
         return temp;
       });
 
-      let assetsEquityValue = portfolioValue.map(( _ , index) => {
+      let assetsEquityValue = portfolioValue.map((_, index) => {
         let temp =
           assetTotals.equityAppreciationEffect[index] +
           assetTotals.equityPaydownEffect[index];
@@ -146,7 +148,7 @@ export default function PlotContainer({ assetValues, userInput }) {
             if (i > retirementIndex) {
               getRetirementArrays(
                 safeDraw,
-                i,              
+                i,
                 tempPortfolioValue,
                 retirementIndex,
                 unsafeDraw,
@@ -165,7 +167,7 @@ export default function PlotContainer({ assetValues, userInput }) {
             if (i > retirementIndex) {
               getRetirementArrays(
                 safeDraw,
-                i,                
+                i,
                 portfolioValue,
                 retirementIndex,
                 unsafeDraw,
@@ -198,7 +200,6 @@ function getRetirementArrays(
   unsafeDraw,
   getNormalizedReturn
 ) {
-  
   safeDraw[i] = calcRetirementPortfolioVal(
     safeDraw,
     i,

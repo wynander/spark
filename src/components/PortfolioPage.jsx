@@ -198,6 +198,7 @@ export function PortfolioPage({
     }
   };
 
+ 
   return (
     <div className="main-segment">
       <Segment
