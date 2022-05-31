@@ -1,3 +1,1 @@
-export function ContactPage() {
-  return <p>Contact Page</p>
-}
+export const ContactPage = () => <p>Contact Page</p>

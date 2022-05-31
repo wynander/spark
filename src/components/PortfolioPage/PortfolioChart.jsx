@@ -7,12 +7,12 @@ import {
   LineElement,
   PointElement,
   Title,
-  Tooltip
-} from "chart.js";
-import annotationPlugin from "chartjs-plugin-annotation";
-import zoomPlugin from "chartjs-plugin-zoom";
-import { useRef, useEffect } from "react";
-import { Line } from "react-chartjs-2";
+  Tooltip,
+} from 'chart.js'
+import annotationPlugin from 'chartjs-plugin-annotation'
+import zoomPlugin from 'chartjs-plugin-zoom'
+import { useRef, useEffect } from 'react'
+import { Line } from 'react-chartjs-2'
 
 ChartJS.register(
   Filler,
@@ -25,80 +25,71 @@ ChartJS.register(
   Legend,
   annotationPlugin,
   zoomPlugin
-);
+)
 
-export default function PortfolioChart({ data }) {
-  
-  
-
+const PortfolioChart = ({ data }) => {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
       x: {
         ticks: {
-          color: "#ffffff"
+          color: '#ffffff',
         },
         grid: {
-          color: "rgba(87,87,87,.15)"
-        }
+          color: 'rgba(87,87,87,.15)',
+        },
       },
       y: {
-        beginAtZero: "true",
+        beginAtZero: 'true',
         ticks: {
-          color: "#ffffff"
+          color: '#ffffff',
         },
         grid: {
-          color: "rgba(87,87,87,.15)"
-        }
-      }
+          color: 'rgba(87,87,87,.15)',
+        },
+      },
     },
     plugins: {
       legend: {
-        position: "top",
+        position: 'top',
         labels: {
-          color: "#ffffff",
+          color: '#ffffff',
           font: {
-            size: "15px"
-          }
-        }
+            size: '15px',
+          },
+        },
       },
       zoom: {
         zoom: {
           drag: {
-            enabled: true
+            enabled: true,
           },
-          mode: "x",
+          mode: 'x',
 
           wheel: {
-            enabled: true
+            enabled: true,
           },
           pinch: {
-            enabled: true
-          }
-        }
+            enabled: true,
+          },
+        },
       },
       annotation: {},
       filler: {
-        propagate: false
+        propagate: false,
       },
       title: {
         display: true,
-        text: "Projected Portfolio Value Over Time",
-        color: "#ffffff",
+        text: 'Projected Portfolio Value Over Time',
+        color: '#ffffff',
         font: {
-          size: "20px"
-        }
-      }
-    }
-  };
-  return (
-    <Line
-      
-      datasetIdKey="id"
-      data={data}
-      options={options}
-      redraw={false}
-    />
-  );
+          size: '20px',
+        },
+      },
+    },
+  }
+  return <Line datasetIdKey='id' data={data} options={options} redraw={false} />
 }
+
+export default PortfolioChart

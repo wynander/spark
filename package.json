@@ -15,8 +15,6 @@
     "firebase": "9.6.10",
     "formik": "2.2.9",
     "lodash": "^4.17.21",
-    "prettier": "^1.9.1",
-    "prettier-eslint": "^10.1.0",
     "react": "^17.0.2",
     "react-chartjs-2": "^4.0.1",
     "react-currency-input-field": "3.6.4",
